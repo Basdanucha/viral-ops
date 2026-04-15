@@ -1,0 +1,1 @@
+../skill/mcp-coco-index/INSTALL_GUIDE.md

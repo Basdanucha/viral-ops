@@ -1,0 +1,69 @@
+---
+title: "082 -- Evaluation and housekeeping fixes"
+description: "This scenario validates Evaluation and housekeeping fixes for `082`. It focuses on Confirm eval/housekeeping reliability."
+---
+
+# 082 -- Evaluation and housekeeping fixes
+
+## 1. OVERVIEW
+
+This scenario validates Evaluation and housekeeping fixes for `082`. It focuses on Confirm eval/housekeeping reliability.
+
+---
+
+## 2. CURRENT REALITY
+
+Operators run the exact prompt and command sequence for `082` and confirm the expected signals without contradicting evidence.
+
+- Objective: Confirm eval/housekeeping reliability
+- Prompt: `As an evaluation validation operator, validate Evaluation and housekeeping fixes against the documented validation surface. Verify run-IDs are unique across restarts; upserts are idempotent; boundary guards prevent out-of-range values; housekeeping completes cleanly. Return a concise pass/fail verdict with the main reason and cited evidence.`
+- Expected signals: Run-IDs are unique across restarts; upserts are idempotent; boundary guards prevent out-of-range values; housekeeping completes cleanly
+- Pass/fail: PASS if run-IDs are unique, upserts produce consistent state, and boundary guards reject invalid values
+
+---
+
+## 3. TEST EXECUTION
+
+### Prompt
+
+```
+As an evaluation validation operator, confirm eval/housekeeping reliability against the documented validation surface. Verify run-IDs are unique across restarts; upserts are idempotent; boundary guards prevent out-of-range values; housekeeping completes cleanly. Return a concise pass/fail verdict with the main reason and cited evidence.
+```
+
+### Commands
+
+1. restart+eval runs
+2. verify run-id and upsert behavior
+3. inspect boundary guards
+
+### Expected
+
+Run-IDs are unique across restarts; upserts are idempotent; boundary guards prevent out-of-range values; housekeeping completes cleanly
+
+### Evidence
+
+Eval run output with run-ID + upsert verification + boundary guard test evidence
+
+### Pass / Fail
+
+- **Pass**: run-IDs are unique, upserts produce consistent state, and boundary guards reject invalid values
+- **Fail**: Any contradicting evidence appears or the pass condition is not met.
+
+### Failure Triage
+
+Inspect run-ID generation logic; verify upsert idempotency; check boundary guard threshold values
+
+## 4. REFERENCES
+
+- Root playbook: [MANUAL_TESTING_PLAYBOOK.md](../MANUAL_TESTING_PLAYBOOK.md)
+- Feature catalog: [09--evaluation-and-measurement/13-evaluation-and-housekeeping-fixes.md](../../feature_catalog/09--evaluation-and-measurement/13-evaluation-and-housekeeping-fixes.md)
+
+---
+
+## 5. SOURCE METADATA
+
+- Group: Evaluation and Measurement
+- Playbook ID: 082
+- Canonical root source: `MANUAL_TESTING_PLAYBOOK.md`
+- Feature file path: `09--evaluation-and-measurement/082-evaluation-and-housekeeping-fixes.md`
+- audited_post_018: true

@@ -1,0 +1,1 @@
+../../skill/mcp-code-mode/scripts/install.sh

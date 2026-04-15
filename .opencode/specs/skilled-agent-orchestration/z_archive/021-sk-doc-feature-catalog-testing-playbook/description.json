@@ -1,0 +1,22 @@
+{
+  "specFolder": "skilled-agent-orchestration/z_archive/021-sk-doc-feature-catalog-testing-playbook",
+  "description": "Feature Specification: sk-doc Feature Catalog + Testing Playbook Alignment",
+  "keywords": [
+    "feature",
+    "specification",
+    "sk-doc",
+    "catalog",
+    "testing",
+    "playbook",
+    "alignment"
+  ],
+  "lastUpdated": "2026-04-06T09:57:54.572Z",
+  "specId": "021",
+  "folderSlug": "sk-doc-feature-catalog-testing-playbook",
+  "parentChain": [
+    "skilled-agent-orchestration",
+    "z_archive"
+  ],
+  "memorySequence": 0,
+  "memoryNameHistory": []
+}

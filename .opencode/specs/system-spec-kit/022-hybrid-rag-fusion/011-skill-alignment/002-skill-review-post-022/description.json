@@ -1,0 +1,24 @@
+{
+  "specFolder": "system-spec-kit/022-hybrid-rag-fusion/011-skill-alignment/002-skill-review-post-022",
+  "description": "Feature Specification: Post-022 Skill Review and Remediation",
+  "keywords": [
+    "feature",
+    "specification",
+    "post-022",
+    "skill",
+    "review",
+    "remediation"
+  ],
+  "lastUpdated": "2026-04-06T09:57:54.907Z",
+  "specId": "002",
+  "folderSlug": "skill-review-post-022",
+  "parentChain": [
+    "system-spec-kit",
+    "022-hybrid-rag-fusion",
+    "011-skill-alignment"
+  ],
+  "memorySequence": 1,
+  "memoryNameHistory": [
+    "25-03-26_16-24__deep-review-5-iterations-gpt-5-4-via-cli-copilot.md"
+  ]
+}

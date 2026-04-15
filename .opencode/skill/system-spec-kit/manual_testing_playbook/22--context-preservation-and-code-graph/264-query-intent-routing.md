@@ -1,0 +1,131 @@
+---
+title: "264 -- Query-intent routing in memory_context"
+description: "This scenario validates Query-intent routing for 264. It focuses on verifying structural queries route to code graph and semantic queries route to CocoIndex."
+audited_post_018: true
+---
+
+# 264 -- Query-intent routing in memory_context
+
+## 1. OVERVIEW
+
+This scenario validates Query-intent routing in memory_context.
+
+---
+
+## 2. CURRENT REALITY
+
+- **Objective**: Verify that memory_context auto-routes queries based on the query-intent classifier. Structural queries (containing keywords like "calls", "imports", "callers", "function", "class") must route to the code graph backend. Semantic queries (containing keywords like "similar", "find examples", "how to") must route to the standard memory/CocoIndex pipeline. Hybrid queries must trigger both backends and merge results. The classifier confidence score and matched keywords must be available in the response metadata.
+- **Prerequisites**:
+  - MCP server running with code graph populated (at least one scan)
+  - At least some memories in the database for semantic results
+- **Prompt**: `As a context-and-code-graph validation operator, validate Query-intent routing in memory_context against memory_context({ input: "what functions call handleMemoryContext" }). Verify memory_context auto-routes queries based on the query-intent classifier. Structural queries (containing keywords like "calls", "imports", "callers", "function", "class") must route to the code graph backend. Semantic queries (containing keywords like "similar", "find examples", "how to") must route to the standard memory/CocoIndex pipeline. Hybrid queries must trigger both backends and merge results. The classifier confidence score and matched keywords must be available in the response metadata. Return a concise pass/fail verdict with the main reason and cited evidence.`
+- **Expected signals**:
+  - Structural query: response includes code graph symbols/edges, classifier intent === 'structural'
+  - Semantic query: response includes memory hits with similarity scores, classifier intent === 'semantic'
+  - Hybrid query: response includes both code graph and memory results, classifier intent === 'hybrid'
+- **Pass/fail criteria**:
+  - PASS: Each query type routes to the correct backend(s) and returns appropriate result types
+  - FAIL: Structural query returns only memory results, semantic query hits code graph, or hybrid missing one backend
+
+---
+
+## 3. TEST EXECUTION
+
+### Prompt
+
+```
+As a context-and-code-graph validation operator, validate Structural query routes to code graph against memory_context({ input: "what functions call handleMemoryContext" }). Verify response includes code graph data (symbols, edges), intent classified as 'structural'. Return a concise pass/fail verdict with the main reason and cited evidence.
+```
+
+### Commands
+
+1. Call `memory_context({ input: "what functions call handleMemoryContext" })`
+
+### Expected
+
+Response includes code graph data (symbols, edges), intent classified as 'structural'
+
+### Evidence
+
+memory_context response with code graph results
+
+### Pass / Fail
+
+- **Pass**: code graph results present and classifier shows structural intent
+- **Fail**: Any contradicting evidence appears or the pass condition is not met.
+
+### Failure Triage
+
+Check STRUCTURAL_KEYWORDS in query-intent-classifier.ts and memory_context integration
+
+---
+
+### Prompt
+
+```
+As a context-and-code-graph validation operator, validate Semantic query routes to memory pipeline against memory_context({ input: "find examples of error handling patterns" }). Verify response includes memory hits with similarity scores, intent classified as 'semantic'. Return a concise pass/fail verdict with the main reason and cited evidence.
+```
+
+### Commands
+
+1. Call `memory_context({ input: "find examples of error handling patterns" })`
+
+### Expected
+
+Response includes memory hits with similarity scores, intent classified as 'semantic'
+
+### Evidence
+
+memory_context response with memory results
+
+### Pass / Fail
+
+- **Pass**: memory/semantic results present and classifier shows semantic intent
+- **Fail**: Any contradicting evidence appears or the pass condition is not met.
+
+### Failure Triage
+
+Check SEMANTIC_KEYWORDS and memory_context fallback path
+
+---
+
+### Prompt
+
+```
+As a context-and-code-graph validation operator, validate Hybrid query merges both backends against memory_context({ input: "find all validation functions and explain their approach" }). Verify response includes both code graph and memory results, intent classified as 'hybrid'. Return a concise pass/fail verdict with the main reason and cited evidence.
+```
+
+### Commands
+
+1. Call `memory_context({ input: "find all validation functions and explain their approach" })`
+
+### Expected
+
+Response includes both code graph and memory results, intent classified as 'hybrid'
+
+### Evidence
+
+memory_context response with merged results
+
+### Pass / Fail
+
+- **Pass**: both backends contribute results
+- **Fail**: Any contradicting evidence appears or the pass condition is not met.
+
+### Failure Triage
+
+Check hybrid scoring threshold and merge logic
+
+## 4. REFERENCES
+
+- Root playbook: [manual_testing_playbook.md](../manual_testing_playbook.md)
+- Feature catalog: [22--context-preservation-and-code-graph/19-query-intent-routing.md](../../feature_catalog/22--context-preservation-and-code-graph/19-query-intent-routing.md)
+
+---
+
+## 5. SOURCE METADATA
+
+- Group: Context Preservation and Code Graph
+- Playbook ID: 264
+- Canonical root source: `manual_testing_playbook.md`
+- Feature file path: `22--context-preservation-and-code-graph/264-query-intent-routing.md`

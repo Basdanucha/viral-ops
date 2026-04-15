@@ -1,0 +1,21 @@
+{
+  "specFolder": "system-spec-kit/022-hybrid-rag-fusion/007-code-audit-per-feature-catalog/017-governance",
+  "description": "Feature Specification: Code Audit — Governance",
+  "keywords": [
+    "feature",
+    "specification",
+    "code",
+    "audit",
+    "governance"
+  ],
+  "lastUpdated": "2026-04-06T09:57:54.743Z",
+  "specId": "017",
+  "folderSlug": "governance",
+  "parentChain": [
+    "system-spec-kit",
+    "022-hybrid-rag-fusion",
+    "007-code-audit-per-feature-catalog"
+  ],
+  "memorySequence": 0,
+  "memoryNameHistory": []
+}

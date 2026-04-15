@@ -1,0 +1,70 @@
+---
+title: "213 -- Mutation response UX payload exposure"
+description: "This scenario validates Mutation response UX payload exposure for `213`. It focuses on Confirm successful save responses expose typed `postMutationHooks` payloads while no-op saves suppress false UX metadata."
+---
+
+# 213 -- Mutation response UX payload exposure
+
+## 1. OVERVIEW
+
+This scenario validates Mutation response UX payload exposure for `213`. It focuses on Confirm successful save responses expose typed `postMutationHooks` payloads while no-op saves suppress false UX metadata.
+
+---
+
+## 2. CURRENT REALITY
+
+Operators run the exact prompt and command sequence for `213` and confirm the expected signals without contradicting evidence.
+
+- Objective: Confirm successful save responses expose typed `postMutationHooks` payloads while no-op saves suppress false UX metadata
+- Prompt: `As a runtime-hook validation operator, validate Mutation response UX payload exposure against cd .opencode/skill/system-spec-kit/mcp_server && npx vitest run tests/memory-save-ux-regressions.vitest.ts. Verify successful save responses expose typed postMutationHooks payloads while no-op saves suppress false UX metadata. Return a concise pass/fail verdict with the main reason and cited evidence.`
+- Expected signals: Save-path regression suite passes, successful save responses include typed `postMutationHooks` fields, and duplicate/no-op saves omit false `postMutationHooks` while surfacing cache-left-unchanged guidance
+- Pass/fail: PASS if the save-path suite passes and the assertions prove success responses expose the UX payload contract while no-op responses suppress false hook metadata
+
+---
+
+## 3. TEST EXECUTION
+
+### Prompt
+
+```
+As a runtime-hook validation operator, confirm successful save responses expose typed postMutationHooks payloads while no-op saves suppress false UX metadata against cd .opencode/skill/system-spec-kit/mcp_server && npx vitest run tests/memory-save-ux-regressions.vitest.ts. Verify save-path regression suite passes, successful save responses include typed postMutationHooks fields, and duplicate/no-op saves omit false postMutationHooks while surfacing cache-left-unchanged guidance. Return a concise pass/fail verdict with the main reason and cited evidence.
+```
+
+### Commands
+
+1. `cd .opencode/skill/system-spec-kit/mcp_server && npx vitest run tests/memory-save-ux-regressions.vitest.ts`
+2. inspect assertions covering successful `memory_save` and `atomicSaveMemory` responses with typed `postMutationHooks` fields
+3. inspect assertions covering duplicate-content and unchanged/no-op suppression of false UX payloads
+
+### Expected
+
+Save-path regression suite passes, successful save responses include typed `postMutationHooks` fields, and duplicate/no-op saves omit false `postMutationHooks` while surfacing cache-left-unchanged guidance
+
+### Evidence
+
+Test transcript + highlighted assertion names or output snippets showing success-payload and no-op suppression coverage
+
+### Pass / Fail
+
+- **Pass**: the save-path suite passes and the assertions prove success responses expose the UX payload contract while no-op responses suppress false hook metadata
+- **Fail**: Any contradicting evidence appears or the pass condition is not met.
+
+### Failure Triage
+
+Inspect `handlers/save/response-builder.ts`, `hooks/mutation-feedback.ts`, and response-envelope formatting if payload fields drift
+
+## 4. REFERENCES
+
+- Root playbook: [MANUAL_TESTING_PLAYBOOK.md](../MANUAL_TESTING_PLAYBOOK.md)
+- Feature catalog: [18--ux-hooks/07-mutation-response-ux-payload-exposure.md](../../feature_catalog/18--ux-hooks/07-mutation-response-ux-payload-exposure.md)
+
+---
+
+## 5. SOURCE METADATA
+
+- Group: UX Hooks
+- Playbook ID: 213
+- Canonical root source: `MANUAL_TESTING_PLAYBOOK.md`
+- Feature file path: `18--ux-hooks/213-mutation-response-ux-payload-exposure.md`
+- audited_post_018: true
+- Feature catalog back-ref: `18--ux-hooks/07-mutation-response-ux-payload-exposure.md`

@@ -1,0 +1,69 @@
+---
+title: "149 -- Rendered memory template contract"
+description: "This scenario validates Rendered memory template contract for `149`. It focuses on Confirm malformed rendered memories fail before write/index and active corpus stays structurally clean."
+---
+
+# 149 -- Rendered memory template contract
+
+## 1. OVERVIEW
+
+This scenario validates Rendered memory template contract for `149`. It focuses on Confirm malformed rendered memories fail before write/index and active corpus stays structurally clean.
+
+---
+
+## 2. CURRENT REALITY
+
+Operators run the exact prompt and command sequence for `149` and confirm the expected signals without contradicting evidence.
+
+- Objective: Confirm malformed rendered memories fail before write/index and active corpus stays structurally clean
+- Prompt: `As a tooling validation operator, validate Rendered memory template contract against memory_save({ filePath:"<sandbox-file>", dryRun:true }). Verify malformed rendered memories fail before write/index and active corpus stays structurally clean. Return a concise pass/fail verdict with the main reason and cited evidence.`
+- Expected signals: Dry-run surfaces template-contract violations; non-dry-run rejects malformed files before index side effects; valid rendered output remains validator-clean
+- Pass/fail: PASS if malformed files are rejected before write/index and valid rendered output remains validator-clean
+
+---
+
+## 3. TEST EXECUTION
+
+### Prompt
+
+```
+As a tooling validation operator, confirm malformed rendered memories fail before write/index and valid rendered output remains validator-clean against memory_save({ filePath:"<sandbox-file>", dryRun:true }). Verify dry-run surfaces template-contract violations; non-dry-run rejects malformed files before index side effects; valid rendered output remains validator-clean. Return a concise pass/fail verdict with the main reason and cited evidence.
+```
+
+### Commands
+
+1. Create a sandbox memory missing mandatory anchors or required frontmatter keys
+2. `memory_save({ filePath:"<sandbox-file>", dryRun:true })` and verify contract-violation details
+3. `memory_save({ filePath:"<sandbox-file>", force:true })` and verify rejection before indexing
+4. Run `generate-context.js` with a valid rich JSON payload and verify the rendered output remains validator-clean
+
+### Expected
+
+Dry-run surfaces template-contract violations; non-dry-run rejects malformed files before index side effects; valid rendered output remains validator-clean
+
+### Evidence
+
+Dry-run/save rejection output + successful render validation evidence
+
+### Pass / Fail
+
+- **Pass**: malformed files are rejected before write/index and valid rendered output remains validator-clean
+- **Fail**: Any contradicting evidence appears or the pass condition is not met.
+
+### Failure Triage
+
+Inspect `shared/parsing/memory-template-contract.ts`, `scripts/core/workflow.ts`, and `mcp_server/handlers/memory-save.ts`
+
+## 4. REFERENCES
+
+- Root playbook: [MANUAL_TESTING_PLAYBOOK.md](../MANUAL_TESTING_PLAYBOOK.md)
+- Feature catalog: [16--tooling-and-scripts/12-session-capturing-pipeline-quality.md](../../feature_catalog/16--tooling-and-scripts/12-session-capturing-pipeline-quality.md)
+
+---
+
+## 5. SOURCE METADATA
+
+- Group: Tooling and Scripts
+- Playbook ID: 149
+- Canonical root source: `MANUAL_TESTING_PLAYBOOK.md`
+- Feature file path: `16--tooling-and-scripts/149-rendered-memory-template-contract.md`

@@ -1,0 +1,54 @@
+---
+title: "ALWAYS/NEVER Rules Extraction"
+feature_id: "PG-005"
+category: "Profile Generator"
+---
+
+# ALWAYS/NEVER Rules Extraction
+
+Validates that the profile generator correctly extracts ALWAYS and NEVER behavioral rules from a target agent definition.
+
+## Prompt
+
+- Prompt: `As a manual-testing orchestrator, validate that the profile generator correctly extracts ALWAYS and NEVER behavioral rules from a target agent definition against the current sk-improve-agent command, runtime artifacts, and validation scripts. Verify JSON output with `derivedChecks.ruleCoherence` array. Return a concise operator-facing PASS/FAIL verdict with the decisive evidence.`
+
+## Commands
+
+```bash
+node .opencode/skill/sk-improve-agent/scripts/generate-profile.cjs --agent=.opencode/agent/debug.md
+```
+
+### Verification (copy-paste)
+
+```bash
+node .opencode/skill/sk-improve-agent/scripts/generate-profile.cjs --agent=.opencode/agent/debug.md | python3 -c "import sys,json; d=json.load(sys.stdin); rc=d['derivedChecks']['ruleCoherence']; a=sum(1 for r in rc if r['type']=='always'); n=sum(1 for r in rc if r['type']=='never'); assert a>=3 and n>=2; print(f'PASS: {a} always, {n} never')"
+```
+
+## Expected
+
+- JSON output with `derivedChecks.ruleCoherence` array
+- Each entry has `type` field set to `"always"` or `"never"` and a `rule` or `text` field with verbatim text from the agent file
+- At least 3 entries with `type: "always"`
+- At least 2 entries with `type: "never"`
+- Exit code is 0
+
+## Pass Criteria
+
+`derivedChecks.ruleCoherence` array has >= 5 total entries, with at least 3 `type: "always"` and 2 `type: "never"` rules, each containing text matching the source agent file.
+
+## Failure Triage
+
+- If `derivedChecks.ruleCoherence` is missing or empty: check the regex patterns used to detect ALWAYS/NEVER keywords in the agent file
+- If `type` field is missing: verify the profile generator annotates each rule with its `type` classification
+- If counts are below threshold: inspect the target agent file for ALWAYS/NEVER patterns and confirm the parser covers all formats (bold, uppercase, inline)
+- If the script errors on file path: confirm the `--agent` path is resolved relative to the project root
+
+## Evidence Template
+
+```text
+Verdict: [PASS/FAIL]
+Date: [YYYY-MM-DD]
+Tester: [name]
+Output excerpt:
+[paste relevant output]
+```

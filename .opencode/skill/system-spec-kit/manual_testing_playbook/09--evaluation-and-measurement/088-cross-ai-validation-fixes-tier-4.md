@@ -1,0 +1,69 @@
+---
+title: "088 -- Cross-AI validation fixes (Tier 4)"
+description: "This scenario validates Cross-AI validation fixes (Tier 4) for `088`. It focuses on Confirm tier-4 fix pack behavior."
+---
+
+# 088 -- Cross-AI validation fixes (Tier 4)
+
+## 1. OVERVIEW
+
+This scenario validates Cross-AI validation fixes (Tier 4) for `088`. It focuses on Confirm tier-4 fix pack behavior.
+
+---
+
+## 2. CURRENT REALITY
+
+Operators run the exact prompt and command sequence for `088` and confirm the expected signals without contradicting evidence.
+
+- Objective: Confirm tier-4 fix pack behavior
+- Prompt: `As an evaluation validation operator, validate Cross-AI validation fixes (Tier 4) against the documented validation surface. Verify each tier-4 fix location shows corrected behavior; representative flows produce expected outputs; no regressions in adjacent functionality. Return a concise pass/fail verdict with the main reason and cited evidence.`
+- Expected signals: Each tier-4 fix location shows corrected behavior; representative flows produce expected outputs; no regressions in adjacent functionality
+- Pass/fail: PASS if all tier-4 fix locations produce corrected behavior and no regressions are observed
+
+---
+
+## 3. TEST EXECUTION
+
+### Prompt
+
+```
+As an evaluation validation operator, confirm tier-4 fix pack behavior against the documented validation surface. Verify each tier-4 fix location shows corrected behavior; representative flows produce expected outputs; no regressions in adjacent functionality. Return a concise pass/fail verdict with the main reason and cited evidence.
+```
+
+### Commands
+
+1. inspect each fix location
+2. run representative flows
+3. record behavior
+
+### Expected
+
+Each tier-4 fix location shows corrected behavior; representative flows produce expected outputs; no regressions in adjacent functionality
+
+### Evidence
+
+Fix location inspection + representative flow outputs + regression check evidence
+
+### Pass / Fail
+
+- **Pass**: all tier-4 fix locations produce corrected behavior and no regressions are observed
+- **Fail**: Any contradicting evidence appears or the pass condition is not met.
+
+### Failure Triage
+
+Inspect each fix from Phase 018 tier-4 changelog; run targeted tests for each fix area; check for unintended side effects
+
+## 4. REFERENCES
+
+- Root playbook: [MANUAL_TESTING_PLAYBOOK.md](../MANUAL_TESTING_PLAYBOOK.md)
+- Feature catalog: [09--evaluation-and-measurement/14-cross-ai-validation-fixes.md](../../feature_catalog/09--evaluation-and-measurement/14-cross-ai-validation-fixes.md)
+
+---
+
+## 5. SOURCE METADATA
+
+- Group: Evaluation and Measurement
+- Playbook ID: 088
+- Canonical root source: `MANUAL_TESTING_PLAYBOOK.md`
+- Feature file path: `09--evaluation-and-measurement/088-cross-ai-validation-fixes-tier-4.md`
+- audited_post_018: true

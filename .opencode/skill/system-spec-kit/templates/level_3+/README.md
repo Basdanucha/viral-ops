@@ -1,0 +1,116 @@
+---
+title: "Level 3+ Templates [template:level_3+/README.md]"
+description: "Extended templates for high-complexity work needing approval tracking and workstream coordination."
+trigger_phrases:
+  - "level 3+"
+  - "governance"
+  - "compliance"
+importance_tier: "normal"
+contextType: "general"
+_memory:
+  continuity:
+    packet_pointer: "system-spec-kit/templates/level_3+"
+    last_updated_at: "2026-04-11T00:00:00Z"
+    last_updated_by: "template-author"
+    recent_action: "Initialized Level 3 plus template"
+    next_safe_action: "Replace continuity placeholders"
+    blockers: []
+    key_files: []
+    session_dedup:
+      fingerprint: "sha256:0000000000000000000000000000000000000000000000000000000000000000"
+      session_id: "template-session"
+      parent_session_id: null
+    completion_pct: 0
+    open_questions: []
+    answered_questions: []
+---
+# Level 3+ Templates
+
+Use for high-complexity work that needs approval tracking, compliance checkpoints, and coordinated multi-workstream execution.
+
+## TABLE OF CONTENTS
+<!-- ANCHOR:table-of-contents -->
+
+- [1. OVERVIEW](#1--overview)
+- [2. REQUIRED FILES](#2--required-files)
+- [3. GOVERNANCE ADDITIONS](#3--governance-additions)
+- [4. QUICK START](#4--quick-start)
+- [5. WORKFLOW NOTES](#5--workflow-notes)
+- [6. PHASE DECOMPOSITION](#6--phase-decomposition)
+- [7. RELATED](#7--related)
+
+<!-- /ANCHOR:table-of-contents -->
+
+## 1. OVERVIEW
+<!-- ANCHOR:overview -->
+
+- Approval workflow with reviewer checkpoints is required.
+- Compliance checkpoints must be documented.
+- Multiple workstreams need coordination.
+- Complexity is high enough that Level 3 is not sufficient.
+- Under Gate E, the packet remains the continuity source of truth: `/spec_kit:resume` rebuilds context from `handover.md` -> `_memory.continuity` -> spec docs, while generated memory artifacts stay supporting only.
+
+<!-- /ANCHOR:overview -->
+
+## 2. REQUIRED FILES
+<!-- ANCHOR:files -->
+
+- `spec.md`
+- `plan.md`
+- `tasks.md`
+- `checklist.md`
+- `decision-record.md`
+- `implementation-summary.md`
+
+These are the same core files as Level 3 with additional approval, compliance and stakeholder sections.
+
+<!-- /ANCHOR:files -->
+
+## 3. GOVERNANCE ADDITIONS
+<!-- ANCHOR:additions -->
+
+- Approval workflow with reviewer checkpoint table.
+- Compliance checkpoints and traceability fields.
+- Stakeholder tracking and workstream coordination sections.
+- Expanded checklist coverage for release-readiness validation.
+
+<!-- /ANCHOR:additions -->
+
+## 4. QUICK START
+<!-- ANCHOR:quick-start -->
+
+```bash
+mkdir -p specs/###-feature-name
+cp .opencode/skill/system-spec-kit/templates/level_3+/*.md specs/###-feature-name/
+bash .opencode/skill/system-spec-kit/scripts/spec/validate.sh specs/###-feature-name/
+```
+
+<!-- /ANCHOR:quick-start -->
+
+## 5. WORKFLOW NOTES
+<!-- ANCHOR:workflow-notes -->
+
+- Keep approvals and compliance checks updated as work progresses.
+- Track checklist evidence continuously; do not batch at the end.
+- Finalize `implementation-summary.md` with delivered outcomes and open follow-ups.
+
+<!-- /ANCHOR:workflow-notes -->
+
+## 6. PHASE DECOMPOSITION
+<!-- ANCHOR:phase -->
+
+Phase decomposition is strongly recommended for Level 3+ complexity. High-complexity work benefits from phased ordering, enabling approval checkpoints and compliance verification at each stage. Use Gate 3 Option E to target a specific phase child and `/spec_kit:plan :with-phases` to create the phase structure. If that target phase packet is still `no-spec`, `partial-folder`, `repair-mode`, or `placeholder-upgrade`, `/spec_kit:plan` delegates to `/spec_kit:start` before phase setup continues.
+
+See the Phase System in the [main templates README](../README.md#phase-system) for full details.
+
+<!-- /ANCHOR:phase -->
+
+## 7. RELATED
+<!-- ANCHOR:related -->
+
+- `../level_3/README.md`
+- `../addendum/level3plus-govern/`
+- `../../references/templates/level_specifications.md`
+- `../../references/validation/validation_rules.md`
+
+<!-- /ANCHOR:related -->

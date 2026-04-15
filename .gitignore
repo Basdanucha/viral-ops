@@ -1,0 +1,109 @@
+# Git Ignore Configuration
+# Specifies intentionally untracked files that Git should ignore
+
+# ───────────────────────────────────────────
+# CRITICAL: Override global gitignore
+# ───────────────────────────────────────────
+# The global ~/.gitignore_global ignores /.opencode/ for symlinked repos.
+# But THIS repo is the SOURCE of .opencode/ content - it MUST be tracked.
+# The negation pattern below overrides the global ignore.
+!.opencode/
+!specs
+
+# API keys and secrets
+# ───────────────────────────────────────────
+*.key
+*.pem
+
+# Archive
+# ───────────────────────────────────────────
+.opencode/agent/.provider-backups/
+
+
+# Build output
+# ───────────────────────────────────────────
+dist/
+.opencode/output/
+
+# Certificates
+# ───────────────────────────────────────────
+*.cert
+
+# Database files
+# ───────────────────────────────────────────
+*.db
+*.db-shm
+*.db-wal
+*.sqlite3
+.opencode/skill/system-spec-kit/mcp_server/database/*.sqlite
+.opencode/skill/system-spec-kit/mcp_server/database/*.sqlite-shm
+.opencode/skill/system-spec-kit/mcp_server/database/*.sqlite-wal
+.opencode/skill/system-spec-kit/mcp_server/database/*.sqlite.bak*
+.opencode/skill/system-spec-kit/mcp_server/database/.db-updated
+
+# Dependencies
+# ───────────────────────────────────────────
+**/node_modules
+node_modules/
+
+# Environment files
+# ───────────────────────────────────────────
+.env
+.env.*
+.env.*.local
+.env.local
+
+# Local settings
+# ───────────────────────────────────────────
+*.local
+
+# Log files
+# ───────────────────────────────────────────
+*.log
+
+# OS generated files
+# ───────────────────────────────────────────
+.DS_Store
+
+# Python
+# ───────────────────────────────────────────
+__pycache__/
+
+# Temporary files
+# ───────────────────────────────────────────
+external/
+tmp/
+.tmp/
+**/vitest-tmp/
+**/node-compile-cache/
+
+# CocoIndex
+# ───────────────────────────────────────────
+.cocoindex_code/
+.opencode/skill/mcp-cocoindex-code/mcp_server/.venv/
+.opencode/skill/mcp-coco-index/mcp_server/.venv/
+code-graph.sqlite
+
+# Not part of framework
+# ───────────────────────────────────────────
+/anobel.com
+
+.opencode/specs/00--ai-systems
+.claude/specs/00--ai-systems
+.codex/specs/00--ai-systems
+.agents/specs/00--ai-systems
+
+.opencode/specs/00--barter
+.claude/specs/00--barter
+.codex/specs/00--barter
+.agents/specs/00--barter
+
+.opencode/specs/00--anobel.com
+.claude/specs/00--anobel.com
+.codex/specs/00--anobel.com
+.agents/specs/00--anobel.com
+# CocoIndex Code (ccc)
+/.cocoindex_code/
+
+# Auto-generated runtime markers (Spec Kit Memory)
+.node-version-marker

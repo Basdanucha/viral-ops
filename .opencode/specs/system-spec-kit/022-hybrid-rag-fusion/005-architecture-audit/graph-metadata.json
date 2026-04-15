@@ -1,0 +1,225 @@
+{
+  "schema_version": 1,
+  "packet_id": "system-spec-kit/022-hybrid-rag-fusion/005-architecture-audit",
+  "spec_folder": "system-spec-kit/022-hybrid-rag-fusion/005-architecture-audit",
+  "parent_id": "system-spec-kit/022-hybrid-rag-fusion",
+  "children_ids": [],
+  "manual": {
+    "depends_on": [],
+    "supersedes": [],
+    "related_to": []
+  },
+  "derived": {
+    "trigger_phrases": [
+      "architecture audit",
+      "scripts boundary",
+      "mcp server boundary",
+      "boundary enforcement",
+      "handler cycle removal",
+      "architecture audit plan",
+      "boundary remediation plan",
+      "scripts mcp server boundary",
+      "architecture audit tasks",
+      "boundary remediation tasks",
+      "architecture audit checklist",
+      "boundary remediation verification"
+    ],
+    "key_topics": [
+      "architecture",
+      "audit",
+      "scripts",
+      "boundary",
+      "mcp",
+      "server",
+      "enforcement",
+      "handler",
+      "cycle",
+      "removal",
+      "plan",
+      "remediation"
+    ],
+    "importance_tier": "critical",
+    "status": "complete",
+    "key_files": [
+      "decision-record.md",
+      "research/research.md",
+      "spec.md",
+      "plan.md",
+      "tasks.md",
+      "checklist.md",
+      "implementation-summary.md",
+      "mcp_server/scripts/reindex-embeddings.ts",
+      ".opencode/skill/system-spec-kit/scripts/memory/README.md",
+      ".opencode/skill/system-spec-kit/mcp_server/scripts/README.md",
+      ".opencode/skill/system-spec-kit/mcp_server/database/README.md",
+      "shared/utils/token-estimate.ts",
+      "mcp_server/handlers/handler-utils.ts",
+      "mcp_server/api/indexing.ts",
+      "scripts/memory/reindex-embeddings.ts",
+      "lib/cognitive/adaptive-ranking.ts",
+      "shared/utils/path-security.ts",
+      "shared/lib/structure-aware-chunker.ts",
+      "handlers/save/types.ts",
+      "shared/config.ts"
+    ],
+    "entities": [
+      {
+        "name": "decision-record.md",
+        "kind": "doc",
+        "path": "decision-record.md",
+        "source": "derived"
+      },
+      {
+        "name": "research.md",
+        "kind": "doc",
+        "path": "research/research.md",
+        "source": "derived"
+      },
+      {
+        "name": "spec.md",
+        "kind": "doc",
+        "path": "spec.md",
+        "source": "derived"
+      },
+      {
+        "name": "plan.md",
+        "kind": "doc",
+        "path": "plan.md",
+        "source": "derived"
+      },
+      {
+        "name": "tasks.md",
+        "kind": "doc",
+        "path": "tasks.md",
+        "source": "derived"
+      },
+      {
+        "name": "checklist.md",
+        "kind": "doc",
+        "path": "checklist.md",
+        "source": "derived"
+      },
+      {
+        "name": "implementation-summary.md",
+        "kind": "doc",
+        "path": "implementation-summary.md",
+        "source": "derived"
+      },
+      {
+        "name": "reindex-embeddings.ts",
+        "kind": "code",
+        "path": "mcp_server/scripts/reindex-embeddings.ts",
+        "source": "derived"
+      },
+      {
+        "name": "README.md",
+        "kind": "doc",
+        "path": ".opencode/skill/system-spec-kit/scripts/memory/README.md",
+        "source": "derived"
+      },
+      {
+        "name": "token-estimate.ts",
+        "kind": "code",
+        "path": "shared/utils/token-estimate.ts",
+        "source": "derived"
+      },
+      {
+        "name": "handler-utils.ts",
+        "kind": "code",
+        "path": "mcp_server/handlers/handler-utils.ts",
+        "source": "derived"
+      },
+      {
+        "name": "indexing.ts",
+        "kind": "code",
+        "path": "mcp_server/api/indexing.ts",
+        "source": "derived"
+      },
+      {
+        "name": "adaptive-ranking.ts",
+        "kind": "code",
+        "path": "lib/cognitive/adaptive-ranking.ts",
+        "source": "derived"
+      },
+      {
+        "name": "path-security.ts",
+        "kind": "code",
+        "path": "shared/utils/path-security.ts",
+        "source": "derived"
+      },
+      {
+        "name": "structure-aware-chunker.ts",
+        "kind": "code",
+        "path": "shared/lib/structure-aware-chunker.ts",
+        "source": "derived"
+      },
+      {
+        "name": "types.ts",
+        "kind": "code",
+        "path": "handlers/save/types.ts",
+        "source": "derived"
+      },
+      {
+        "name": "config.ts",
+        "kind": "code",
+        "path": "shared/config.ts",
+        "source": "derived"
+      },
+      {
+        "name": "Feature Specification",
+        "kind": "proper_noun",
+        "path": "spec.md",
+        "source": "derived"
+      },
+      {
+        "name": "Architecture Audit",
+        "kind": "proper_noun",
+        "path": "spec.md",
+        "source": "derived"
+      },
+      {
+        "name": "Key Decisions",
+        "kind": "proper_noun",
+        "path": "spec.md",
+        "source": "derived"
+      },
+      {
+        "name": "Critical Dependencies",
+        "kind": "proper_noun",
+        "path": "spec.md",
+        "source": "derived"
+      },
+      {
+        "name": "Parent Spec",
+        "kind": "proper_noun",
+        "path": "spec.md",
+        "source": "derived"
+      },
+      {
+        "name": "Problem Statement The",
+        "kind": "proper_noun",
+        "path": "spec.md",
+        "source": "derived"
+      },
+      {
+        "name": "Implementation Plan",
+        "kind": "proper_noun",
+        "path": "plan.md",
+        "source": "derived"
+      }
+    ],
+    "causal_summary": "This completed Level 3 spec captures the architecture audit of `.opencode/skill/system-spec-kit/` with focus on the ownership boundary between root `scripts/` and `mcp_server/`. The work established a boundary contract, reduced cross-area drift, hardened enforcement, merged the former `030-architecture-boundary-remediation` follow-up, and closed later verification-driven issues around naming, README coverage, symlinked runtime paths, and source-dist alignment.",
+    "created_at": "2026-04-12T09:02:50.240Z",
+    "last_save_at": "2026-04-14T17:11:40.817Z",
+    "last_accessed_at": null,
+    "source_docs": [
+      "spec.md",
+      "plan.md",
+      "tasks.md",
+      "checklist.md",
+      "decision-record.md",
+      "implementation-summary.md",
+      "research/research.md"
+    ]
+  }
+}

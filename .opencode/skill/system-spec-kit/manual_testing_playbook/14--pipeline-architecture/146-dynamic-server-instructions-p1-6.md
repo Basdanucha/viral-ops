@@ -1,0 +1,71 @@
+---
+title: "146 -- Dynamic server instructions (P1-6)"
+description: "This scenario validates Dynamic server instructions (P1-6) for `146`. It focuses on Verify `setInstructions()` is called at MCP startup with memory count, spec folder count, channel list, and stale warning."
+audited_post_018: true
+---
+
+# 146 -- Dynamic server instructions (P1-6)
+
+## 1. OVERVIEW
+
+This scenario validates Dynamic server instructions (P1-6) for `146`. It focuses on Verify `setInstructions()` is called at MCP startup with memory count, spec folder count, channel list, and stale warning.
+
+---
+
+## 2. CURRENT REALITY
+
+Operators run the exact prompt and command sequence for `146` and confirm the expected signals without contradicting evidence.
+
+- Objective: Verify `setInstructions()` is called at MCP startup with memory count, spec folder count, channel list, and stale warning
+- Prompt: `As a pipeline validation operator, validate Dynamic server instructions (P1-6) against setInstructions(). Verify setInstructions() is called at MCP startup with memory count, spec folder count, channel list, and stale warning. Return a concise pass/fail verdict with the main reason and cited evidence.`
+- Expected signals: Startup instructions include memory system overview with counts and channels; stale warning appears only above threshold; disabled flag yields empty instructions
+- Pass/fail: PASS if enabled mode emits overview with counts/channels and disabled mode yields empty string
+
+---
+
+## 3. TEST EXECUTION
+
+### Prompt
+
+```
+As a pipeline validation operator, verify setInstructions() is called at MCP startup with memory count, spec folder count, channel list, and stale warning against setInstructions(). Verify startup instructions include memory system overview with counts and channels; stale warning appears only above threshold; disabled flag yields empty instructions. Return a concise pass/fail verdict with the main reason and cited evidence.
+```
+
+### Commands
+
+1. Start the MCP server and capture startup logs
+2. Verify `setInstructions()` was called with a non-empty instructions string
+3. Verify instructions include: memory count, spec folder count, available channels, and active feature flags
+4. If 11+ stale memories exist, verify a stale warning is included
+5. Restart with `SPECKIT_DYNAMIC_INIT=false` and verify `setInstructions()` receives an empty string
+
+### Expected
+
+Startup instructions include memory system overview with counts and channels; stale warning appears only above threshold; disabled flag yields empty instructions
+
+### Evidence
+
+Server startup log + instructions content snapshot + flag toggle comparison
+
+### Pass / Fail
+
+- **Pass**: enabled mode emits overview with counts/channels and disabled mode yields empty string
+- **Fail**: Any contradicting evidence appears or the pass condition is not met.
+
+### Failure Triage
+
+Inspect `context-server.ts` `buildServerInstructions`, `startup-checks.ts`, and `SPECKIT_DYNAMIC_INIT` flag handling
+
+## 4. REFERENCES
+
+- Root playbook: [MANUAL_TESTING_PLAYBOOK.md](../MANUAL_TESTING_PLAYBOOK.md)
+- Feature catalog: [14--pipeline-architecture/14-dynamic-server-instructions-at-mcp-initialization.md](../../feature_catalog/14--pipeline-architecture/14-dynamic-server-instructions-at-mcp-initialization.md)
+
+---
+
+## 5. SOURCE METADATA
+
+- Group: Pipeline Architecture
+- Playbook ID: 146
+- Canonical root source: `MANUAL_TESTING_PLAYBOOK.md`
+- Feature file path: `14--pipeline-architecture/146-dynamic-server-instructions-p1-6.md`

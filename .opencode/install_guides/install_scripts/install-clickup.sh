@@ -1,0 +1,1 @@
+../../skill/mcp-clickup/scripts/install.sh

@@ -1,0 +1,1 @@
+../skill/mcp-code-mode/INSTALL_GUIDE.md

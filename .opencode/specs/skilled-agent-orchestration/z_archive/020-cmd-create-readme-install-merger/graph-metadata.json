@@ -1,0 +1,218 @@
+{
+  "schema_version": 1,
+  "packet_id": "skilled-agent-orchestration/z_archive/020-cmd-create-readme-install-merger",
+  "spec_folder": "skilled-agent-orchestration/z_archive/020-cmd-create-readme-install-merger",
+  "parent_id": null,
+  "children_ids": [],
+  "manual": {
+    "depends_on": [],
+    "supersedes": [],
+    "related_to": []
+  },
+  "derived": {
+    "trigger_phrases": [
+      "create command merge",
+      "folder readme",
+      "install guide",
+      "canonical command",
+      "workflow unification",
+      "create command plan",
+      "routing model",
+      "input contract",
+      "yaml architecture",
+      "migration plan",
+      "task breakdown",
+      "merge tasks"
+    ],
+    "key_topics": [
+      "create",
+      "command",
+      "merge",
+      "folder",
+      "readme",
+      "install",
+      "guide",
+      "canonical",
+      "workflow",
+      "unification",
+      "plan",
+      "routing"
+    ],
+    "importance_tier": "important",
+    "status": "complete",
+    "key_files": [
+      ".opencode/command/create/folder_readme.md",
+      ".opencode/command/create/README.txt",
+      ".opencode/README.md",
+      ".opencode/install_guides/README.md",
+      ".opencode/install_guides/SET-UP - AGENTS.md",
+      ".opencode/agent/write.md",
+      ".claude/agents/write.md",
+      ".codex/agents/write.toml",
+      "plan.md",
+      "spec.md",
+      ".opencode/command/create/assets/create_folder_readme_auto.yaml",
+      ".opencode/command/create/assets/create_folder_readme_confirm.yaml",
+      "implementation-summary.md",
+      "checklist.md",
+      "tasks.md"
+    ],
+    "entities": [
+      {
+        "name": "folder_readme.md",
+        "kind": "doc",
+        "path": ".opencode/command/create/folder_readme.md",
+        "source": "derived"
+      },
+      {
+        "name": "README.txt",
+        "kind": "file",
+        "path": ".opencode/command/create/README.txt",
+        "source": "derived"
+      },
+      {
+        "name": "README.md",
+        "kind": "doc",
+        "path": ".opencode/README.md",
+        "source": "derived"
+      },
+      {
+        "name": "SET-UP - AGENTS.md",
+        "kind": "doc",
+        "path": ".opencode/install_guides/SET-UP - AGENTS.md",
+        "source": "derived"
+      },
+      {
+        "name": "write.md",
+        "kind": "doc",
+        "path": ".opencode/agent/write.md",
+        "source": "derived"
+      },
+      {
+        "name": "write.toml",
+        "kind": "file",
+        "path": ".codex/agents/write.toml",
+        "source": "derived"
+      },
+      {
+        "name": "plan.md",
+        "kind": "doc",
+        "path": "plan.md",
+        "source": "derived"
+      },
+      {
+        "name": "spec.md",
+        "kind": "doc",
+        "path": "spec.md",
+        "source": "derived"
+      },
+      {
+        "name": "create_folder_readme_auto.yaml",
+        "kind": "config",
+        "path": ".opencode/command/create/assets/create_folder_readme_auto.yaml",
+        "source": "derived"
+      },
+      {
+        "name": "create_folder_readme_confirm.yaml",
+        "kind": "config",
+        "path": ".opencode/command/create/assets/create_folder_readme_confirm.yaml",
+        "source": "derived"
+      },
+      {
+        "name": "implementation-summary.md",
+        "kind": "doc",
+        "path": "implementation-summary.md",
+        "source": "derived"
+      },
+      {
+        "name": "checklist.md",
+        "kind": "doc",
+        "path": "checklist.md",
+        "source": "derived"
+      },
+      {
+        "name": "tasks.md",
+        "kind": "doc",
+        "path": "tasks.md",
+        "source": "derived"
+      },
+      {
+        "name": "Feature Specification",
+        "kind": "proper_noun",
+        "path": "spec.md",
+        "source": "derived"
+      },
+      {
+        "name": "Problem Statement The",
+        "kind": "proper_noun",
+        "path": "spec.md",
+        "source": "derived"
+      },
+      {
+        "name": "Purpose Define",
+        "kind": "proper_noun",
+        "path": "spec.md",
+        "source": "derived"
+      },
+      {
+        "name": "In Scope",
+        "kind": "proper_noun",
+        "path": "spec.md",
+        "source": "derived"
+      },
+      {
+        "name": "File Path",
+        "kind": "proper_noun",
+        "path": "spec.md",
+        "source": "derived"
+      },
+      {
+        "name": "Change Type",
+        "kind": "proper_noun",
+        "path": "spec.md",
+        "source": "derived"
+      },
+      {
+        "name": "Implementation Plan",
+        "kind": "proper_noun",
+        "path": "plan.md",
+        "source": "derived"
+      },
+      {
+        "name": "Technical Context",
+        "kind": "proper_noun",
+        "path": "plan.md",
+        "source": "derived"
+      },
+      {
+        "name": "Overview The",
+        "kind": "proper_noun",
+        "path": "plan.md",
+        "source": "derived"
+      },
+      {
+        "name": "Pattern Modular",
+        "kind": "proper_noun",
+        "path": "plan.md",
+        "source": "derived"
+      },
+      {
+        "name": "Key Components",
+        "kind": "proper_noun",
+        "path": "plan.md",
+        "source": "derived"
+      }
+    ],
+    "causal_summary": "SPECKIT_TEMPLATE_SOURCE: spec-core | v2.2",
+    "created_at": "2026-04-12T09:02:50.220Z",
+    "last_save_at": "2026-04-14T17:11:40.777Z",
+    "last_accessed_at": null,
+    "source_docs": [
+      "spec.md",
+      "plan.md",
+      "tasks.md",
+      "checklist.md",
+      "implementation-summary.md"
+    ]
+  }
+}

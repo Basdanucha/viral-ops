@@ -1,0 +1,20 @@
+{
+  "specFolder": "skilled-agent-orchestration/z_archive/017-cmd-create-prompt",
+  "description": "Feature Specification: create:prompt Command",
+  "keywords": [
+    "feature",
+    "specification",
+    "create",
+    "prompt",
+    "command"
+  ],
+  "lastUpdated": "2026-04-12T15:47:03.473Z",
+  "specId": "017",
+  "folderSlug": "cmd-create-prompt",
+  "parentChain": [
+    "skilled-agent-orchestration",
+    "z_archive"
+  ],
+  "memorySequence": 0,
+  "memoryNameHistory": []
+}

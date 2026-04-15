@@ -1,0 +1,222 @@
+{
+  "schema_version": 1,
+  "packet_id": "system-spec-kit/022-hybrid-rag-fusion/009-perfect-session-capturing/009-embedding-optimization",
+  "spec_folder": "system-spec-kit/022-hybrid-rag-fusion/009-perfect-session-capturing/009-embedding-optimization",
+  "parent_id": "system-spec-kit/022-hybrid-rag-fusion/009-perfect-session-capturing",
+  "children_ids": [],
+  "manual": {
+    "depends_on": [],
+    "supersedes": [],
+    "related_to": []
+  },
+  "derived": {
+    "trigger_phrases": [
+      "feature",
+      "specif",
+      "spec",
+      "009",
+      "embedding",
+      "implementation",
+      "plan",
+      "tasks",
+      "embedd",
+      "verificat",
+      "checklist",
+      "summary"
+    ],
+    "key_topics": [
+      "feature",
+      "specif",
+      "spec",
+      "009",
+      "embedding",
+      "implementation",
+      "plan",
+      "tasks",
+      "embedd",
+      "verificat",
+      "checklist",
+      "summary"
+    ],
+    "importance_tier": "important",
+    "status": "complete",
+    "key_files": [
+      "shared/embeddings.ts",
+      "scripts/lib/semantic-summarizer.ts",
+      "scripts/core/workflow.ts",
+      "scripts/core/memory-indexer.ts",
+      "mcp_server/handlers/save/embedding-pipeline.ts",
+      "scripts/tests/memory-indexer-weighting.vitest.ts",
+      "mcp_server/tests/embedding-weighting.vitest.ts",
+      "mcp_server/tests/embedding-pipeline-weighting.vitest.ts",
+      "scripts/tests/test-embeddings-behavioral.js",
+      "mcp_server/lib/providers/embeddings.ts",
+      "shared/index.ts",
+      "mcp_server/lib/search/vector-index-queries.ts",
+      "mcp_server/lib/cognitive/tier-classifier.ts",
+      "mcp_server/lib/search/vector-index-schema.ts",
+      "spec.md",
+      "plan.md",
+      "implementation-summary.md",
+      "tasks.md",
+      "checklist.md"
+    ],
+    "entities": [
+      {
+        "name": "embeddings.ts",
+        "kind": "code",
+        "path": "shared/embeddings.ts",
+        "source": "derived"
+      },
+      {
+        "name": "semantic-summarizer.ts",
+        "kind": "code",
+        "path": "scripts/lib/semantic-summarizer.ts",
+        "source": "derived"
+      },
+      {
+        "name": "workflow.ts",
+        "kind": "code",
+        "path": "scripts/core/workflow.ts",
+        "source": "derived"
+      },
+      {
+        "name": "memory-indexer.ts",
+        "kind": "code",
+        "path": "scripts/core/memory-indexer.ts",
+        "source": "derived"
+      },
+      {
+        "name": "embedding-pipeline.ts",
+        "kind": "code",
+        "path": "mcp_server/handlers/save/embedding-pipeline.ts",
+        "source": "derived"
+      },
+      {
+        "name": "memory-indexer-weighting.vitest.ts",
+        "kind": "test",
+        "path": "scripts/tests/memory-indexer-weighting.vitest.ts",
+        "source": "derived"
+      },
+      {
+        "name": "embedding-weighting.vitest.ts",
+        "kind": "test",
+        "path": "mcp_server/tests/embedding-weighting.vitest.ts",
+        "source": "derived"
+      },
+      {
+        "name": "embedding-pipeline-weighting.vitest.ts",
+        "kind": "test",
+        "path": "mcp_server/tests/embedding-pipeline-weighting.vitest.ts",
+        "source": "derived"
+      },
+      {
+        "name": "test-embeddings-behavioral.js",
+        "kind": "code",
+        "path": "scripts/tests/test-embeddings-behavioral.js",
+        "source": "derived"
+      },
+      {
+        "name": "index.ts",
+        "kind": "code",
+        "path": "shared/index.ts",
+        "source": "derived"
+      },
+      {
+        "name": "vector-index-queries.ts",
+        "kind": "code",
+        "path": "mcp_server/lib/search/vector-index-queries.ts",
+        "source": "derived"
+      },
+      {
+        "name": "tier-classifier.ts",
+        "kind": "code",
+        "path": "mcp_server/lib/cognitive/tier-classifier.ts",
+        "source": "derived"
+      },
+      {
+        "name": "vector-index-schema.ts",
+        "kind": "code",
+        "path": "mcp_server/lib/search/vector-index-schema.ts",
+        "source": "derived"
+      },
+      {
+        "name": "spec.md",
+        "kind": "doc",
+        "path": "spec.md",
+        "source": "derived"
+      },
+      {
+        "name": "plan.md",
+        "kind": "doc",
+        "path": "plan.md",
+        "source": "derived"
+      },
+      {
+        "name": "implementation-summary.md",
+        "kind": "doc",
+        "path": "implementation-summary.md",
+        "source": "derived"
+      },
+      {
+        "name": "tasks.md",
+        "kind": "doc",
+        "path": "tasks.md",
+        "source": "derived"
+      },
+      {
+        "name": "checklist.md",
+        "kind": "doc",
+        "path": "checklist.md",
+        "source": "derived"
+      },
+      {
+        "name": "Feature Specif",
+        "kind": "proper_noun",
+        "path": "spec.md",
+        "source": "derived"
+      },
+      {
+        "name": "Feature Specification",
+        "kind": "proper_noun",
+        "path": "spec.md",
+        "source": "derived"
+      },
+      {
+        "name": "Embedding Optimization This",
+        "kind": "proper_noun",
+        "path": "spec.md",
+        "source": "derived"
+      },
+      {
+        "name": "Parent Spec",
+        "kind": "proper_noun",
+        "path": "spec.md",
+        "source": "derived"
+      },
+      {
+        "name": "Parent Plan",
+        "kind": "proper_noun",
+        "path": "spec.md",
+        "source": "derived"
+      },
+      {
+        "name": "Handoff Criteria",
+        "kind": "proper_noun",
+        "path": "spec.md",
+        "source": "derived"
+      }
+    ],
+    "causal_summary": "This document records the current verified state for this scope. Use [spec.md](spec.md) and [plan.md](plan.md) to trace requirements and implementation evidence.",
+    "created_at": "2026-04-12T09:02:50.272Z",
+    "last_save_at": "2026-04-14T17:11:40.885Z",
+    "last_accessed_at": null,
+    "source_docs": [
+      "spec.md",
+      "plan.md",
+      "tasks.md",
+      "checklist.md",
+      "implementation-summary.md"
+    ]
+  }
+}

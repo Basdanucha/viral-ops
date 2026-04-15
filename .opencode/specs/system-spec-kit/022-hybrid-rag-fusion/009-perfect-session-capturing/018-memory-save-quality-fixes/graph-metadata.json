@@ -1,0 +1,222 @@
+{
+  "schema_version": 1,
+  "packet_id": "system-spec-kit/022-hybrid-rag-fusion/009-perfect-session-capturing/018-memory-save-quality-fixes",
+  "spec_folder": "system-spec-kit/022-hybrid-rag-fusion/009-perfect-session-capturing/018-memory-save-quality-fixes",
+  "parent_id": "system-spec-kit/022-hybrid-rag-fusion/009-perfect-session-capturing",
+  "children_ids": [],
+  "manual": {
+    "depends_on": [],
+    "supersedes": [],
+    "related_to": []
+  },
+  "derived": {
+    "trigger_phrases": [
+      "memory save quality fixes",
+      "018 memory save quality fixes",
+      "root cause fixes",
+      "memory save quality plan",
+      "generate-context remediation",
+      "memory save quality tasks",
+      "root cause remediation tasks",
+      "memory save quality checklist",
+      "verification evidence",
+      "memory save quality summary",
+      "implementation summary"
+    ],
+    "key_topics": [
+      "memory",
+      "save",
+      "quality",
+      "fixes",
+      "018",
+      "root",
+      "cause",
+      "plan",
+      "generate-context",
+      "remediation",
+      "tasks",
+      "checklist"
+    ],
+    "importance_tier": "important",
+    "status": "complete",
+    "key_files": [
+      "shared/trigger-extractor.ts",
+      ".opencode/skill/system-spec-kit/scripts/extractors/decision-extractor.ts",
+      ".opencode/skill/system-spec-kit/scripts/extractors/collect-session-data.ts",
+      ".opencode/skill/system-spec-kit/scripts/extractors/session-extractor.ts",
+      ".opencode/skill/system-spec-kit/scripts/extractors/implementation-guide-extractor.ts",
+      ".opencode/skill/system-spec-kit/shared/trigger-extractor.ts",
+      ".opencode/skill/system-spec-kit/scripts/utils/input-normalizer.ts",
+      ".opencode/skill/system-spec-kit/scripts/core/tree-thinning.ts",
+      ".opencode/skill/system-spec-kit/scripts/extractors/conversation-extractor.ts",
+      ".opencode/skill/system-spec-kit/scripts/tests/semantic-signal-golden.vitest.ts",
+      ".opencode/skill/system-spec-kit/shared/dist/trigger-extractor.js",
+      "shared/dist/trigger-extractor.js",
+      "spec.md",
+      "plan.md",
+      "scripts/extractors/decision-extractor.ts",
+      "scripts/extractors/collect-session-data.ts",
+      "scripts/extractors/session-extractor.ts",
+      "scripts/extractors/implementation-guide-extractor.ts",
+      "scripts/utils/input-normalizer.ts",
+      "scripts/core/tree-thinning.ts"
+    ],
+    "entities": [
+      {
+        "name": "trigger-extractor.ts",
+        "kind": "code",
+        "path": "shared/trigger-extractor.ts",
+        "source": "derived"
+      },
+      {
+        "name": "decision-extractor.ts",
+        "kind": "code",
+        "path": ".opencode/skill/system-spec-kit/scripts/extractors/decision-extractor.ts",
+        "source": "derived"
+      },
+      {
+        "name": "collect-session-data.ts",
+        "kind": "code",
+        "path": ".opencode/skill/system-spec-kit/scripts/extractors/collect-session-data.ts",
+        "source": "derived"
+      },
+      {
+        "name": "session-extractor.ts",
+        "kind": "code",
+        "path": ".opencode/skill/system-spec-kit/scripts/extractors/session-extractor.ts",
+        "source": "derived"
+      },
+      {
+        "name": "implementation-guide-extractor.ts",
+        "kind": "code",
+        "path": ".opencode/skill/system-spec-kit/scripts/extractors/implementation-guide-extractor.ts",
+        "source": "derived"
+      },
+      {
+        "name": "input-normalizer.ts",
+        "kind": "code",
+        "path": ".opencode/skill/system-spec-kit/scripts/utils/input-normalizer.ts",
+        "source": "derived"
+      },
+      {
+        "name": "tree-thinning.ts",
+        "kind": "code",
+        "path": ".opencode/skill/system-spec-kit/scripts/core/tree-thinning.ts",
+        "source": "derived"
+      },
+      {
+        "name": "conversation-extractor.ts",
+        "kind": "code",
+        "path": ".opencode/skill/system-spec-kit/scripts/extractors/conversation-extractor.ts",
+        "source": "derived"
+      },
+      {
+        "name": "semantic-signal-golden.vitest.ts",
+        "kind": "test",
+        "path": ".opencode/skill/system-spec-kit/scripts/tests/semantic-signal-golden.vitest.ts",
+        "source": "derived"
+      },
+      {
+        "name": "trigger-extractor.js",
+        "kind": "code",
+        "path": ".opencode/skill/system-spec-kit/shared/dist/trigger-extractor.js",
+        "source": "derived"
+      },
+      {
+        "name": "spec.md",
+        "kind": "doc",
+        "path": "spec.md",
+        "source": "derived"
+      },
+      {
+        "name": "plan.md",
+        "kind": "doc",
+        "path": "plan.md",
+        "source": "derived"
+      },
+      {
+        "name": "Feature Specification",
+        "kind": "proper_noun",
+        "path": "spec.md",
+        "source": "derived"
+      },
+      {
+        "name": "Memory Save Quality Root Cause Fixes",
+        "kind": "proper_noun",
+        "path": "spec.md",
+        "source": "derived"
+      },
+      {
+        "name": "Parent Spec",
+        "kind": "proper_noun",
+        "path": "spec.md",
+        "source": "derived"
+      },
+      {
+        "name": "Parent Plan",
+        "kind": "proper_noun",
+        "path": "spec.md",
+        "source": "derived"
+      },
+      {
+        "name": "Problem Statement After",
+        "kind": "proper_noun",
+        "path": "spec.md",
+        "source": "derived"
+      },
+      {
+        "name": "Purpose Eliminate",
+        "kind": "proper_noun",
+        "path": "spec.md",
+        "source": "derived"
+      },
+      {
+        "name": "Implementation Plan",
+        "kind": "proper_noun",
+        "path": "plan.md",
+        "source": "derived"
+      },
+      {
+        "name": "Technical Context",
+        "kind": "proper_noun",
+        "path": "plan.md",
+        "source": "derived"
+      },
+      {
+        "name": "Overview This",
+        "kind": "proper_noun",
+        "path": "plan.md",
+        "source": "derived"
+      },
+      {
+        "name": "Files Modified",
+        "kind": "proper_noun",
+        "path": "plan.md",
+        "source": "derived"
+      },
+      {
+        "name": "Why It Changed",
+        "kind": "proper_noun",
+        "path": "plan.md",
+        "source": "derived"
+      },
+      {
+        "name": "Task Format",
+        "kind": "proper_noun",
+        "path": "tasks.md",
+        "source": "derived"
+      }
+    ],
+    "causal_summary": "After the Sprint 1 pipeline hardening landed, a `/memory:save` run still produced a memory file that scored 88/100 while carrying 10 structural quality issues. Manual review traced those defects to eight backend bugs across the `generate-context.js` extraction, normalization, and rendering pipeline: duplicated decision fields, wrong completion status, false blocker detection, generic pattern filler, noisy trigger phrases, contaminated file paths, over-aggressive tree thinning, and missing synthesized conversation messages.",
+    "created_at": "2026-04-12T09:02:50.281Z",
+    "last_save_at": "2026-04-14T17:11:40.905Z",
+    "last_accessed_at": null,
+    "source_docs": [
+      "spec.md",
+      "plan.md",
+      "tasks.md",
+      "checklist.md",
+      "implementation-summary.md"
+    ]
+  }
+}

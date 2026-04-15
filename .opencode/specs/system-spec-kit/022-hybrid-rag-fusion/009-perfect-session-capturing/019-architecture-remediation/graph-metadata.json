@@ -1,0 +1,224 @@
+{
+  "schema_version": 1,
+  "packet_id": "system-spec-kit/022-hybrid-rag-fusion/009-perfect-session-capturing/019-architecture-remediation",
+  "spec_folder": "system-spec-kit/022-hybrid-rag-fusion/009-perfect-session-capturing/019-architecture-remediation",
+  "parent_id": "system-spec-kit/022-hybrid-rag-fusion/009-perfect-session-capturing",
+  "children_ids": [],
+  "manual": {
+    "depends_on": [],
+    "supersedes": [],
+    "related_to": []
+  },
+  "derived": {
+    "trigger_phrases": [
+      "architecture remediation",
+      "019 deep dive",
+      "session capturing audit",
+      "architecture remediation plan",
+      "019 remediation",
+      "019 tasks",
+      "architecture remediation tasks",
+      "wave 1 agents",
+      "wave 3 synthesis",
+      "019 checklist",
+      "architecture remediation verification",
+      "wave 3 quality gates"
+    ],
+    "key_topics": [
+      "architecture",
+      "remediation",
+      "019",
+      "deep",
+      "dive",
+      "session",
+      "capturing",
+      "audit",
+      "plan",
+      "tasks",
+      "wave",
+      "agents"
+    ],
+    "importance_tier": "normal",
+    "status": "in_progress",
+    "key_files": [
+      "plan.md",
+      "decision-record.md",
+      "tasks.md",
+      "checklist.md",
+      "scratch/codex-1-core-pipeline.md",
+      "scratch/opus-5-type-system.md",
+      "scratch/wave3-priority-matrix.md",
+      "scratch/wave3-decision-records.md",
+      "scratch/wave3-checklist.md",
+      "core/workflow.ts",
+      "scratch/codex-2-extractors.md",
+      "scratch/codex-3-utils-lib.md",
+      "scratch/codex-4-memory-system.md",
+      "scratch/codex-5-tests-evals.md",
+      "scratch/opus-1-phase-tree.md",
+      "scratch/opus-2-spec-alignment.md",
+      "scratch/opus-3-architecture.md",
+      "scratch/opus-4-git-diff.md",
+      "spec.md",
+      "lib/semantic-summarizer.ts"
+    ],
+    "entities": [
+      {
+        "name": "plan.md",
+        "kind": "doc",
+        "path": "plan.md",
+        "source": "derived"
+      },
+      {
+        "name": "decision-record.md",
+        "kind": "doc",
+        "path": "decision-record.md",
+        "source": "derived"
+      },
+      {
+        "name": "tasks.md",
+        "kind": "doc",
+        "path": "tasks.md",
+        "source": "derived"
+      },
+      {
+        "name": "checklist.md",
+        "kind": "doc",
+        "path": "checklist.md",
+        "source": "derived"
+      },
+      {
+        "name": "codex-1-core-pipeline.md",
+        "kind": "doc",
+        "path": "scratch/codex-1-core-pipeline.md",
+        "source": "derived"
+      },
+      {
+        "name": "opus-5-type-system.md",
+        "kind": "doc",
+        "path": "scratch/opus-5-type-system.md",
+        "source": "derived"
+      },
+      {
+        "name": "wave3-priority-matrix.md",
+        "kind": "doc",
+        "path": "scratch/wave3-priority-matrix.md",
+        "source": "derived"
+      },
+      {
+        "name": "wave3-decision-records.md",
+        "kind": "doc",
+        "path": "scratch/wave3-decision-records.md",
+        "source": "derived"
+      },
+      {
+        "name": "wave3-checklist.md",
+        "kind": "doc",
+        "path": "scratch/wave3-checklist.md",
+        "source": "derived"
+      },
+      {
+        "name": "workflow.ts",
+        "kind": "code",
+        "path": "core/workflow.ts",
+        "source": "derived"
+      },
+      {
+        "name": "codex-2-extractors.md",
+        "kind": "doc",
+        "path": "scratch/codex-2-extractors.md",
+        "source": "derived"
+      },
+      {
+        "name": "codex-3-utils-lib.md",
+        "kind": "doc",
+        "path": "scratch/codex-3-utils-lib.md",
+        "source": "derived"
+      },
+      {
+        "name": "codex-4-memory-system.md",
+        "kind": "doc",
+        "path": "scratch/codex-4-memory-system.md",
+        "source": "derived"
+      },
+      {
+        "name": "codex-5-tests-evals.md",
+        "kind": "doc",
+        "path": "scratch/codex-5-tests-evals.md",
+        "source": "derived"
+      },
+      {
+        "name": "opus-1-phase-tree.md",
+        "kind": "doc",
+        "path": "scratch/opus-1-phase-tree.md",
+        "source": "derived"
+      },
+      {
+        "name": "opus-2-spec-alignment.md",
+        "kind": "doc",
+        "path": "scratch/opus-2-spec-alignment.md",
+        "source": "derived"
+      },
+      {
+        "name": "opus-3-architecture.md",
+        "kind": "doc",
+        "path": "scratch/opus-3-architecture.md",
+        "source": "derived"
+      },
+      {
+        "name": "opus-4-git-diff.md",
+        "kind": "doc",
+        "path": "scratch/opus-4-git-diff.md",
+        "source": "derived"
+      },
+      {
+        "name": "spec.md",
+        "kind": "doc",
+        "path": "spec.md",
+        "source": "derived"
+      },
+      {
+        "name": "semantic-summarizer.ts",
+        "kind": "code",
+        "path": "lib/semantic-summarizer.ts",
+        "source": "derived"
+      },
+      {
+        "name": "Feature Specification",
+        "kind": "proper_noun",
+        "path": "spec.md",
+        "source": "derived"
+      },
+      {
+        "name": "Architecture Remediation Deep Dive",
+        "kind": "proper_noun",
+        "path": "spec.md",
+        "source": "derived"
+      },
+      {
+        "name": "Claude Opus Wave",
+        "kind": "proper_noun",
+        "path": "spec.md",
+        "source": "derived"
+      },
+      {
+        "name": "Analysis Complete",
+        "kind": "proper_noun",
+        "path": "spec.md",
+        "source": "derived"
+      }
+    ],
+    "causal_summary": "Global architecture, bug fix, and alignment deep dive across the entire `009-perfect-session-capturing` subsystem. This phase deployed 15 parallel analysis agents across 3 waves (5 GPT 5.4 via Codex CLI + 5 Claude Opus Wave 1/2 analysis, plus 5 Claude Opus Wave 3 synthesis) to produce a comprehensive findings report covering:",
+    "created_at": "2026-04-12T09:02:50.282Z",
+    "last_save_at": "2026-04-14T17:11:40.906Z",
+    "last_accessed_at": null,
+    "source_docs": [
+      "spec.md",
+      "plan.md",
+      "tasks.md",
+      "checklist.md",
+      "decision-record.md",
+      "implementation-summary.md"
+    ]
+  }
+}

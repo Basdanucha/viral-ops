@@ -1,0 +1,136 @@
+{
+  "experimental": {
+    "enableAgents": true
+  },
+  "skills": {
+    "enabled": true
+  },
+  "context": {
+    "fileName": [
+      "GEMINI.md",
+      "AGENTS.md"
+    ]
+  },
+  "tools": {
+    "sandbox": false
+  },
+  "mcpServers": {
+    "sequential_thinking": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-sequential-thinking"
+      ],
+      "trust": true
+    },
+    "spec_kit_memory": {
+      "command": "node",
+      "args": [
+        ".opencode/skill/system-spec-kit/mcp_server/dist/context-server.js"
+      ],
+      "cwd": ".",
+      "env": {
+        "EMBEDDINGS_PROVIDER": "auto",
+        "_NOTE_1_DATABASE": "DB path auto-derived from provider profile (no MEMORY_DB_PATH needed)",
+        "_NOTE_2_PROVIDERS": "Supports: Voyage (1024 dims), OpenAI (1536/3072 dims), HF Local (768 dims, no API needed)",
+        "_NOTE_3_EMBEDDINGS_PROVIDER": "Current: 'auto' (VOYAGE_API_KEY -> OPENAI_API_KEY -> hf-local). Options: 'auto', 'voyage', 'openai', 'hf-local'",
+        "_NOTE_4_CLOUD_PROVIDERS": "For cloud: add VOYAGE_API_KEY or OPENAI_API_KEY; Voyage uses rerank-2.5 and auto-selects the matching DB profile",
+        "_NOTE_5_GET_VOYAGE_KEY": "Get Voyage key: https://dash.voyageai.com/api-keys (recommended, 8% better than OpenAI)",
+        "_NOTE_6_GET_OPENAI_KEY": "Get OpenAI key: https://platform.openai.com/api-keys",
+        "_NOTE_7_FEATURE_FLAGS": "Opt-out flags (default ON): SPECKIT_ADAPTIVE_FUSION, SPECKIT_SESSION_BOOST, SPECKIT_CAUSAL_BOOST, SPECKIT_HYDE_ACTIVE, SPECKIT_ENTITY_LINKING, SPECKIT_GRAPH_CONCEPT_ROUTING, SPECKIT_GRAPH_REFRESH_MODE=write_local. Tier 3 LLM save routing is always on (fail-open to Tier 2 on timeout)."
+      },
+      "trust": true
+    },
+    "cocoindex_code": {
+      "command": ".opencode/skill/mcp-coco-index/mcp_server/.venv/bin/ccc",
+      "args": [
+        "mcp"
+      ],
+      "cwd": ".",
+      "env": {
+        "COCOINDEX_CODE_ROOT_PATH": "."
+      },
+      "trust": true
+    },
+    "code_mode": {
+      "command": "node",
+      "args": [
+        ".opencode/skill/mcp-code-mode/mcp_server/dist/index.js"
+      ],
+      "cwd": ".",
+      "env": {
+        "UTCP_CONFIG_FILE": ".utcp_config.json"
+      },
+      "trust": true
+    }
+  },
+  "hooksConfig": {
+    "enabled": true
+  },
+  "hooks": {
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "name": "speckit-session-prime",
+            "type": "command",
+            "command": "bash -c 'cd \"$(git rev-parse --show-toplevel 2>/dev/null || pwd)\" && node .opencode/skill/system-spec-kit/mcp_server/dist/hooks/gemini/session-prime.js'",
+            "timeout": 3000
+          }
+        ]
+      }
+    ],
+    "PreCompress": [
+      {
+        "hooks": [
+          {
+            "name": "speckit-compact-cache",
+            "type": "command",
+            "command": "bash -c 'cd \"$(git rev-parse --show-toplevel 2>/dev/null || pwd)\" && node .opencode/skill/system-spec-kit/mcp_server/dist/hooks/gemini/compact-cache.js'",
+            "timeout": 3000
+          }
+        ]
+      }
+    ],
+    "BeforeAgent": [
+      {
+        "hooks": [
+          {
+            "name": "speckit-compact-inject",
+            "type": "command",
+            "command": "bash -c 'cd \"$(git rev-parse --show-toplevel 2>/dev/null || pwd)\" && node .opencode/skill/system-spec-kit/mcp_server/dist/hooks/gemini/compact-inject.js'",
+            "timeout": 3000
+          }
+        ]
+      }
+    ],
+    "SessionEnd": [
+      {
+        "hooks": [
+          {
+            "name": "speckit-session-stop",
+            "type": "command",
+            "command": "bash -c 'cd \"$(git rev-parse --show-toplevel 2>/dev/null || pwd)\" && node .opencode/skill/system-spec-kit/mcp_server/dist/hooks/gemini/session-stop.js'",
+            "timeout": 10000
+          }
+        ]
+      }
+    ]
+  },
+  "agents": {
+    "overrides": {
+      "codebase_investigator": {
+        "enabled": true,
+        "runConfig": {
+          "maxTurns": 20
+        },
+        "modelConfig": {
+          "model": "gemini-3.1-pro-preview"
+        }
+      }
+    }
+  },
+  "general": {
+    "enableAutoUpdate": true
+  }
+}

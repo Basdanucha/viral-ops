@@ -1,0 +1,1097 @@
+# ─────────────────────────────────────────────────────────────────
+# DEEP REVIEW: AUTONOMOUS DEEP REVIEW LOOP (CONFIRM MODE)
+# ─────────────────────────────────────────────────────────────────
+# DEEP REVIEW: AUTONOMOUS DEEP REVIEW LOOP (CONFIRM MODE)
+# ─────────────────────────────────────────────────────────────────
+role: Deep Review Loop Manager
+purpose: Iterative code/spec review with convergence detection and user approval gates
+action: Run deep-review loop with user confirmation at each phase transition
+operating_mode:
+  workflow: iterative_loop
+  workflow_compliance: MANDATORY
+  workflow_execution: interactive
+  approvals: multi_gate
+  tracking: progressive_review_state
+  validation: convergence_detection
+
+# ─────────────────────────────────────────────────────────────────
+# OPERATING PRINCIPLES
+# ─────────────────────────────────────────────────────────────────
+operating_principles:
+  core: "Fresh context per iteration + externalized state = no context degradation"
+  approach: "Dispatch focused review agent per dimension, show results, get approval, repeat or stop"
+  mandate: "Never hold findings in memory; write everything to files. Pause for user at each gate. Review target is READ-ONLY."
+
+# ─────────────────────────────────────────────────────────────────
+# USER INPUTS (from setup phase)
+# ─────────────────────────────────────────────────────────────────
+user_inputs:
+  review_target: "[REVIEW_TARGET] - What to review. REQUIRED."
+  review_target_type: "[spec-folder|skill|agent|track|files] - Target type for scope derivation. REQUIRED."
+  review_dimensions: "[all|correctness,security,traceability,maintainability] - Dimensions to check. Default: all."
+  spec_folder: "[SPEC_FOLDER] - Spec folder path for state files. REQUIRED."
+  lineage_mode: "[auto|resume|restart] - Session lifecycle intent. Default: auto. The runtime only persists lineage events for `resume` (same sessionId, no archive) and `restart` (new sessionId, generation+1, prior review/ archived). `fork` and `completed-continue` are deferred and no longer accepted — see sk-deep-review/references/loop_protocol.md §Lifecycle Branches."
+  max_iterations: 7
+  convergence_threshold: 0.10
+
+# ─────────────────────────────────────────────────────────────────
+# CONTEXT LOADING
+# ─────────────────────────────────────────────────────────────────
+context_loading:
+  trigger: "At workflow START, before phase_init"
+  purpose: "Load prior review context for the target and buffer it until strategy.md exists"
+  mcp_integration:
+    tool: memory_context
+    note: "Call MCP tools directly - NEVER through Code Mode"
+    parameters: { input: "{review_target}", mode: "focused", intent: "understand", includeContent: true }
+  when_to_skip: ["User says 'skip context' or 'fresh start'"]
+  behavior:
+    if_context_found: "Store full results as prior_context plus a concise prior_context_summary; inject after strategy.md is created."
+    if_no_context: "Set prior_context and prior_context_summary to 'None' and continue."
+
+# ─────────────────────────────────────────────────────────────────
+# SKILL REFERENCE
+# ─────────────────────────────────────────────────────────────────
+skill_reference:
+  skill: sk-deep-review
+  skill_md: .opencode/skill/sk-deep-review/SKILL.md
+  references:
+    loop_protocol: .opencode/skill/sk-deep-review/references/loop_protocol.md
+    state_format: .opencode/skill/sk-deep-review/references/state_format.md
+    convergence: .opencode/skill/sk-deep-review/references/convergence.md
+  templates:
+    config: .opencode/skill/sk-deep-review/assets/deep_review_config.json
+    strategy: .opencode/skill/sk-deep-review/assets/deep_review_strategy.md
+
+# ─────────────────────────────────────────────────────────────────
+# AGENT CONFIGURATION
+# ─────────────────────────────────────────────────────────────────
+agent_config:
+  agent: deep-review
+  agent_file: ".opencode/agent/deep-review.md"
+  # Runtime-agnostic: resolve agent from active runtime directory (see AGENTS.md). Default shown is Claude runtime.
+  mode: subagent
+  model: opus
+  leaf_only: true
+  tools: [Read, Write, Edit, Bash, Grep, Glob, mcp__cocoindex_code__search]
+  mcp_servers: [spec_kit_memory, cocoindex_code]
+  tool_call_budget: { target: 9, soft_max: 12, hard_max: 13 }
+
+# ─────────────────────────────────────────────────────────────────
+# STATE FILE PATHS
+# ─────────────────────────────────────────────────────────────────
+state_paths:
+  config: "{spec_folder}/review/deep-review-config.json"
+  state_log: "{spec_folder}/review/deep-review-state.jsonl"
+  findings_registry: "{spec_folder}/review/deep-review-findings-registry.json"
+  strategy: "{spec_folder}/review/deep-review-strategy.md"
+  dashboard: "{spec_folder}/review/deep-review-dashboard.md"
+  iteration_pattern: "{spec_folder}/review/iterations/iteration-{NNN}.md"
+  review_output: "{spec_folder}/review/review-report.md"
+
+# ─────────────────────────────────────────────────────────────────
+# WORKFLOW
+# ─────────────────────────────────────────────────────────────────
+workflow:
+
+  # ═══════════════════════════════════════════════════════════════
+  # PHASE 1: INITIALIZATION
+  # ═══════════════════════════════════════════════════════════════
+  phase_init:
+    purpose: Create all state files for the review session and resolve review scope
+    steps:
+
+      step_preflight_contract:
+        action: "Validate required setup bindings and executable workflow contract before any file writes"
+        verify:
+          - required_values_present: [review_target, review_target_type, review_dimensions, spec_folder, max_iterations, convergence_threshold]
+          - spec_folder_is_within: "specs/ or .opencode/specs/ (canonicalize alias roots before validation)"
+          - unresolved_placeholders: "FAIL if any user-facing template references placeholders not produced by earlier steps"
+          - tool_contract: "FAIL if executable steps reference tools outside the command allowlist"
+        on_fail: "Halt with STATUS=FAIL and report the missing binding or unsupported contract reference"
+
+      step_create_directories:
+        action: "Create spec folder and canonical review packet directories if they don't exist"
+        command: "mkdir -p {spec_folder}/review/iterations"
+
+      step_migrate_legacy_review_state:
+        action: "Rehome legacy review artifacts into review/iterations before session classification"
+        detect:
+          canonical_review_state:
+            - "{spec_folder}/review/deep-review-config.json"
+            - "{spec_folder}/review/deep-review-state.jsonl"
+            - "{spec_folder}/review/deep-review-findings-registry.json"
+            - "{spec_folder}/review/deep-review-strategy.md"
+          legacy_review_state:
+            - "{spec_folder}/scratch/deep-research-config.json"
+            - "{spec_folder}/scratch/deep-research-state.jsonl"
+            - "{spec_folder}/scratch/deep-review-strategy.md"
+            - "{spec_folder}/scratch/deep-review-dashboard.md"
+            - "{spec_folder}/scratch/iteration-*.md"
+            - "{spec_folder}/scratch/.deep-research-pause"
+            - "{spec_folder}/review/iteration-*.md"
+            - "{spec_folder}/review-report.md"
+          legacy_review_markers:
+            - "scratch/deep-review-strategy.md exists"
+            - "scratch/deep-research-config.json declares mode == 'review' OR scratch/deep-research-state.jsonl contains mode == 'review'"
+        migrate_only:
+          - "{spec_folder}/scratch/deep-research-config.json -> {spec_folder}/review/deep-review-config.json"
+          - "{spec_folder}/scratch/deep-research-state.jsonl -> {spec_folder}/review/deep-review-state.jsonl"
+          - "{spec_folder}/scratch/deep-review-strategy.md -> {spec_folder}/review/deep-review-strategy.md"
+          - "{spec_folder}/scratch/deep-review-dashboard.md -> {spec_folder}/review/deep-review-dashboard.md"
+          - "{spec_folder}/scratch/iteration-*.md -> {spec_folder}/review/iterations/"
+          - "{spec_folder}/scratch/.deep-research-pause -> {spec_folder}/review/.deep-review-pause"
+          - "{spec_folder}/review/iteration-*.md -> {spec_folder}/review/iterations/"
+          - "{spec_folder}/review-report.md -> {spec_folder}/review/review-report.md"
+        on_canonical_present: "Leave canonical review/ state untouched and do not overwrite it with legacy scratch artifacts."
+        on_legacy_detected: "Move only the review-specific whitelist, append a migration event to the canonical JSONL, and leave unrelated scratch files untouched."
+        on_conflict: "If canonical review/ state and legacy scratch review state both exist but disagree, halt for operator repair instead of merging contradictory state."
+        command: "mkdir -p {spec_folder}/review/iterations && if [ ! -e {spec_folder}/review/deep-review-config.json ] && [ ! -e {spec_folder}/review/deep-review-state.jsonl ] && [ ! -e {spec_folder}/review/deep-review-strategy.md ] && [ -e {spec_folder}/scratch/deep-review-strategy.md ] && ( [ -e {spec_folder}/scratch/deep-research-config.json ] || [ -e {spec_folder}/scratch/deep-research-state.jsonl ] ); then [ -e {spec_folder}/scratch/deep-research-config.json ] && mv {spec_folder}/scratch/deep-research-config.json {spec_folder}/review/deep-review-config.json; [ -e {spec_folder}/scratch/deep-research-state.jsonl ] && mv {spec_folder}/scratch/deep-research-state.jsonl {spec_folder}/review/deep-review-state.jsonl; [ -e {spec_folder}/scratch/deep-review-strategy.md ] && mv {spec_folder}/scratch/deep-review-strategy.md {spec_folder}/review/deep-review-strategy.md; [ -e {spec_folder}/scratch/deep-review-dashboard.md ] && mv {spec_folder}/scratch/deep-review-dashboard.md {spec_folder}/review/deep-review-dashboard.md; find {spec_folder}/scratch -maxdepth 1 -name 'iteration-*.md' -exec mv {} {spec_folder}/review/iterations/ \\; ; [ -e {spec_folder}/scratch/.deep-research-pause ] && mv {spec_folder}/scratch/.deep-research-pause {spec_folder}/review/.deep-review-pause; [ -e {spec_folder}/review-report.md ] && mv {spec_folder}/review-report.md {spec_folder}/review/review-report.md; if [ -e {spec_folder}/review/deep-review-state.jsonl ]; then printf '%s\n' '{\"type\":\"event\",\"event\":\"migration\",\"mode\":\"review\",\"legacyArtifacts\":[\"deep-research-config.json\",\"deep-research-state.jsonl\",\".deep-research-pause\"],\"canonicalArtifacts\":[\"deep-review-config.json\",\"deep-review-state.jsonl\",\".deep-review-pause\"],\"timestamp\":\"{ISO_8601_NOW}\"}' >> {spec_folder}/review/deep-review-state.jsonl; fi; fi; find {spec_folder}/review -maxdepth 1 -name 'iteration-*.md' -exec mv {} {spec_folder}/review/iterations/ \\; 2>/dev/null || true"
+
+      step_classify_session:
+        action: "Classify the session before writing files"
+        inspect:
+          - "{spec_folder}/review/deep-review-config.json"
+          - "{spec_folder}/review/deep-review-state.jsonl"
+          - "{spec_folder}/review/deep-review-findings-registry.json"
+          - "{spec_folder}/review/deep-review-strategy.md"
+        classify:
+          fresh: "None of the three state artifacts exist"
+          resume: "Config, JSONL, and strategy all exist and config.mode == 'review' and agree on target/spec folder"
+          completed-session: "Resume artifacts exist and config.status == 'complete'"
+          invalid-state: "Any partial, missing, or contradictory combination"
+        outputs:
+          - session_state: "fresh | resume | completed-session | invalid-state"
+        on_resume:
+          show_dashboard: "{spec_folder}/review/deep-review-dashboard.md"
+          ask: "Existing review session is consistent. Resume where it left off, or restart (archive the current review/ tree and start a fresh session)?"
+          options: [resume, restart, cancel]
+          on_resume_choice:
+            set:
+              lineage_mode: "resume"
+              parent_session_id: "{session_id}"
+            append_jsonl: '{"type":"event","event":"resumed","mode":"review","sessionId":"{session_id}","parentSessionId":"{session_id}","lineageMode":"resume","continuedFromRun":{iteration_count},"archivedPath":null,"timestamp":"{ISO_8601_NOW}","generation":{generation}}'
+            skip_to: gate_init_approval
+          on_restart_choice:
+            archive: "{spec_folder}/review -> {spec_folder}/review_archive/{timestamp_slug}"
+            set:
+              lineage_mode: "restart"
+              parent_session_id: "{prior_session_id}"
+              generation: "{prior_generation + 1}"
+            append_jsonl: '{"type":"event","event":"restarted","mode":"review","sessionId":"{session_id}","parentSessionId":"{prior_session_id}","lineageMode":"restart","generation":{generation},"archivedPath":"{spec_folder}/review_archive/{timestamp_slug}","timestamp":"{ISO_8601_NOW}"}'
+            skip_to: step_create_config
+          on_cancel_choice:
+            halt: true
+            message: "Review session preserved. Manually archive or edit review/ before re-running."
+          note: "fork and completed-continue branches are deferred. The reducer still reads `lineageMode` from config for dashboards and analysis, but only `new`, `resume`, and `restart` are runtime-supported in this release. See sk-deep-review/references/loop_protocol.md `Session Lifecycle` for the canonical one-session model."
+        on_completed_session:
+          log: "Prior session already completed. Either archive the completed review/ tree and start a fresh session, or jump straight to synthesis with the existing artifacts."
+          skip_to: phase_synthesis
+        on_invalid_state:
+          halt: true
+          message: "Existing deep-review state in review/ is incomplete or contradictory. Repair or archive the invalid review packet before continuing."
+        on_fresh:
+          action: "Proceed with a new session"
+
+      step_scope_discovery:
+        action: "Resolve review target to a concrete file list based on target type"
+        resolve:
+          spec-folder: |
+            1. Read spec.md, plan.md, tasks.md, checklist.md, implementation-summary.md
+            2. Discover implementation files referenced in spec artifacts
+            3. Discover test files associated with implementation
+            4. Set scope = all discovered files
+          skill: |
+            1. Read SKILL.md from .opencode/skill/{skill_name}/
+            2. Discover references/, assets/, scripts/ contents
+            3. Find agent definitions referencing this skill across runtimes
+            4. Find command entry points referencing this skill
+            5. Set scope = all discovered files
+          agent: |
+            1. Find agent definition across all runtimes (.claude/agents/, .opencode/agent/, .codex/agents/, .agents/, .gemini/agents/)
+            2. Compare agent definitions for consistency
+            3. Set scope = all discovered agent files
+          track: |
+            1. List all child spec folders under specs/{track}/ or .opencode/specs/{track}/
+            2. For each: read spec.md + checklist.md
+            3. Set scope = all child spec artifacts
+          files: |
+            1. Expand glob patterns from review_target
+            2. Validate all files exist
+            3. Discover immediate cross-references (imports, links)
+            4. Set scope = expanded file list + cross-references
+        outputs:
+          - review_scope_files: "List of all files in review scope"
+          - cross_reference_targets: "{ spec_paths: [...], code_paths: [...], test_paths: [...] }"
+
+      step_order_dimensions:
+        action: "Order review dimensions based on risk priority"
+        algorithm: |
+          1. Iteration 0 (inventory pass): Build artifact map, identify file types, estimate complexity
+          2. Subsequent iterations follow risk-ordered deep passes:
+             correctness → security → traceability → maintainability
+          3. If review_dimensions != "all", filter to only requested dimensions
+          4. Derive traceability protocol plan:
+             - core: spec_code, checklist_evidence
+             - overlay: skill_agent, agent_cross_runtime, feature_catalog_code, playbook_capability
+          5. Store ordered list as dimension_queue
+        outputs:
+          - dimension_queue: "Ordered list of dimensions to review"
+          - inventory_pass: true
+
+      step_normalize_review_dimensions:
+        action: "Normalize reviewDimensions once during init for config + JSONL reuse"
+        outputs:
+          - review_dimensions_normalized: "Canonical string[] for deep-review-config.json"
+          - review_dimensions_json: "JSON.stringify(review_dimensions_normalized) for JSONL config record"
+        normalize: |
+          Accept {review_dimensions} in any of these shapes and convert once:
+            - "all" → ["correctness","security","traceability","maintainability"]
+            - "correctness,security" → ["correctness","security"]
+            - ["correctness"] → ["correctness"]
+          Every element MUST be one of the four canonical dimension names.
+
+      step_create_config:
+        action: "Create deep-review-config.json from template with review-specific fields"
+        template: .opencode/skill/sk-deep-review/assets/deep_review_config.json
+        populate:
+          topic: "Review: {review_target}"
+          mode: "review"
+          sessionId: "{ISO_8601_NOW}"
+          parentSessionId: null
+          lineageMode: "new"
+          generation: 1
+          continuedFromRun: null
+          reviewTarget: "{review_target}"
+          reviewTargetType: "{review_target_type}"
+          # Reuse the single normalized init-time value from step_normalize_review_dimensions.
+          reviewDimensions: "{review_dimensions_normalized}"
+          reviewScopeFiles: "{review_scope_files}"
+          severityThreshold: "P2"
+          crossReference:
+            core: ["spec_code", "checklist_evidence"]
+            overlay: ["skill_agent", "agent_cross_runtime", "feature_catalog_code", "playbook_capability"]
+          maxIterations: "{max_iterations}"
+          convergenceThreshold: "{convergence_threshold}"
+          stuckThreshold: 2
+          maxDurationMinutes: 120
+          specFolder: "{spec_folder}"
+          createdAt: "{ISO_8601_NOW}"
+          status: "initialized"
+          releaseReadinessState: "in-progress"
+          executionMode: "confirm"
+        output: "{spec_folder}/review/deep-review-config.json"
+
+      step_create_state_log:
+        action: "Initialize JSONL state log with config record including review fields and lineage metadata"
+        note: "Reuse review_dimensions_json from step_normalize_review_dimensions. Never re-normalize or wrap the raw template value."
+        content: '{"type":"config","mode":"review","reviewTarget":"{review_target}","reviewTargetType":"{review_target_type}","reviewDimensions":{review_dimensions_json},"sessionId":"{ISO_8601_NOW}","parentSessionId":null,"lineageMode":"new","generation":1,"continuedFromRun":null,"maxIterations":{max_iterations},"convergenceThreshold":{convergence_threshold},"createdAt":"{ISO_8601_NOW}","specFolder":"{spec_folder}"}'
+        output: "{spec_folder}/review/deep-review-state.jsonl"
+
+      step_create_findings_registry:
+        action: "Initialize reducer-owned review findings registry"
+        content: '{"sessionId":"{ISO_8601_NOW}","generation":1,"lineageMode":"new","openFindings":[],"resolvedFindings":[],"repeatedFindings":[],"dimensionCoverage":{"correctness":false,"security":false,"traceability":false,"maintainability":false},"findingsBySeverity":{"P0":0,"P1":0,"P2":0},"openFindingsCount":0,"resolvedFindingsCount":0,"convergenceScore":0.0}'
+        output: "{spec_folder}/review/deep-review-findings-registry.json"
+
+      step_create_strategy:
+        action: "Create review strategy file from deep_review_strategy.md template"
+        template: .opencode/skill/sk-deep-review/assets/deep_review_strategy.md
+        populate:
+          review_target: "{review_target}"
+          review_target_type: "{review_target_type}"
+          dimensions: "{dimension_queue}"
+          scope_files: "{review_scope_files}"
+          cross_reference_targets: "{cross_reference_targets}"
+          max_iterations: "{max_iterations}"
+          convergence_threshold: "{convergence_threshold}"
+        output: "{spec_folder}/review/deep-review-strategy.md"
+
+      step_enrich_strategy_context:
+        action: "Ensure Known Context is written only after strategy.md exists"
+        condition: "prior_context_found"
+        edit: "{spec_folder}/review/deep-review-strategy.md"
+        note: "Append or replace the Known Context section with prior_context_summary and retained detail from prior_context"
+
+      # ─── APPROVAL GATE: Post-Init ───
+      gate_init_approval:
+        type: approval_gate
+        purpose: "Show review scope, dimensions, and target files. Get approval to start loop."
+        present: |
+          ## Review Initialization Complete
+
+          **Review Target**: {review_target} ({review_target_type})
+          **Scope**: {review_scope_files_count} files
+          **Dimensions**: {dimension_queue}
+          **Max Iterations**: {max_iterations}
+          **Convergence Threshold**: {convergence_threshold}
+          **Known Context Summary**: {prior_context_summary}
+
+          **Files in scope:**
+          {review_scope_files_summary}
+
+          Review `{spec_folder}/review/deep-review-strategy.md` for the full scope and dimension ordering.
+          **State files located in**: {spec_folder}/review/
+
+          Options:
+          A) Start review loop
+          B) Adjust scope or dimensions
+          C) Cancel
+        wait_for: "User response"
+        on_A: { set: { current_iteration: 1, stuck_count: 0, p0_count: 0, p1_count: 0, p2_count: 0 }, proceed_to: phase_loop }
+        on_B: { action: "Apply user adjustments to strategy.md, scope, or dimensions", return_to: gate_init_approval }
+        on_C: { action: "Cancel workflow", status: "CANCELLED" }
+
+  # ═══════════════════════════════════════════════════════════════
+  # PHASE 2: ITERATION LOOP
+  # ═══════════════════════════════════════════════════════════════
+  phase_loop:
+    purpose: Dispatch review agent iterations with approval at each step
+    repeat: true
+    max_repeats: "{max_iterations}"
+    steps:
+
+      step_read_state:
+        action: "Read current state from JSONL, strategy, and config"
+        read:
+          - "{spec_folder}/review/deep-review-state.jsonl"
+          - "{spec_folder}/review/deep-review-findings-registry.json"
+          - "{spec_folder}/review/deep-review-strategy.md"
+          - "{spec_folder}/review/deep-review-config.json"
+        extract:
+          - iteration_count: "Count lines where type === 'iteration'"
+          - current_iteration: "iteration_count + 1"
+          - last_newFindingsRatio: "Extract newFindingsRatio from last iteration record"
+          - last_focus: "Extract focus/dimension from latest iteration record, else 'none yet'"
+          - ratio_prev: "Extract newFindingsRatio from second-latest iteration record, else 'N/A'"
+          - ratio_latest: "Extract newFindingsRatio from latest iteration record, else 'N/A'"
+          - next_dimension: "Next uncovered dimension from dimension_queue in strategy.md"
+          - dimensions_covered: "List of dimensions already reviewed"
+          - dimensions_remaining: "List of dimensions not yet reviewed"
+          - dimension_coverage: "covered / total dimensions"
+          - coverage_age: "Iterations since dimension coverage last changed; require >= 1 before STOP"
+          - p0_count: "Count P0 findings across all iterations"
+          - p1_count: "Count P1 findings across all iterations"
+          - p2_count: "Count P2 findings across all iterations"
+          - session_id: "Extract sessionId from deep-review-config.json"
+          - generation: "Extract generation from deep-review-config.json, else 1"
+          - last_3_summaries: "Summarize the latest 3 iteration records as 'run N: dimension (ratio, P0/P1/P2)'"
+          - latest_status: "Extract status from latest iteration record, else 'none yet'"
+          - last_claim_adjudication_passed: "Scan state.jsonl for the most recent `claim_adjudication` event; use its `passed` boolean. Default true when no event exists or when activeP0 + activeP1 == 0 (gate is vacuous without adjudicable findings)."
+          - claim_adjudication_active_count: "Count of active P0/P1 findings at the time of the last claim_adjudication event; 0 when none exist"
+
+      step_check_pause_sentinel:
+        action: "Check for pause sentinel file"
+        check: "Does {spec_folder}/review/.deep-review-pause exist?"
+        if_exists:
+          set:
+            pending_stop_event: "paused"
+            pending_stop_reason: "userPaused"
+            pending_stop_detail: "sentinel file detected"
+          skip_to: step_normalize_pause_events
+        if_not_exists:
+          proceed: true
+
+      step_graph_convergence:
+        action: "Evaluate coverage-graph convergence before the inline review convergence vote"
+        inspect:
+          - "{spec_folder}/review/deep-review-state.jsonl"
+          - "{spec_folder}/review/deep-review-findings-registry.json"
+        transform: |
+          1. Call graph convergence on the current review lineage before the inline 3-signal vote.
+          2. Record the decision as one of CONTINUE, STOP_ALLOWED, STOP_BLOCKED.
+          3. Preserve raw graph signals and blockers for reducer rollup and blocked-stop evidence.
+          4. Normalize blockers to both JSON array and CSV forms for downstream stop handling.
+          5. Set graph_stop_blocked = true only when graph_decision == "STOP_BLOCKED".
+        mcp_tool:
+          name: mcp__spec_kit_memory__deep_loop_graph_convergence
+          note: "Call directly - NEVER through Code Mode. Review-side graph convergence must run before the inline review stop vote."
+          parameters: { specFolder: "{spec_folder}", loopType: "review", sessionId: "{session_id}" }
+        append_jsonl: '{"type":"event","event":"graph_convergence","mode":"review","run":{current_iteration},"decision":"{graph_decision}","signals":{graph_signals_json},"blockers":{graph_blockers_json},"timestamp":"{ISO_8601_NOW}","sessionId":"{session_id}","generation":{generation}}'
+        outputs:
+          - graph_decision: "CONTINUE | STOP_ALLOWED | STOP_BLOCKED"
+          - graph_signals_json: "JSON object returned by deep_loop_graph_convergence"
+          - graph_blockers_json: "JSON array of graph blockers when present, else []"
+          - graph_blockers_csv: "Comma-separated blocker summary when graph blocks STOP, else empty string"
+          - graph_stop_blocked: "Boolean true when graph_decision == STOP_BLOCKED"
+
+      step_check_convergence:
+        action: "Evaluate graph-assisted review stop conditions and the legal-stop decision tree"
+        algorithm: |
+          0. CLAIM-ADJUDICATION PRE-CHECK (universal STOP veto; runs before hard stops and composite convergence):
+             claim_adjudication_gate_pass = (last_claim_adjudication_passed != false) OR (p0_count + p1_count == 0)
+             If claim_adjudication_gate_pass == false:
+               candidate_decision = "BLOCKED"
+               stop_blocked = true
+               stopReason = "blockedStop"
+               blocked_gates = ["claimAdjudicationGate"]
+               recovery_strategy = "Reviewer must add typed claim-adjudication packets (claim, evidenceRefs, counterevidenceSought, alternativeExplanation, finalSeverity, confidence, downgradeTrigger) for every active P0/P1 finding before STOP is allowed."
+               Skip hard stops (1) and composite convergence (4); proceed directly to step 5 legal-stop decision-tree assembly so blocked_by_json, gate outputs, and the blocked_stop event still populate consistently.
+          1. HARD STOPS (each still subject to step 5 legal-stop gates, including claimAdjudicationGate):
+             a) if iteration_count >= max_iterations: mark hard_stop_reason = "max_iterations_reached" and promote to STOP candidate
+             b) if all dimensions clean AND required traceability protocols are covered AND p0_count == 0 AND p1_count == 0 AND coverage_age >= 1 AND all quality gates pass (evidence: every P0/P1 has file:line; scope: all findings within target; coverage: all dimensions reviewed): mark hard_stop_reason = "all_dimensions_clean" and promote to STOP candidate
+             A hard stop does NOT bypass the legal-stop decision tree; it must still pass step 5 including the claim-adjudication gate.
+          2. STUCK DETECTION (threshold 2):
+             if stuck_count >= 2: STUCK_RECOVERY
+          3. GRAPH CONVERGENCE PREREQUISITE:
+               graph_decision, graph_signals_json, and graph_blockers_json are already populated by step_graph_convergence.
+               Final STOP is never legal unless the inline review vote says STOP AND graph_decision == "STOP_ALLOWED".
+               If graph_decision == "STOP_BLOCKED", set stop_blocked = true and route through blocked_stop emission instead of stopping.
+          4. COMPOSITE CONVERGENCE (3-signal weighted vote with split thresholds):
+               signals = []
+               a) Rolling average (w=0.30, window=2, needs 2+ iterations):
+                  avg = mean(last 2 newFindingsRatios)
+                  stop if avg <= 0.08
+               b) MAD noise floor (w=0.25, needs 3+ iterations):
+                  noiseFloor = MAD(all ratios) * 1.4826
+                  stop if latest ratio <= noiseFloor
+               c) Dimension coverage (w=0.45):
+                  coverage = dimensions_covered / total_dimensions
+                  stop if coverage >= 1.0 AND required traceability protocols are covered AND coverage_age >= 1
+               Redistribute weights for unavailable signals.
+               if latest ratio <= 0.05: mark no_progress_threshold_reached
+               if weighted_stop_score >= 0.60: inline STOP becomes a candidate and binary gates must run
+          5. LEGAL-STOP DECISION TREE (review-specific gates; runs whenever step 0 or a hard stop or the composite vote promotes STOP to a candidate):
+               a) convergenceGate: pass when a hard-stop condition is met OR weighted_stop_score >= 0.60; record score
+               b) dimensionCoverageGate: pass when configured dimensions and required traceability coverage are complete and coverage_age >= 1; record covered and missing dimensions
+               c) p0ResolutionGate: pass when activeP0 == 0; record activeP0
+               d) evidenceDensityGate: pass when every active P0/P1 has concrete file:line evidence and no active P0/P1 relies only on inference; record avgEvidencePerFinding
+               e) hotspotSaturationGate: pass when review hotspots have been revisited enough times to satisfy the saturation heuristic
+               f) claimAdjudicationGate: pass when claim_adjudication_gate_pass == true (i.e. last_claim_adjudication_passed != false OR there are no active P0/P1 findings to adjudicate); record last_claim_adjudication_passed and claim_adjudication_active_count
+             if STOP is a candidate and any gate fails:
+               decision = "BLOCKED"
+               stop_blocked = true
+               stopReason = "blockedStop"
+               blocked_by_json = JSON array of failing gate names (always include "claimAdjudicationGate" when claim_adjudication_gate_pass == false)
+               blocked_by_csv = comma-separated list of failing gate names
+               convergence_gate_pass = boolean
+               convergence_gate_score = numeric convergence score
+               dimension_coverage_gate_pass = boolean
+               dimension_coverage_gate_covered_json = JSON array of covered review dimensions
+               dimension_coverage_gate_missing_json = JSON array of missing review dimensions
+               p0_resolution_gate_pass = boolean
+               active_p0_count = number of active P0 findings
+               evidence_density_gate_pass = boolean
+               avg_evidence_per_finding = numeric evidence density
+               hotspot_saturation_gate_pass = boolean
+               claim_adjudication_gate_pass = boolean
+               claim_adjudication_active_count = numeric count of active P0/P1 at the gate
+               recovery_strategy = one-line hint describing the next review action needed to satisfy the failed gates (when claimAdjudicationGate is the failing gate, prefer the step-0 recovery_strategy already set)
+          6. COMBINED STOP RULE:
+               a) if STOP is legal AND graph_decision == "STOP_ALLOWED": decision = "STOP"
+               b) if STOP is legal AND graph_decision == "STOP_BLOCKED":
+                    decision = "BLOCKED"
+                    stop_blocked = true
+                    stopReason = "blockedStop"
+                    # Phase 008 P1-02 closure: blockedBy must be string[] per the
+                    # published review blocked-stop contract. Extract the `.type`
+                    # field from each structured graph blocker; preserve the full
+                    # objects in graph_blocker_detail_json for operator inspection.
+                    blocked_by_json = JSON.stringify(graph_blockers_json.map(b => typeof b === "string" ? b : (b && b.type) || "graph_blocker"))
+                    blocked_by_csv = graph_blockers_csv
+                    graph_blocker_detail_json = graph_blockers_json
+                    recovery_strategy = "Resolve review coverage-graph blockers before stopping."
+               c) if STOP is legal AND graph_decision == "CONTINUE":
+                    decision = "CONTINUE"
+                    stop_blocked = false
+                    reason = "graph_convergence_continue"
+               d) else keep the existing STUCK_RECOVERY or CONTINUE outcome
+        outputs:
+          - decision: "STOP | BLOCKED | STUCK_RECOVERY | CONTINUE"
+          - reason: "Human-readable stop reason"
+          - stop_blocked: "Boolean true when STOP is vetoed by inline legal-stop gates or graph_decision == STOP_BLOCKED"
+          - blocked_by_json: "JSON array of failed legal-stop gates when decision == BLOCKED"
+          - blocked_by_csv: "Comma-separated list of failed legal-stop gates when decision == BLOCKED"
+          - convergence_gate_pass: "Boolean pass/fail for convergenceGate"
+          - convergence_gate_score: "Numeric score recorded for convergenceGate"
+          - dimension_coverage_gate_pass: "Boolean pass/fail for dimensionCoverageGate"
+          - dimension_coverage_gate_covered_json: "JSON array of covered review dimensions"
+          - dimension_coverage_gate_missing_json: "JSON array of missing review dimensions"
+          - p0_resolution_gate_pass: "Boolean pass/fail for p0ResolutionGate"
+          - active_p0_count: "Active P0 finding count at stop-check time"
+          - evidence_density_gate_pass: "Boolean pass/fail for evidenceDensityGate"
+          - avg_evidence_per_finding: "Numeric evidence density for active findings"
+          - hotspot_saturation_gate_pass: "Boolean pass/fail for hotspotSaturationGate"
+          - claim_adjudication_gate_pass: "Boolean pass/fail for claimAdjudicationGate (false vetoes STOP)"
+          - claim_adjudication_active_count: "Count of active P0/P1 findings evaluated by claimAdjudicationGate"
+          - graph_decision: "CONTINUE | STOP_ALLOWED | STOP_BLOCKED from step_graph_convergence"
+          - graph_signals_json: "JSON object returned by graph convergence"
+          - graph_blockers_json: "JSON array of graph blockers"
+          - graph_blockers_csv: "Comma-separated graph blocker summary"
+          - recovery_strategy: "One-line hint describing the next review action when decision == BLOCKED or STUCK_RECOVERY"
+
+      step_emit_blocked_stop:
+        action: "Persist blocked-stop evidence whenever the review legal-stop decision tree vetoes STOP"
+        if_blocked:
+          append_jsonl: '{"type":"event","event":"blocked_stop","mode":"review","run":{current_iteration},"blockedBy":{blocked_by_json},"gateResults":{"convergenceGate":{"pass":{convergence_gate_pass},"score":{convergence_gate_score}},"dimensionCoverageGate":{"pass":{dimension_coverage_gate_pass},"covered":{dimension_coverage_gate_covered_json},"missing":{dimension_coverage_gate_missing_json}},"p0ResolutionGate":{"pass":{p0_resolution_gate_pass},"activeP0":{active_p0_count}},"evidenceDensityGate":{"pass":{evidence_density_gate_pass},"avgEvidencePerFinding":{avg_evidence_per_finding}},"hotspotSaturationGate":{"pass":{hotspot_saturation_gate_pass}},"claimAdjudicationGate":{"pass":{claim_adjudication_gate_pass},"activeP0P1":{claim_adjudication_active_count}}},"graphBlockerDetail":{graph_blockers_json},"recoveryStrategy":"{recovery_strategy}","timestamp":"{ISO_8601_NOW}","sessionId":"{session_id}","generation":{generation}}'
+          log: "Blocked STOP persisted for review loop. Failed gates: {blocked_by_csv}. Recovery strategy: {recovery_strategy}"
+        if_not_blocked:
+          proceed: true
+
+      step_handle_convergence:
+        action: "Act on convergence decision"
+        if_stop:
+          log: "Loop stopping. Reason: {reason}"
+          skip_to: gate_pre_synthesis
+        if_blocked:
+          log: "Legal-stop gates blocked STOP. Failed gates: {blocked_by_csv}. Continuing review."
+        if_stuck_recovery:
+          log: "Stuck detected ({stuck_count} consecutive no-progress). Entering recovery."
+          recovery_strategies:
+            - "Change granularity: file-level → function-level → line-level review"
+            - "Traceability protocol replay: re-run unresolved core or overlay checks"
+            - "Escalate severity review: re-examine P2 findings for potential P1 upgrades"
+          set:
+            next_dimension: "RECOVERY: {recovery_strategy}. Least-explored dimension: {least_explored}"
+            pending_stop_event: "stuck_recovery"
+            pending_stop_reason: "stuckRecovery"
+            pending_stop_detail: "Recovery path activated after repeated no-progress iterations"
+          reset: { stuck_count: 0 }
+        if_continue:
+          log: "Iteration {current_iteration}: Continuing."
+
+      step_normalize_pause_events:
+        action: "Rewrite raw pause and recovery events to the frozen STOP_REASONS enum at emission time: converged, maxIterationsReached, blockedStop, stuckRecovery, error, manualStop, userPaused"
+        if_pending_pause_event:
+          append_jsonl: '{"type":"event","event":"userPaused","mode":"review","stopReason":"userPaused","reason":"{pending_stop_detail}","timestamp":"{ISO_8601_NOW}","sessionId":"{session_id}","generation":{generation}}'
+          message: "Review paused. Delete review/.deep-review-pause to resume."
+          reset:
+            pending_stop_event: null
+            pending_stop_reason: null
+            pending_stop_detail: null
+          halt: true
+        if_pending_stuck_recovery:
+          append_jsonl: '{"type":"event","event":"stuckRecovery","mode":"review","stopReason":"stuckRecovery","fromIteration":{current_iteration},"strategy":"{recovery_strategy}","targetDimension":"{least_explored}","outcome":"pending","reason":"{pending_stop_detail}","timestamp":"{ISO_8601_NOW}","sessionId":"{session_id}","generation":{generation}}'
+          reset:
+            pending_stop_event: null
+            pending_stop_reason: null
+            pending_stop_detail: null
+        if_no_pending_event:
+          proceed: true
+
+      # ─── APPROVAL GATE: Pre-Iteration ───
+      gate_pre_iteration:
+        type: approval_gate
+        purpose: "Show planned dimension focus and get approval before dispatching agent"
+        present: |
+          ## Review Iteration {current_iteration} of {max_iterations}
+
+          **Dimension**: {next_dimension}
+          **Dimensions Covered**: {dimensions_covered} ({dimension_coverage})
+          **Findings So Far**: P0={p0_count} P1={p1_count} P2={p2_count}
+          **Last newFindingsRatio**: {last_newFindingsRatio}
+          **Traceability**: core={core_protocol_status} overlay={overlay_protocol_status}
+          **Stuck Count**: {stuck_count}
+
+          Options:
+          A) Proceed with this dimension focus
+          B) Change focus to: [user provides new dimension or focus]
+          C) Stop loop and synthesize now
+          D) Cancel entirely
+        wait_for: "User response"
+        on_A: { proceed_to: step_dispatch_iteration }
+        on_B: { action: "Update next_dimension to user's choice", proceed_to: step_dispatch_iteration }
+        on_C: { proceed_to: gate_pre_synthesis }
+        on_D: { action: "Cancel workflow", status: "CANCELLED" }
+
+      step_dispatch_iteration:
+        action: "Dispatch @deep-review agent for one review iteration"
+        dispatch:
+          agent: deep-review
+          model: opus
+          pre_dispatch:
+            generate_summary: |
+              STATE SUMMARY (auto-generated):
+              Iteration: {current_iteration} of {max_iterations}
+              Dimension: {next_dimension}
+              Prior Findings: P0={p0_count} P1={p1_count} P2={p2_count}
+              Dimension Coverage: {dimensions_covered_list} ({dimension_coverage})
+              Traceability: core={core_protocol_status} overlay={overlay_protocol_status}
+              Coverage Age: {coverage_age}
+              Last 2 ratios: {ratio_prev} -> {ratio_latest}
+              Stuck count: {stuck_count}
+              Provisional Verdict: {PASS|CONDITIONAL|FAIL|PENDING} hasAdvisories={has_advisories}
+          context: |
+            {state_summary}
+
+            REVIEW ITERATION {current_iteration} of {max_iterations}
+            MODE: review
+            DIMENSION: {next_dimension}
+            REVIEW TARGET: {review_target}
+            REVIEW SCOPE FILES: {review_scope_files}
+            PRIOR FINDINGS: P0={p0_count} P1={p1_count} P2={p2_count}
+            SHARED DOCTRINE: Load .agents/skills/sk-code-review/references/review_core.md before final severity calls.
+            REVIEW DIMENSIONS: correctness, security, traceability, maintainability
+            TRACEABILITY PROTOCOLS:
+            - Core: spec_code, checklist_evidence
+            - Overlay: skill_agent, agent_cross_runtime, feature_catalog_code, playbook_capability
+            QUALITY GATES: evidence, scope, coverage
+            VERDICTS: FAIL | CONDITIONAL | PASS (PASS may set hasAdvisories=true when only P2 remain)
+            CLAIM ADJUDICATION: Every new P0/P1 must include claim, evidenceRefs, counterevidenceSought, alternativeExplanation, finalSeverity, confidence, and downgradeTrigger.
+
+            State Files (ALL paths relative to repo root):
+              Config: {spec_folder}/review/deep-review-config.json
+              State Log: {spec_folder}/review/deep-review-state.jsonl
+              Findings Registry: {spec_folder}/review/deep-review-findings-registry.json
+              Strategy: {spec_folder}/review/deep-review-strategy.md
+              Write findings to: {spec_folder}/review/iterations/iteration-{NNN}.md
+
+            CONSTRAINT: You are a LEAF agent. Do NOT dispatch sub-agents.
+            CONSTRAINT: Target 9 tool calls. Soft max 12, hard max 13.
+            CONSTRAINT: Write ALL findings to files. Do not hold in context.
+            CONSTRAINT: Review target is READ-ONLY. Do not modify reviewed files.
+            CONSTRAINT: Append JSONL record with dimensions, filesReviewed, findingsSummary, findingsNew, traceabilityChecks, newFindingsRatio, and optional graphEvents.
+            CONSTRAINT: When emitting the iteration JSONL record, include an optional `graphEvents` array of {type, id, label, relation?, source?, target?} objects representing coverage graph nodes and edges discovered this iteration. Omit the field when no graph events are produced.
+            CONSTRAINT: Update strategy.md dimension coverage, traceability status, and running findings.
+        wait_for_completion: true
+
+      step_evaluate_results:
+        action: "Verify iteration outputs and extract metrics"
+        verify:
+          - file_exists: "{spec_folder}/review/iterations/iteration-{NNN}.md"
+          - jsonl_appended: "New iteration record in state.jsonl"
+          - strategy_updated: "Strategy.md has been modified"
+        extract:
+          - newFindingsRatio: "From latest JSONL iteration record"
+          - findings_count: "From latest JSONL iteration record"
+          - severity_counts: "From latest JSONL iteration record (P0, P1, P2)"
+          - dimensions: "From latest JSONL iteration record"
+          - files_reviewed: "From latest JSONL iteration record"
+          - status: "From latest JSONL iteration record"
+          - reviewed_artifacts: "From latest JSONL iteration record"
+          - traceability_checks: "From latest JSONL iteration record when present"
+        on_missing_outputs:
+          action: "Mark iteration as 'error', continue to next"
+
+      step_post_iteration_claim_adjudication:
+        action: "Validate typed claim-adjudication packets for any new P0/P1 findings and persist the result to state.jsonl so the next iteration's claimAdjudicationGate can read it"
+        verify:
+          - typed_packets_present: "Every new P0/P1 finding in review/iterations/iteration-{NNN}.md contains a claim-adjudication JSON block"
+          - packet_fields: "Each packet includes claim, evidenceRefs, counterevidenceSought, alternativeExplanation, finalSeverity, confidence, downgradeTrigger"
+          - missing_packet_ids: "List of new P0/P1 finding IDs that are missing a typed packet or field; empty array when all packets validate"
+        on_pass:
+          set:
+            claim_adjudication_passed: true
+          append_jsonl: '{"type":"event","event":"claim_adjudication","mode":"review","run":{current_iteration},"passed":true,"activeP0P1":{active_p0_p1_count},"missingPackets":[],"timestamp":"{ISO_8601_NOW}","sessionId":"{session_id}","generation":{generation}}'
+          log: "Claim adjudication passed for iteration {current_iteration}. All new P0/P1 findings have typed packets."
+        on_fail:
+          action: "Mark the iteration as invalid for convergence. The next iteration's claimAdjudicationGate (step_check_convergence step 0) reads the persisted `passed: false` event and vetoes STOP until a follow-up iteration rewrites the packets."
+          set:
+            claim_adjudication_passed: false
+          append_jsonl: '{"type":"event","event":"claim_adjudication","mode":"review","run":{current_iteration},"passed":false,"activeP0P1":{active_p0_p1_count},"missingPackets":{missing_packet_ids},"reason":"Missing typed packet fields for new P0/P1 findings","timestamp":"{ISO_8601_NOW}","sessionId":"{session_id}","generation":{generation}}'
+          log: "Claim adjudication incomplete for new P0/P1 findings. Event persisted. The next iteration's step_check_convergence claim-adjudication pre-check will veto STOP while `passed: false` remains the latest event and active P0/P1 > 0."
+
+      step_reduce_review_state:
+        action: "Run reducer to refresh the canonical findings registry before dashboard generation"
+        command: "node .opencode/skill/sk-deep-review/scripts/reduce-state.cjs {spec_folder}"
+        read:
+          - "{spec_folder}/review/deep-review-state.jsonl"
+          - "{spec_folder}/review/iterations/iteration-{NNN}.md"
+          - "{spec_folder}/review/deep-review-findings-registry.json"
+          - "{spec_folder}/review/deep-review-strategy.md"
+        write:
+          - "{spec_folder}/review/deep-review-findings-registry.json"
+          - "{spec_folder}/review/deep-review-dashboard.md"
+          - "{spec_folder}/review/deep-review-strategy.md"
+        failure_modes:
+          malformed_delta: "skip + warn"
+          missing_iteration_file: "no-op + error"
+          schema_mismatch: "reject + conflict event"
+        guarantee: "Idempotent for identical inputs"
+        note: "Reducer outputs findingsRegistry, dashboardMetrics, and strategyUpdates. Re-running the same inputs must be idempotent."
+
+      step_graph_upsert:
+        action: "Transform the latest iteration graphEvents delta into review graph nodes and edges, then upsert it"
+        read:
+          - "{spec_folder}/review/deep-review-state.jsonl"
+          - "{spec_folder}/review/deep-review-findings-registry.json"
+        transform: |
+          1. Read the latest iteration JSONL record after reducer completion.
+          2. If graphEvents is absent or empty, set graph_nodes_json = [] and graph_edges_json = [] and skip the upsert.
+          3. For each graph event without relation/source/target, normalize kind = uppercase(event.kind || event.nodeKind || event.type) and keep only DIMENSION, FILE, FINDING, EVIDENCE, REMEDIATION.
+          4. Emit nodes as { id, kind, name, iteration, metadata } using the event label (or id fallback) and review metadata for run/current focus.
+          5. For each graph event with relation + source + target, normalize relation = uppercase(event.relation) and keep only COVERS, EVIDENCE_FOR, CONTRADICTS, RESOLVES, CONFIRMS, ESCALATES, IN_DIMENSION, IN_FILE.
+          6. Emit edges as { id, relation, sourceId, targetId, metadata } and deduplicate the batch by id.
+          7. Discard malformed or unknown graph events instead of failing the review iteration.
+        mcp_tool:
+          name: mcp__spec_kit_memory__deep_loop_graph_upsert
+          note: "Call directly - NEVER through Code Mode. Upsert only the latest iteration graph delta."
+          parameters: { specFolder: "{spec_folder}", loopType: "review", sessionId: "{session_id}", nodes: "{graph_nodes_json}", edges: "{graph_edges_json}" }
+        outputs:
+          - graph_nodes_json: "JSON array of normalized review graph nodes for the latest iteration"
+          - graph_edges_json: "JSON array of normalized review graph edges for the latest iteration"
+        skip_conditions:
+          - "Latest iteration record has no graphEvents array"
+
+      # ─── APPROVAL GATE: Post-Iteration ───
+      gate_post_iteration:
+        type: approval_gate
+        purpose: "Show iteration findings and get approval for next step"
+        present: |
+          ## Review Iteration {current_iteration} Results
+
+          **Dimensions**: {dimensions}
+          **New Findings**: {findings_count} (P0={severity_counts.P0} P1={severity_counts.P1} P2={severity_counts.P2})
+          **newFindingsRatio**: {newFindingsRatio}
+          **Status**: {status}
+          **Cumulative Findings**: P0={p0_count} P1={p1_count} P2={p2_count}
+          **Dimension Coverage**: {dimensions_covered} ({dimension_coverage})
+          **Traceability**: {traceability_checks.summary}
+          **Stuck Count**: {stuck_count}
+
+          **Recent Iteration Summary**:
+          {last_3_summaries}
+
+          Options:
+          A) Continue to next iteration
+          B) Continue with adjusted focus: [user provides]
+          C) Stop loop and synthesize
+          D) Cancel entirely
+        wait_for: "User response"
+        on_A: { proceed_to: step_generate_dashboard }
+        on_B: { action: "Set next_dimension to user's choice in strategy.md", proceed_to: step_generate_dashboard }
+        on_C: { proceed_to: gate_pre_synthesis }
+        on_D: { action: "Cancel workflow", status: "CANCELLED" }
+
+      step_generate_dashboard:
+        action: "Generate or refresh the review dashboard"
+        read:
+          - "{spec_folder}/review/deep-review-state.jsonl"
+          - "{spec_folder}/review/deep-review-findings-registry.json"
+          - "{spec_folder}/review/deep-review-strategy.md"
+        content: |
+          # Deep Review Dashboard - Session Overview
+
+          Auto-generated from JSONL state log and strategy file. Regenerated after every iteration evaluation.
+
+          ## Status
+          - Review Target: {review_target} ({review_target_type})
+          - Status: [ITERATING | CONVERGING | STUCK_RECOVERY | COMPLETE]
+          - Iteration: {current_iteration} of {max_iterations}
+          - Provisional Verdict: [PASS | CONDITIONAL | FAIL | PENDING]
+          - hasAdvisories: {has_advisories}
+
+          ## Findings Summary
+          | Severity | Count | Trend |
+          |----------|------:|-------|
+          | P0 (Blockers) | {p0_count} | {p0_trend} |
+          | P1 (Required) | {p1_count} | {p1_trend} |
+          | P2 (Suggestions) | {p2_count} | {p2_trend} |
+
+          ## Dimension Coverage
+          | Dimension | Status | Iteration | Findings |
+          |-----------|--------|-----------|----------|
+          | [per dimension from strategy + JSONL] |
+
+          ## Traceability Coverage
+          | Protocol | Level | Status | Findings |
+          |----------|-------|--------|----------|
+          | [per protocol from traceabilityChecks] |
+
+          ## Progress
+          | # | Dimension | Ratio | P0/P1/P2 | Status |
+          |---|-----------|-------|----------|--------|
+          | [per iteration from JSONL] |
+
+          ## Trend
+          - Last 3 ratios: [{ratios}] [{trend}]
+          - Stuck count: {stuck_count}
+          - Gate violations: {guard_violations}
+
+          ## Next Focus
+          {next_dimension}
+        output: "{spec_folder}/review/deep-review-dashboard.md"
+        note: "Auto-generated from JSONL + strategy. Never manually edited."
+
+      step_update_tracking:
+        action: "Update loop tracking variables"
+        set:
+          current_iteration: "{current_iteration + 1}"
+          p0_count: "Accumulate from severity_counts"
+          p1_count: "Accumulate from severity_counts"
+          p2_count: "Accumulate from severity_counts"
+          stuck_count: |
+            if status == 'thought': unchanged (skip)
+            if status == 'insight': 0 (reset)
+            if newFindingsRatio <= 0.05: stuck_count + 1
+            else: 0
+
+      step_loop_decision:
+        action: "Return to step_read_state for next iteration"
+        goto: step_read_state
+
+  # ═══════════════════════════════════════════════════════════════
+  # PHASE 3: SYNTHESIS
+  # ═══════════════════════════════════════════════════════════════
+  phase_synthesis:
+    purpose: Compile all iteration findings into review/review-report.md
+    steps:
+
+      step_hydrate_summary_metrics:
+        action: "Hydrate summary metrics before synthesis"
+        read:
+          - "{spec_folder}/review/deep-review-config.json"
+          - "{spec_folder}/review/deep-review-state.jsonl"
+          - "{spec_folder}/review/deep-review-findings-registry.json"
+          - "{spec_folder}/review/deep-review-strategy.md"
+        extract:
+          - iteration_count: "Count lines where type === 'iteration'"
+          - p0_count: "Total P0 findings across all iterations (deduped)"
+          - p1_count: "Total P1 findings across all iterations (deduped)"
+          - p2_count: "Total P2 findings across all iterations (deduped)"
+          - dimensions_covered: "List of reviewed dimensions"
+          - dimension_coverage: "covered / total"
+          - last_3_summaries: "Summarize the latest 3 iteration records"
+          - reason: "Use the latest stop reason if present, else the frozen default 'converged'. (Must be a member of the STOP_REASONS enum: converged, maxIterationsReached, blockedStop, stuckRecovery, error, manualStop, userPaused.)"
+
+      # ─── APPROVAL GATE: Pre-Synthesis ───
+      gate_pre_synthesis:
+        type: approval_gate
+        purpose: "Show all accumulated findings and get approval to synthesize"
+        present: |
+          ## Review Loop Complete
+
+          **Total Iterations**: {iteration_count}
+          **Stop Reason**: {reason}
+          **Cumulative Findings**: P0={p0_count} P1={p1_count} P2={p2_count}
+          **Dimension Coverage**: {dimensions_covered} ({dimension_coverage})
+          **Recent Iteration Summary**: {last_3_summaries}
+
+          Review the iteration files in `{spec_folder}/review/iterations/` if you want more detail before synthesis.
+
+          Options:
+          A) Proceed to synthesis (compile review/review-report.md)
+          B) Run more iterations (increase max or focus on specific dimension)
+          C) Cancel (keep iteration files)
+        wait_for: "User response"
+        on_A: { proceed_to: step_read_all_iterations }
+        on_B: { action: "Increase max_iterations or adjust focus, return to loop", proceed_to: phase_loop }
+        on_C: { action: "Cancel synthesis, keep artifacts", status: "PARTIAL" }
+
+      step_read_all_iterations:
+        action: "Read all iteration files and strategy"
+        read_pattern: "{spec_folder}/review/iterations/iteration-*.md"
+        read_also: "{spec_folder}/review/deep-review-strategy.md"
+
+      step_build_finding_registry:
+        action: "Build deduplicated finding registry from all iterations"
+        algorithm: |
+          1. Extract all findings from iteration files
+          2. Deduplicate by key: file:line + normalized_title
+             - Same file:line, multiple dimensions → single finding, multiple dimension tags
+             - Keep highest severity on duplicates
+          3. Track finding lifecycle:
+             - status: active | duplicate | upgraded | downgraded | contested | resolved_false_positive
+             - Record first_seen, upgraded_in, previous_severity for severity changes
+          4. Resolve contradictions:
+             - Findings marked contested across iterations → referee pass
+             - Determine final severity and status
+          5. Count only 'active' findings for totals
+        outputs:
+          - finding_registry: "Deduplicated list of all findings with metadata"
+          - active_p0: "Count of active P0 findings"
+          - active_p1: "Count of active P1 findings"
+          - active_p2: "Count of active P2 findings"
+
+      step_adversarial_selfcheck:
+        action: "Final adversarial self-check on all P0 and P1 findings"
+        algorithm: |
+          For each active P0/P1 finding:
+            1. Hunter: Re-verify finding against source code (re-read file:line)
+            2. Skeptic: Challenge severity — is this really P0/P1? Could it be P2?
+            3. Referee: Final call — confirm, downgrade, or mark false_positive
+          Update finding_registry with adjudicated results.
+
+      step_compile_review_report:
+        action: "Compile review/review-report.md with 9 sections and an embedded Planning Packet"
+        instructions: |
+          Create review/review-report.md with the following sections:
+
+          1. **Executive Summary**
+             - Overall verdict: PASS | CONDITIONAL | FAIL
+             - hasAdvisories: true when PASS carries active P2 items
+             - P0/P1/P2 counts (active only)
+             - Review scope summary
+
+          2. **Planning Trigger**
+             - State whether `/spec_kit:plan` is required
+             - Include a fenced `json` block labeled `Planning Packet`
+             - The packet MUST include: `triggered`, `verdict`, `hasAdvisories`, `activeFindings`, `remediationWorkstreams`, `specSeed`, `planSeed`
+
+          3. **Active Finding Registry**
+             - Unified registry for active P0/P1/P2 findings
+             - For each: ID, severity, title, dimension, file:line, evidence, impact, fix recommendation, disposition
+
+          4. **Remediation Workstreams**
+             - Ordered action groups: P0 first, then P1, with P2 advisories separated
+
+          5. **Spec Seed**
+             - Concrete seed bullets for follow-on spec updates
+
+          6. **Plan Seed**
+             - Concrete starter tasks for `/spec_kit:plan`
+
+          7. **Traceability Status**
+             - Summarize required core protocols first, then applicable overlay protocols
+             - Include status, evidence, and any unresolved drift per protocol
+
+          8. **Deferred Items**
+             - Advisory-only or backlog-worthy follow-ups that do not block the current verdict
+
+          9. **Audit Appendix**
+             - Convergence summary, coverage summary, ruled-out claims, sources reviewed
+             - Cross-reference appendix MUST be split into `Core Protocols` and `Overlay Protocols`
+
+          Preserve machine-owned markers so the reducer-owned registry, dashboard, and strategy anchors can be refreshed on re-run without mutating prior synthesis. (Note: `completed-continue` lineage branch is deferred — see `sk-deep-review/references/loop_protocol.md §Lifecycle Branches`.)
+        output: "{spec_folder}/review/review-report.md"
+
+      step_convergence_report:
+        action: "Append convergence report to JSONL"
+        append_to_jsonl: '{"type":"event","event":"synthesis_complete","mode":"review","totalIterations":{iteration_count},"activeP0":{active_p0},"activeP1":{active_p1},"activeP2":{active_p2},"dimensionCoverage":{dimension_coverage},"verdict":"{verdict}","releaseReadinessState":"{release_readiness_state}","stopReason":"{reason}","timestamp":"{ISO_8601_NOW}"}'
+        note: "Emit as numeric ratio (e.g., 0.75), not quoted string. Compute: dimensions_covered / total_dimensions."
+
+      step_update_config_status:
+        action: "Mark config as complete"
+        edit: "{spec_folder}/review/deep-review-config.json"
+        set_field: { status: "complete" }
+
+      # ─── APPROVAL GATE: Post-Synthesis ───
+      gate_post_synthesis:
+        type: approval_gate
+        purpose: "Show review/review-report.md summary and get approval"
+        present: |
+          ## Review Synthesis Complete
+
+          **review/review-report.md** has been compiled with findings from {iteration_count} iterations.
+          **Verdict**: {verdict} | **hasAdvisories**: {has_advisories}
+          **Active Findings**: P0={active_p0} P1={active_p1} P2={active_p2}
+          **Dimension Coverage**: {dimension_coverage}
+
+          Review `{spec_folder}/review/review-report.md` before deciding next steps.
+
+          Options:
+          A) Approve and save to memory
+          B) Generate remediation plan (creates action items for /spec_kit:plan)
+          C) Request revisions to review/review-report.md
+          D) Skip memory save
+        wait_for: "User response"
+        on_A: { proceed_to: phase_save }
+        on_B: { action: "Generate remediation plan section, then save to memory", proceed_to: phase_save }
+        on_C: { action: "Apply user revisions", return_to: gate_post_synthesis }
+        on_D: { proceed_to: completion }
+
+  # ═══════════════════════════════════════════════════════════════
+  # PHASE 4: SAVE
+  # ═══════════════════════════════════════════════════════════════
+  phase_save:
+    purpose: Preserve review context to memory system
+    steps:
+
+      step_generate_context:
+        action: "Route continuity content into the correct canonical spec document via generate-context.js"
+        command: "node .opencode/skill/system-spec-kit/scripts/dist/memory/generate-context.js /tmp/save-context-data.json {spec_folder}"
+        critical_rule: "NEVER manually author files under retired memory/ paths (the runtime rejects them); use generate-context.js so the save routes into decision-record.md, implementation-summary.md, or handover.md"
+
+      step_index_memory:
+        action: "Index the routed canonical spec document with memory_save when immediate MCP visibility is required"
+        mcp_tool: memory_save
+        invocation: 'spec_kit_memory_memory_save({ filePath: "[routed-canonical-spec-doc-path]" })'
+        note: "Use the actual canonical spec-doc path returned by generate-context.js (decision-record.md, implementation-summary.md, or handover.md); memory_index_scan remains the bulk fallback"
+
+      step_verify_save:
+        action: "Verify canonical save routed content into the correct spec document"
+        check: "Does {spec_folder}/implementation-summary.md, {spec_folder}/decision-record.md, or {spec_folder}/handover.md carry the new continuity update?"
+        on_fail: "Log warning but do not block completion"
+
+  # ═══════════════════════════════════════════════════════════════
+  # COMPLETION
+  # ═══════════════════════════════════════════════════════════════
+  completion:
+    message: |
+      Deep review complete.
+      Iterations: {iteration_count} | Stop reason: {reason}
+      Findings: P0={active_p0} P1={active_p1} P2={active_p2}
+      Verdict: {verdict} | hasAdvisories={has_advisories}
+
+      Artifacts:
+        - review/review-report.md (compiled from {iteration_count} iterations)
+        - {iteration_count} iteration files in review/iterations/
+        - State files in review/: deep-review-config.json, deep-review-state.jsonl, deep-review-findings-registry.json, deep-review-strategy.md, deep-review-dashboard.md
+        - Memory context saved
+
+      STATUS=OK PATH={spec_folder}
+    next_steps:
+      - "/spec_kit:plan [remediation] (if FAIL or CONDITIONAL verdict)"
+      - "/create:changelog (if PASS, including PASS with hasAdvisories=true)"
+      - "/spec_kit:deep-review [target] (for another review)"
+      - "/memory:save {spec_folder} (refresh canonical continuity before the next session)"
+
+# ─────────────────────────────────────────────────────────────────
+# REFERENCE-ONLY APPENDIX
+# ─────────────────────────────────────────────────────────────────
+reference_only_appendix:
+  checkpoint_commit:
+    note: "Checkpoint commits are intentionally excluded from workflow.steps."
+    commands:
+      - "git add {spec_folder}/review/iterations/iteration-{NNN}.md {spec_folder}/review/deep-review-state.jsonl {spec_folder}/review/deep-review-findings-registry.json {spec_folder}/review/deep-review-strategy.md {spec_folder}/review/review-report.md"
+      - 'git commit -m "chore(deep-review): iteration {NNN} complete"'
+  severity_weights:
+    note: "Severity weights for newFindingsRatio calculation"
+    weights:
+      P0: 10.0
+      P1: 5.0
+      P2: 1.0
+    p0_override: "If ANY new P0 discovered → newFindingsRatio = max(calculated, 0.50). A single new P0 blocks convergence."
+    clean_pass: "If total_findings == 0 (clean pass) → newFindingsRatio = 0.0"
+  review_dimensions:
+    note: "All 4 default review dimensions with priority ordering"
+    dimensions:
+      - { priority: 1, name: "correctness", checks: "Logic, state flow, edge cases, error handling" }
+      - { priority: 2, name: "security", checks: "Auth, input/output safety, data exposure, permissions" }
+      - { priority: 3, name: "traceability", checks: "Spec/checklist alignment, cross-reference integrity, evidence coverage" }
+      - { priority: 4, name: "maintainability", checks: "Patterns, documentation quality, safe follow-on change clarity" }
+  cross_reference_protocols:
+    note: "Cross-reference verification protocols split into core and overlay classes"
+    core_protocols:
+      - { check: "Spec vs Code", source: "spec.md claims", target: "implementation" }
+      - { check: "Checklist vs Evidence", source: "[x] items", target: "cited evidence" }
+    overlay_protocols:
+      - { check: "SKILL.md vs Agent", source: "Skill contracts", target: "agent files" }
+      - { check: "Agent Cross-Runtime", source: ".claude", target: ".codex/.opencode/.agents/.gemini" }
+      - { check: "Feature Catalog vs Code", source: "Catalog claims", target: "implementation" }
+      - { check: "Playbook vs Capability", source: "Scenario preconditions", target: "actual capability" }
+
+# ─────────────────────────────────────────────────────────────────
+# ERROR RECOVERY
+# ─────────────────────────────────────────────────────────────────
+error_recovery:
+  agent_dispatch_timeout: "Retry once with reduced scope. If second timeout, mark as 'timeout' and show to user for decision."
+  state_file_missing: "If JSONL missing, reconstruct from iteration files. If strategy missing, create minimal version."
+  consecutive_failures: "After 3 consecutive errors, halt and present to user with options: Retry / Skip / Cancel."
+  memory_save_failure: "Preserve the review packet in review/ as backup. Inform user."
+
+# ─────────────────────────────────────────────────────────────────
+# RULES
+# ─────────────────────────────────────────────────────────────────
+rules:
+  ALWAYS:
+    - follow_workflow_phases_in_order
+    - dispatch_deep_review_agent_per_iteration
+    - check_convergence_before_each_iteration
+    - write_all_state_to_files
+    - save_memory_context_after_synthesis
+    - respect_max_iterations_cap
+    - pause_at_approval_gates
+    - present_clear_options_at_each_gate
+    - treat_review_target_as_read_only
+    - deduplicate_findings_before_synthesis
+    - run_adversarial_selfcheck_on_p0_p1
+  NEVER:
+    - skip_convergence_check
+    - dispatch_non_leaf_agents
+    - hold_iteration_findings_in_memory_only
+    - modify_config_after_initialization
+    - overwrite_jsonl_state_log
+    - proceed_past_approval_gate_without_user_response
+    - auto_approve_on_behalf_of_user
+    - modify_files_under_review
+    - report_p0_without_file_line_evidence

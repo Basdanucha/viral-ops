@@ -1,0 +1,21 @@
+{
+  "specFolder": "skilled-agent-orchestration/z_archive/013-cmd-create-codex-compatibility",
+  "description": "Feature Specification: Create Commands Codex Compatibility",
+  "keywords": [
+    "feature",
+    "specification",
+    "create",
+    "commands",
+    "codex",
+    "compatibility"
+  ],
+  "lastUpdated": "2026-04-06T09:57:54.539Z",
+  "specId": "013",
+  "folderSlug": "cmd-create-codex-compatibility",
+  "parentChain": [
+    "skilled-agent-orchestration",
+    "z_archive"
+  ],
+  "memorySequence": 0,
+  "memoryNameHistory": []
+}

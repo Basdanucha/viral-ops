@@ -1,0 +1,69 @@
+---
+title: "094 -- Implemented: cross-document entity linking (S5)"
+description: "This scenario validates Implemented: cross-document entity linking (S5) for `094`. It focuses on Confirm deferred->implemented status."
+audited_post_018: true
+---
+
+# 094 -- Implemented: cross-document entity linking (S5)
+
+## 1. OVERVIEW
+
+This scenario validates Implemented: cross-document entity linking (S5) for `094`. It focuses on Confirm deferred->implemented status.
+
+---
+
+## 2. CURRENT REALITY
+
+Operators run the exact prompt and command sequence for `094` and confirm the expected signals without contradicting evidence.
+
+- Objective: Confirm deferred->implemented status
+- Prompt: `As a retrieval-enhancement validation operator, validate Implemented: cross-document entity linking (S5) against the documented validation surface. Verify entity linker creates supports-edges between related documents; density guards cap edge creation; edge types are correctly classified. Return a concise pass/fail verdict with the main reason and cited evidence.`
+- Expected signals: Entity linker creates supports-edges between related documents; density guards cap edge creation; edge types are correctly classified
+- Pass/fail: PASS if entity linker produces correctly typed supports-edges and density guards enforce limits
+
+---
+
+## 3. TEST EXECUTION
+
+### Prompt
+
+```
+As a retrieval-enhancement validation operator, confirm deferred->implemented status against the documented validation surface. Verify entity linker creates supports-edges between related documents; density guards cap edge creation; edge types are correctly classified. Return a concise pass/fail verdict with the main reason and cited evidence.
+```
+
+### Commands
+
+1. run entity linker
+2. inspect supports edges
+3. verify density guards
+
+### Expected
+
+Entity linker creates supports-edges between related documents; density guards cap edge creation; edge types are correctly classified
+
+### Evidence
+
+Entity linker output + supports-edge inspection + density guard metrics
+
+### Pass / Fail
+
+- **Pass**: entity linker produces correctly typed supports-edges and density guards enforce limits
+- **Fail**: Any contradicting evidence appears or the pass condition is not met.
+
+### Failure Triage
+
+Verify entity linker implementation is active; check supports-edge schema; inspect density guard threshold and enforcement
+
+## 4. REFERENCES
+
+- Root playbook: [MANUAL_TESTING_PLAYBOOK.md](../MANUAL_TESTING_PLAYBOOK.md)
+- Feature catalog: [15--retrieval-enhancements/06-cross-document-entity-linking.md](../../feature_catalog/15--retrieval-enhancements/06-cross-document-entity-linking.md)
+
+---
+
+## 5. SOURCE METADATA
+
+- Group: Retrieval Enhancements
+- Playbook ID: 094
+- Canonical root source: `MANUAL_TESTING_PLAYBOOK.md`
+- Feature file path: `15--retrieval-enhancements/094-implemented-cross-document-entity-linking-s5.md`

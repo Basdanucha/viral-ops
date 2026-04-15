@@ -1,0 +1,21 @@
+{
+  "specFolder": "skilled-agent-orchestration/z_archive/006-sk-git-superset-worktrees",
+  "description": "Feature Specification: sk-git Superset Worktree Alignment",
+  "keywords": [
+    "feature",
+    "specification",
+    "sk-git",
+    "superset",
+    "worktree",
+    "alignment"
+  ],
+  "lastUpdated": "2026-04-06T09:57:54.511Z",
+  "specId": "006",
+  "folderSlug": "sk-git-superset-worktrees",
+  "parentChain": [
+    "skilled-agent-orchestration",
+    "z_archive"
+  ],
+  "memorySequence": 0,
+  "memoryNameHistory": []
+}
