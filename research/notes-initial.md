@@ -4,11 +4,19 @@ Starting references collected during scaffold/exploration (before formal `/resea
 
 ## User-provided leads
 
+**Video generation / benchmarks:**
 - <https://github.com/AIDC-AI/Pixelle-Video> — ComfyUI-based short video engine (Apache 2.0)
-- <https://www.autofeed.ai/> — commercial text-to-video + auto-post (reference/benchmark)
 - <https://github.com/gyoridavid/short-video-maker> — Remotion + Whisper + Kokoro TTS, MCP server built-in (MIT)
+- <https://www.autofeed.ai/> — commercial text-to-video + auto-post (reference/benchmark)
+
+**TikTok uploaders:**
+- <https://github.com/haziq-exe/TikTokAutoUploader> — Python + Phantomwright, scheduling, Telegram bot, multi-account (active Feb 2026)
+- <https://github.com/makiisthenes/TiktokAutoUploader> — requests-based, no Selenium (CLI, automated video edit)
+- <https://github.com/wkaisertexas/tiktok-uploader> — cookie-based auth, duplicates browser session
+
+**Discussion / competitor landscape:**
 - <https://www.reddit.com/r/n8n_ai_agents/comments/1qm9ntu/> — "fully automated AI video factory" (n8n workflow discussion)
-- <https://autofaceless.ai/blog/autofeed-ai-alternatives> — competitor landscape
+- <https://autofaceless.ai/blog/autofeed-ai-alternatives> — AutoFeed alternatives
 - <https://www.reddit.com/r/DigitalMarketing/comments/1ovkqa7/> — "tested 6 AI text-to-video tools" ranking
 
 ## Discovered while searching
@@ -20,12 +28,11 @@ Starting references collected during scaffold/exploration (before formal `/resea
 - [Shotty](https://www.scriptbyai.com/short-video-generator-tiktok-instagram/) — TikTok/IG-specific
 - [ClawVid (Remotion + fal.ai pipeline)](https://medium.com/composiohq/i-built-a-faceless-ai-video-pipeline-using-openclaw-composio-remotion-clawvid-heres-05618dc79705) — tutorial + pattern
 
-### Multi-platform upload
-- TikTok: [TikTokAutoUploader (haziq-exe)](https://github.com/haziq-exe/TikTokAutoUploader) — Feb 2026 active, Phantomwright anti-detection, scheduling, Telegram bot, multi-account
-- TikTok: [makiisthenes/TiktokAutoUploader](https://github.com/makiisthenes/TiktokAutoUploader) — requests-based, no Selenium
-- TikTok: [wkaisertexas/tiktok-uploader](https://github.com/wkaisertexas/tiktok-uploader) — cookie-based auth
+### Multi-platform upload (non-TikTok)
+TikTok uploaders now listed under "User-provided leads" above.
 - YouTube Shorts: official Google YouTube Data API
 - Instagram / Facebook Reels: Meta Graph API
+- [upload-post.com](https://upload-post.com/) — paid unified API for 5 platforms (used in n8n workflow 3442)
 
 ### TikTok Shop affiliate
 - [Lundehund/tiktok-shop-api](https://github.com/Lundehund/tiktok-shop-api) — Python unofficial
