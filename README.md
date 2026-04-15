@@ -6,7 +6,7 @@
 
 *Trend signals → viral scoring → hook variants → clips → multi-platform post → affiliate-aware monetization → learn → repeat.*
 
-🔍 Trend Layer · 🔥 Viral Brain · 🧪 Content Lab · 🎬 Production · 📱 Distribution · 🧠 Affiliate AI · 🔁 Feedback Loop · 📺 Multi-Channel
+🔍 Trend Layer · 🔥 Viral Brain · 🧪 Content Lab · 🛒 Product Discovery · 🎬 Production · 📱 Distribution · 🧠 Monetization · 🔁 Feedback Loop · 📺 Multi-Channel
 
 </div>
 
@@ -24,29 +24,56 @@ A SaaS-shaped platform — built solo-use first, foundation stays multi-tenant-r
 
 Most AI-video tools stop at "generate a clip and post it." viral-ops is built around the insight that *generation is the cheap part* — the leverage is in **predicting what will go viral** and **learning from what actually did**. That's the bet.
 
-### 7-layer architecture
+### Architecture — two entry paths, one shared backbone
+
+Two ways content enters the pipeline depending on channel mode, then they converge into the same production → distribution → feedback backbone.
 
 ```
-[Trend Layer]       → scrape + cluster signals per niche
-       ↓
-[Viral Brain] 🔥    → score idea (hook strength, curiosity gap, novelty,
-                      retention prediction) + generate hook variants
-       ↓
-[Content Lab] 🧪    → variant generator + A/B hook testing
-       ↓
-[Production]        → video gen (script → visuals → TTS → composite,
-                      per-channel style)
-       ↓
-[Distribution]      → multi-platform post (TT / YT Shorts / IG Reels /
-                      FB Reels)
-       ↓
-[Monetization] 🧠   → affiliate brain: product selection AI,
-                      product ↔ content matching, conversion tracking
-       ↓
-[Feedback Loop] 🔁  → performance ingestion (views, retention, CTR,
-                      conversions) → re-train scoring + targeting
-       ↑___________________________________________________________│
+  PATH A — Trend-driven (viral-only / mixed channels)
+  ─────────────────────────────────────────────────────
+  [Trend Layer]        → scrape + cluster signals per niche
+         ↓
+  [Viral Brain] 🔥     → score idea (hook strength, curiosity gap,
+                         novelty, retention prediction) + hook variants
+         ↓
+  [Content Lab] 🧪     → idea variants + A/B hook testing
+         ↓
+         ↓─────────────────────────┐
+                                   │
+  PATH B — Product-driven (cart-focused / mixed channels)
+  ───────────────────────────────────────────────────────
+  [Find Product] 🛒    → scan affiliate catalog per niche (TikTok Shop,
+                         Meta Commerce, Amazon, etc.)
+         ↓
+  [Score Product]      → commission × relevance × trend-fit × conversion
+                         history → rank candidates
+         ↓
+  [Generate Affiliate  → per-platform cart link / deep link with
+   Link]                 UTM tracking
+         ↓
+  [Generate Idea +     → product-first script writing (hook around
+   Script]               the product, not generic trend)
+         ↓
+         ↓─────────────────────────┤
+                                   │
+         ┌─────────────────────────┘
+         ▼
+  [Production]          → video gen (script → visuals → TTS → composite,
+                          per-channel style)
+         ↓
+  [Distribution]        → multi-platform post (TT / YT Shorts /
+                          IG Reels / FB Reels)
+         ↓
+  [Monetization] 🧠     → pin cart (if applicable), conversion tracking,
+                          attribute clicks/sales per clip
+         ↓
+  [Feedback Loop] 🔁    → performance ingestion (views, retention, CTR,
+                          conversions) → re-train Viral Brain scoring
+                          AND Product Scoring
+         ↑_________________________________________________________│
 ```
+
+**Why two paths?** Viral-only channels need to win attention first (trend → hook → content). Cart-focused channels need to sell (product → angle → content). Same machinery, different starting question.
 
 ### The secret sauce
 

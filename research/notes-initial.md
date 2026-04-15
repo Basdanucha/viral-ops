@@ -14,6 +14,10 @@ Starting references collected during scaffold/exploration (before formal `/resea
 - <https://github.com/makiisthenes/TiktokAutoUploader> — requests-based, no Selenium (CLI, automated video edit)
 - <https://github.com/wkaisertexas/tiktok-uploader> — cookie-based auth, duplicates browser session
 
+**Orchestration / affiliate:**
+- <https://github.com/n8n-io/n8n> — fair-code workflow automation, 400+ integrations (candidate for orchestrator layer)
+- <https://github.com/Lundehund/tiktok-shop-api> — unofficial Python client for TikTok Shop Open Platform (candidate for affiliate link + product catalog)
+
 **Discussion / competitor landscape:**
 - <https://www.reddit.com/r/n8n_ai_agents/comments/1qm9ntu/> — "fully automated AI video factory" (n8n workflow discussion)
 - <https://autofaceless.ai/blog/autofeed-ai-alternatives> — AutoFeed alternatives
@@ -34,8 +38,8 @@ TikTok uploaders now listed under "User-provided leads" above.
 - Instagram / Facebook Reels: Meta Graph API
 - [upload-post.com](https://upload-post.com/) — paid unified API for 5 platforms (used in n8n workflow 3442)
 
-### TikTok Shop affiliate
-- [Lundehund/tiktok-shop-api](https://github.com/Lundehund/tiktok-shop-api) — Python unofficial
+### TikTok Shop affiliate (non-Python)
+Lundehund/tiktok-shop-api now listed under "User-provided leads" above.
 - [ipfans/tiktok](https://github.com/ipfans/tiktok) — Go SDK official Open Platform
 - [EcomPHP/tiktokshop-php](https://github.com/EcomPHP/tiktokshop-php) — PHP, API v202309+
 
