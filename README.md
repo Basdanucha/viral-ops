@@ -43,7 +43,7 @@ Two ways content enters the pipeline depending on channel mode, then they conver
   PATH B — Product-driven (cart-focused / mixed channels)
   ───────────────────────────────────────────────────────
   [Find Product] 🛒    → scan affiliate catalog per niche (TikTok Shop,
-                         Meta Commerce, Amazon, etc.)
+                         Shopee, Lazada, etc.)
          ↓
   [Score Product]      → commission × relevance × trend-fit × conversion
                          history → rank candidates
