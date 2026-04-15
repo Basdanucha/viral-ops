@@ -2,11 +2,11 @@
 
 # viral-ops
 
-**SaaS-style platform to run viral short-form content across multiple channels — trends in, clips out, carts pinned where it pays.**
+**SaaS-style platform where AI drives the full viral lifecycle — trend intelligence, viral scoring, content lab, multi-platform distribution, and a feedback loop that gets smarter every post.**
 
-*Research trends → propose ideas → generate clips → your call or auto-approve → post to TT/YT/IG/FB, with optional affiliate cart per channel.*
+*Trend signals → viral scoring → hook variants → clips → multi-platform post → affiliate-aware monetization → learn → repeat.*
 
-🔍 Trend Research · 💡 Idea Queue · 🎬 Video Gen · ✅ Approval Gates · 📱 Multi-Platform · 🛒 Optional Affiliate · 📺 Multi-Channel
+🔍 Trend Layer · 🔥 Viral Brain · 🧪 Content Lab · 🎬 Production · 📱 Distribution · 🧠 Affiliate AI · 🔁 Feedback Loop · 📺 Multi-Channel
 
 </div>
 
@@ -22,22 +22,52 @@ Framework installed and verified. Next step: compare OSS candidates via `/resear
 
 A SaaS-shaped platform — built solo-use first, foundation stays multi-tenant-ready.
 
-**5-stage pipeline with 2 approval gates:**
+Most AI-video tools stop at "generate a clip and post it." viral-ops is built around the insight that *generation is the cheap part* — the leverage is in **predicting what will go viral** and **learning from what actually did**. That's the bet.
 
-1. **Trend research** — auto-scan trending content per channel niche
-2. **Idea queue** 🚦 — AI proposes ranked ideas → *manual pick* or *auto-schedule top-N*
-3. **Video generation** — script → visuals → TTS → composite (per-channel style)
-4. **Approval gate** 🚦 — *auto-approve* (trusted channels) or *manual review* (new channels)
-5. **Multi-platform post** — TikTok / YouTube Shorts / IG Reels / FB Reels, with *optional* affiliate cart pin ("ปักตะกร้า") depending on channel mode
+### 7-layer architecture
 
-**Multi-channel management** — each channel has its own niche, style, target platforms, schedule, approval mode, and **monetization mode**:
+```
+[Trend Layer]       → scrape + cluster signals per niche
+       ↓
+[Viral Brain] 🔥    → score idea (hook strength, curiosity gap, novelty,
+                      retention prediction) + generate hook variants
+       ↓
+[Content Lab] 🧪    → variant generator + A/B hook testing
+       ↓
+[Production]        → video gen (script → visuals → TTS → composite,
+                      per-channel style)
+       ↓
+[Distribution]      → multi-platform post (TT / YT Shorts / IG Reels /
+                      FB Reels)
+       ↓
+[Monetization] 🧠   → affiliate brain: product selection AI,
+                      product ↔ content matching, conversion tracking
+       ↓
+[Feedback Loop] 🔁  → performance ingestion (views, retention, CTR,
+                      conversions) → re-train scoring + targeting
+       ↑___________________________________________________________│
+```
+
+### The secret sauce
+
+**Viral Brain + Feedback Loop.** Without them it's just another AI video generator. With them, every post makes the system a little better at predicting the next one.
+
+### 2 approval gates (human-in-the-loop)
+
+- **Gate 1 — Idea:** auto-schedule top-N (trusted niches) OR manual pick (new territory)
+- **Gate 2 — Post:** auto-approve (trusted channels) OR manual review (experimental)
+
+### Multi-channel management
+
+Each channel has its own niche, style, target platforms, schedule, approval mode, and **monetization mode**:
+
 - **Viral-only** — grow audience, no cart
 - **Cart-focused** — every clip pins a product
 - **Mixed** — viral content with cart on selected clips
 
 Trusted channels run on autopilot; experimental ones stay in manual review.
 
-Start: use it myself for a few channels. Later: open to others with auth + billing once the core is battle-tested.
+Start: use it myself for a few channels. Later: open to others with auth + billing once the Viral Brain has real performance data to train on.
 
 ## Stack
 
