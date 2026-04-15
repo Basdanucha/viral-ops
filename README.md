@@ -104,52 +104,26 @@ TBD — see [`research/notes-initial.md`](research/notes-initial.md) for startin
 
 ```
 viral-ops/
-├── .opencode/           # spec-kit-autopilot framework (skills, agents, commands, MCP servers)
-├── .claude/             # Claude Code config (symlinked to .opencode/)
-├── .codex/ .gemini/     # Multi-runtime support
-├── .mcp.json            # 4 MCP servers (sequential_thinking, spec_kit_memory, cocoindex_code, code_mode)
-├── .utcp_config.json    # Code Mode external tools (GitHub, Figma, ClickUp, Chrome DevTools, etc.)
-├── .env                 # API keys (gitignored)
-├── AGENTS.md CLAUDE.md  # Framework instructions (Universal Template)
-├── src/                 # Project code (TBD — after research)
-├── specs/               # Spec folders from /spec_kit:complete
-├── research/            # Cloned OSS repos for comparison
-└── docs/
-    └── FRAMEWORK_README.md  # Original spec-kit-autopilot framework README
+├── src/                # Project source (TBD — after /research decides stack)
+├── specs/              # Spec folders for each feature
+├── research/           # OSS evaluation — cloned repos + comparison notes
+└── docs/               # Project + framework reference docs
 ```
 
-## Setup Status
+Framework scaffolding (`.opencode/`, `.claude/`, `.codex/`, `.gemini/`, `.mcp.json`, `AGENTS.md`, `CLAUDE.md`, etc.) comes from [spec-kit-autopilot](https://github.com/Basdanucha/spec-kit-autopilot) — see the [Development](#development) section.
 
-| Component | Status |
-|---|---|
-| 4 MCP servers (Sequential Thinking, Spec Kit Memory, Code Mode, CocoIndex) | ✅ built + tested |
-| 21 Skills (auto-discoverable) | ✅ via `.claude/skills` symlink |
-| 10 Agents (context, debug, deep-research, deep-review, improve-agent, improve-prompt, orchestrate, review, ultra-think, write) | ✅ in `.claude/agents` |
-| CocoIndex semantic search | ✅ initialized (sentence-transformers, local) |
-| Spec Kit Memory (hf-local embeddings, sqlite-vec) | ✅ vector dim 768 |
-| Code Mode + 6 external manuals (159 tools) | ✅ GitHub 26 tools active |
-| `.env` with GitHub PAT (from `gh auth token`) | ✅ gitignored |
-| Windows setup fixes (Dev Mode symlinks, long paths, VS Build Tools) | ✅ applied |
+## Development
 
-## First Use
+Dev environment uses the [spec-kit-autopilot](https://github.com/Basdanucha/spec-kit-autopilot) framework (MCP-based memory, spec-kit workflow, cross-CLI agent support). It's infrastructure for *building* viral-ops, not a feature of the product itself.
 
 ```bash
 cd D:/Dev/Projects/viral-ops
-claude
+claude                                        # opens Claude Code with framework MCPs
+/research create viral-ops stack comparison   # start the research phase
+/spec_kit:complete <feature description>      # scaffold a feature spec folder
 ```
 
-In Claude Code:
-
-```
-/mcp                                          # verify 4 MCP servers connected
-/research create viral-ops stack comparison   # start research phase
-```
-
-## Framework
-
-This project is built on **[spec-kit-autopilot](https://github.com/Basdanucha/spec-kit-autopilot)** — an AI coding framework with persistent memory, spec-kit documentation, and 12 autonomous agents. The framework provides the infrastructure (MCP servers, skills, agents, gates); viral-ops provides the project-specific goal, specs, and source.
-
-Framework documentation preserved at [`docs/FRAMEWORK_README.md`](docs/FRAMEWORK_README.md).
+Framework reference: [`docs/FRAMEWORK_README.md`](docs/FRAMEWORK_README.md).
 
 ## License
 
