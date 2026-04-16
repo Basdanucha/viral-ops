@@ -21,24 +21,52 @@ Key requirements for the base app:
 - Out of scope: video gen tools, uploaders, orchestration (already researched in notes-initial.md)
 
 ## Open Questions
-All 27 research questions answered across 13 iterations. No open questions remain.
+All questions answered. Gen 1 (27 questions, 13 iterations) + Gen 2 (10 questions, 5 iterations).
 
 ## Research Context
-Deep research **complete**. Canonical findings in `research/research.md` (882 lines).
+- **Gen 1** (architecture): `research/archive/gen1-2026-04-16/research.md` (882 lines, 13 iterations)
+- **Gen 2** (version update): `research/research.md` (200 lines, 5 iterations)
 
 <!-- BEGIN GENERATED: deep-research/spec-findings -->
-## Research Findings Summary (13 iterations, 27 questions)
+## Research Findings Summary
 
-### Definitive Stack Decision
-| Layer | Component | License | Port |
-|-------|-----------|---------|------|
-| Dashboard | next-saas-stripe-starter (Next.js 14, Auth.js v5, Prisma+PG, ShadCN+Tremor) | MIT | :3000 |
-| Orchestrator | n8n (self-hosted) | Sustainable Use | :5678 |
-| Video Engine | Pixelle-Video (FastAPI, ComfyUI, Edge-TTS) | Apache 2.0 | :8000 |
-| Upload | YouTube API v3, Meta Graph API (IG+FB), TikTokAutoUploader | varies | - |
-| Shopping | IG Product Tagging (auto), TikTok Shop Affiliate (partial), YT/FB (manual) | - | - |
+### Gen 2: Updated Stack (replaces gen1 versions)
+| Layer | Component | Version | License | Port |
+|-------|-----------|---------|---------|------|
+| Dashboard | **next-forge** (Turborepo monorepo) | v6.0.2 | MIT | :3000 |
+| Framework | Next.js | 16.1.6 | MIT | |
+| React | React | 19.2.4 | MIT | |
+| Auth | **Clerk** (Better Auth as OSS fallback) | latest | Commercial/MIT | |
+| ORM | Prisma | 7.4 | Apache 2.0 | |
+| Database | PostgreSQL | 18.3 | PostgreSQL | |
+| UI | ShadCN UI + **shadcn/ui charts** (replaces Tremor) | latest | MIT | |
+| CSS | Tailwind CSS | 4.2.1 | MIT | |
+| TypeScript | TypeScript | 6.0 | Apache 2.0 | |
+| Package Mgr | **Bun** | 1.3.10 | MIT | |
+| Runtime | Node.js | 24 LTS | MIT | |
+| Orchestrator | n8n (self-hosted) | 2.16.0 | Sustainable Use | :5678 |
+| Video Engine | Pixelle-Video (FastAPI, ComfyUI, Edge-TTS) | 0.1.15 | Apache 2.0 | :8000 |
+| Image Gen | ComfyUI | v0.19.0 | GPL-3.0 | |
+| TTS | Edge-TTS (Thai: 3 Neural voices) | v7.2.8 | LGPLv3 | |
+| Upload | YouTube API v3, Meta Graph API (IG+FB), TikTokAutoUploader | varies | | |
 
-### 7-Layer Architecture
+### Key Changes from Gen 1
+1. **Boilerplate**: next-saas-stripe-starter (dead) → **next-forge v6.0.2**
+2. **Auth**: Auth.js v5 (dead) → **Clerk** (Better Auth as escape hatch)
+3. **Charts**: Tremor (dead) → **shadcn/ui charts** (Recharts v3)
+4. **Package manager**: npm → **Bun 1.3.10**
+5. **Versions**: Next.js 14→16, Prisma 5→7, n8n 1→2, Tailwind 3→4, Node 18→24, PG 16→18, TS 5→6
+
+### Migration Effort (ranked)
+| Priority | Component | Effort |
+|----------|-----------|--------|
+| 1 | Prisma 5→7 | HIGH (2-stage: ESM, driver adapters) |
+| 2 | Next.js 14→16 | MEDIUM (codemod available, next-forge handles most) |
+| 3 | Tailwind 3→4 | MEDIUM (next-forge already on v4) |
+| 4 | n8n 1→2 | LOW (HTTP Request nodes unchanged) |
+| 5 | Pixelle-Video | NONE |
+
+### 7-Layer Architecture (unchanged from gen1)
 - **Trend Layer**: snscrape + Google Trends → BERTopic clustering → momentum ranking
 - **Viral Brain**: 6-dimension LLM-as-judge scoring (Phase 1) → GBDT after ~500 videos (Phase 2)
 - **Content Lab**: Sequential A/B variant testing (48h interval), 3-second retention as primary metric
@@ -47,19 +75,6 @@ Deep research **complete**. Canonical findings in `research/research.md` (882 li
 - **Monetization**: IG cart pin (auto), TikTok affiliate link (partial), YT/FB (manual)
 - **Feedback Loop**: 3-pull ingestion (T+6h, T+48h, T+168h), GBDT retraining every 100 videos
 
-### Multi-Channel Identity (Core)
-- Per-channel: TTS voice, ComfyUI workflow, LLM persona prompt, hook preferences, brand rules
-- TikTok 4-layer duplicate detection → script, voice, visual style, music, posting time MUST differ
-- Single n8n pipeline with dynamic channel config injection
-
-### Database
-14 tables + 1 view: channels, channel_platform_accounts, channel_persona_history, platform_accounts, content, content_variants, ab_tests, platform_publishes, platform_analytics, upload_queue, affiliate_links, trends, products, product_score_history + content_calendar view
-
-### Build Plan
-6 sprints / 12 weeks: Foundation → Content Pipeline → Upload+Distribution → Affiliate+Analytics → Intelligence Layers → Multi-Channel+Polish
-
-### Key Risks
-1. TikTokAutoUploader ban risk (MEDIUM) — apply official API in parallel
-2. Pixelle-Video maturity pre-1.0 (MEDIUM-LOW) — pin version, fork if needed
-3. Platform API changes (LOW-MEDIUM) — n8n workflows easy to update
+### Architecture Validated
+3-service localhost (Dashboard :3000 → n8n :5678 → Pixelle-Video :8000) fully compatible with all updated versions. No breaking incompatibilities.
 <!-- END GENERATED: deep-research/spec-findings -->

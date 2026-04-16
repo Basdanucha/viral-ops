@@ -1,0 +1,2517 @@
+{
+  "sessionId": "dr-002-pixelle-audit",
+  "parentSessionId": null,
+  "lineageMode": "new",
+  "generation": 1,
+  "continuedFromRun": null,
+  "terminalStop": null,
+  "openQuestions": [
+    {
+      "id": "question-1-q1-what-are-all-fastapi-endpoints-all-9-routers-with-complete-request-response-s",
+      "text": "Q1: What are ALL FastAPI endpoints (all 9+ routers) with complete request/response schemas?",
+      "addedAtIteration": 0,
+      "resolvedAtIteration": null
+    },
+    {
+      "id": "question-2-q2-what-are-all-configurable-settings-config-yaml-fields-env-vars-cli-flags",
+      "text": "Q2: What are ALL configurable settings (config.yaml fields, env vars, CLI flags)?",
+      "addedAtIteration": 0,
+      "resolvedAtIteration": null
+    },
+    {
+      "id": "question-3-q3-what-comfyui-workflows-ship-by-default-and-what-parameters-are-customizable-p",
+      "text": "Q3: What ComfyUI workflows ship by default and what parameters are customizable per workflow?",
+      "addedAtIteration": 0,
+      "resolvedAtIteration": null
+    },
+    {
+      "id": "question-4-q4-what-tts-engines-are-supported-what-are-their-config-options-voice-speed-pitc",
+      "text": "Q4: What TTS engines are supported, what are their config options (voice, speed, pitch, language)?",
+      "addedAtIteration": 0,
+      "resolvedAtIteration": null
+    },
+    {
+      "id": "question-5-q5-what-llm-providers-are-supported-and-how-is-the-llm-prompt-pipeline-configure",
+      "text": "Q5: What LLM providers are supported and how is the LLM prompt pipeline configured?",
+      "addedAtIteration": 0,
+      "resolvedAtIteration": null
+    },
+    {
+      "id": "question-6-q6-what-image-generation-options-exist-models-sizes-styles-workflows",
+      "text": "Q6: What image generation options exist (models, sizes, styles, workflows)?",
+      "addedAtIteration": 0,
+      "resolvedAtIteration": null
+    },
+    {
+      "id": "question-7-q7-what-video-composition-options-exist-templates-transitions-captions-music-asp",
+      "text": "Q7: What video composition options exist (templates, transitions, captions, music, aspect ratios)?",
+      "addedAtIteration": 0,
+      "resolvedAtIteration": null
+    },
+    {
+      "id": "question-8-q8-what-task-job-management-features-exist-async-jobs-status-polling-cancellatio",
+      "text": "Q8: What task/job management features exist (async jobs, status polling, cancellation, queue)?",
+      "addedAtIteration": 0,
+      "resolvedAtIteration": null
+    },
+    {
+      "id": "question-9-q9-what-file-management-features-exist-upload-download-storage-paths-cleanup",
+      "text": "Q9: What file management features exist (upload, download, storage paths, cleanup)?",
+      "addedAtIteration": 0,
+      "resolvedAtIteration": null
+    },
+    {
+      "id": "question-10-q10-what-is-the-streamlit-ui-feature-set-and-which-features-need-equivalent-dash",
+      "text": "Q10: What is the Streamlit UI feature set and which features need equivalent dashboard pages?",
+      "addedAtIteration": 0,
+      "resolvedAtIteration": null
+    },
+    {
+      "id": "question-11-q11-what-batch-bulk-generation-capabilities-exist",
+      "text": "Q11: What batch/bulk generation capabilities exist?",
+      "addedAtIteration": 0,
+      "resolvedAtIteration": null
+    },
+    {
+      "id": "question-12-q12-what-are-the-gpu-resource-management-options-local-vs-runninghub-concurrency",
+      "text": "Q12: What are the GPU/resource management options (local vs RunningHub, concurrency limits)?",
+      "addedAtIteration": 0,
+      "resolvedAtIteration": null
+    },
+    {
+      "id": "question-13-q13-which-features-need-to-be-per-channel-configurable-in-the-viral-ops-dashboar",
+      "text": "Q13: Which features need to be per-channel configurable in the viral-ops dashboard?",
+      "addedAtIteration": 0,
+      "resolvedAtIteration": null
+    },
+    {
+      "id": "question-14-q14-what-is-the-complete-data-flow-from-topic-input-to-final-video-output-every-",
+      "text": "Q14: What is the complete data flow from topic input to final video output (every intermediate artifact)?",
+      "addedAtIteration": 0,
+      "resolvedAtIteration": null
+    }
+  ],
+  "resolvedQuestions": [],
+  "keyFindings": [
+    {
+      "id": "finding-1-19-bgm-path-string-background-music-file-path",
+      "text": "`bgm_path` (string) -- background music file path",
+      "addedAtIteration": 1,
+      "sources": [
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/app.py",
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/api/routers (directory listing)",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/routers/video.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/routers/content.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/routers/tts.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/routers/image.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/routers/llm.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/routers/tasks.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/routers/files.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/routers/resources.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/routers/frame.py"
+      ]
+    },
+    {
+      "id": "finding-1-20-bgm-volume-float-bgm-volume-level",
+      "text": "`bgm_volume` (float) -- BGM volume level",
+      "addedAtIteration": 1,
+      "sources": [
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/app.py",
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/api/routers (directory listing)",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/routers/video.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/routers/content.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/routers/tts.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/routers/image.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/routers/llm.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/routers/tasks.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/routers/files.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/routers/resources.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/routers/frame.py"
+      ]
+    },
+    {
+      "id": "finding-1-17-frame-template-string-required-html-template-for-frames",
+      "text": "`frame_template` (string, required) -- HTML template for frames",
+      "addedAtIteration": 1,
+      "sources": [
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/app.py",
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/api/routers (directory listing)",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/routers/video.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/routers/content.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/routers/tts.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/routers/image.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/routers/llm.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/routers/tasks.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/routers/files.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/routers/resources.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/routers/frame.py"
+      ]
+    },
+    {
+      "id": "finding-1-14-max-image-prompt-words-int-max-words-per-image-prompt",
+      "text": "`max_image_prompt_words` (int) -- max words per image prompt",
+      "addedAtIteration": 1,
+      "sources": [
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/app.py",
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/api/routers (directory listing)",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/routers/video.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/routers/content.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/routers/tts.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/routers/image.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/routers/llm.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/routers/tasks.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/routers/files.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/routers/resources.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/routers/frame.py"
+      ]
+    },
+    {
+      "id": "finding-1-12-max-narration-words-int-max-words-per-narration",
+      "text": "`max_narration_words` (int) -- max words per narration",
+      "addedAtIteration": 1,
+      "sources": [
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/app.py",
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/api/routers (directory listing)",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/routers/video.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/routers/content.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/routers/tts.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/routers/image.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/routers/llm.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/routers/tasks.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/routers/files.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/routers/resources.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/routers/frame.py"
+      ]
+    },
+    {
+      "id": "finding-1-15-media-workflow-string-comfyui-workflow-for-image-video-gen",
+      "text": "`media_workflow` (string) -- ComfyUI workflow for image/video gen",
+      "addedAtIteration": 1,
+      "sources": [
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/app.py",
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/api/routers (directory listing)",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/routers/video.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/routers/content.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/routers/tts.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/routers/image.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/routers/llm.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/routers/tasks.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/routers/files.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/routers/resources.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/routers/frame.py"
+      ]
+    },
+    {
+      "id": "finding-1-13-min-image-prompt-words-int-min-words-per-image-prompt",
+      "text": "`min_image_prompt_words` (int) -- min words per image prompt",
+      "addedAtIteration": 1,
+      "sources": [
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/app.py",
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/api/routers (directory listing)",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/routers/video.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/routers/content.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/routers/tts.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/routers/image.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/routers/llm.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/routers/tasks.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/routers/files.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/routers/resources.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/routers/frame.py"
+      ]
+    },
+    {
+      "id": "finding-1-11-min-narration-words-int-min-words-per-narration",
+      "text": "`min_narration_words` (int) -- min words per narration",
+      "addedAtIteration": 1,
+      "sources": [
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/app.py",
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/api/routers (directory listing)",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/routers/video.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/routers/content.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/routers/tts.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/routers/image.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/routers/llm.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/routers/tasks.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/routers/files.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/routers/resources.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/routers/frame.py"
+      ]
+    },
+    {
+      "id": "finding-1-8-mode-string-generation-mode",
+      "text": "`mode` (string) -- generation mode",
+      "addedAtIteration": 1,
+      "sources": [
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/app.py",
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/api/routers (directory listing)",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/routers/video.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/routers/content.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/routers/tts.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/routers/image.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/routers/llm.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/routers/tasks.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/routers/files.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/routers/resources.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/routers/frame.py"
+      ]
+    },
+    {
+      "id": "finding-1-10-n-scenes-int-number-of-scenes",
+      "text": "`n_scenes` (int) -- number of scenes",
+      "addedAtIteration": 1,
+      "sources": [
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/app.py",
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/api/routers (directory listing)",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/routers/video.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/routers/content.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/routers/tts.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/routers/image.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/routers/llm.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/routers/tasks.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/routers/files.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/routers/resources.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/routers/frame.py"
+      ]
+    },
+    {
+      "id": "finding-1-18-prompt-prefix-string-prefix-for-llm-prompts",
+      "text": "`prompt_prefix` (string) -- prefix for LLM prompts",
+      "addedAtIteration": 1,
+      "sources": [
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/app.py",
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/api/routers (directory listing)",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/routers/video.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/routers/content.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/routers/tts.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/routers/image.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/routers/llm.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/routers/tasks.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/routers/files.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/routers/resources.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/routers/frame.py"
+      ]
+    },
+    {
+      "id": "finding-1-22-ref-audio-string-optional-reference-audio-for-voice-cloning",
+      "text": "`ref_audio` (string, optional) -- reference audio for voice cloning",
+      "addedAtIteration": 1,
+      "sources": [
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/app.py",
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/api/routers (directory listing)",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/routers/video.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/routers/content.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/routers/tts.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/routers/image.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/routers/llm.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/routers/tasks.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/routers/files.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/routers/resources.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/routers/frame.py"
+      ]
+    },
+    {
+      "id": "finding-1-24-template-params-object-optional-custom-template-parameters",
+      "text": "`template_params` (object, optional) -- custom template parameters",
+      "addedAtIteration": 1,
+      "sources": [
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/app.py",
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/api/routers (directory listing)",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/routers/video.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/routers/content.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/routers/tts.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/routers/image.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/routers/llm.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/routers/tasks.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/routers/files.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/routers/resources.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/routers/frame.py"
+      ]
+    },
+    {
+      "id": "finding-1-7-text-string-source-text-topic",
+      "text": "`text` (string) -- source text/topic",
+      "addedAtIteration": 1,
+      "sources": [
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/app.py",
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/api/routers (directory listing)",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/routers/video.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/routers/content.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/routers/tts.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/routers/image.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/routers/llm.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/routers/tasks.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/routers/files.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/routers/resources.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/routers/frame.py"
+      ]
+    },
+    {
+      "id": "finding-1-9-title-string-video-title",
+      "text": "`title` (string) -- video title",
+      "addedAtIteration": 1,
+      "sources": [
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/app.py",
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/api/routers (directory listing)",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/routers/video.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/routers/content.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/routers/tts.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/routers/image.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/routers/llm.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/routers/tasks.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/routers/files.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/routers/resources.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/routers/frame.py"
+      ]
+    },
+    {
+      "id": "finding-1-21-tts-workflow-string-optional-tts-comfyui-workflow",
+      "text": "`tts_workflow` (string, optional) -- TTS ComfyUI workflow",
+      "addedAtIteration": 1,
+      "sources": [
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/app.py",
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/api/routers (directory listing)",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/routers/video.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/routers/content.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/routers/tts.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/routers/image.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/routers/llm.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/routers/tasks.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/routers/files.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/routers/resources.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/routers/frame.py"
+      ]
+    },
+    {
+      "id": "finding-1-16-video-fps-int-frames-per-second",
+      "text": "`video_fps` (int) -- frames per second",
+      "addedAtIteration": 1,
+      "sources": [
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/app.py",
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/api/routers (directory listing)",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/routers/video.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/routers/content.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/routers/tts.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/routers/image.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/routers/llm.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/routers/tasks.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/routers/files.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/routers/resources.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/routers/frame.py"
+      ]
+    },
+    {
+      "id": "finding-1-23-voice-id-string-optional-deprecated-legacy-voice-selection",
+      "text": "`voice_id` (string, optional, DEPRECATED) -- legacy voice selection",
+      "addedAtIteration": 1,
+      "sources": [
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/app.py",
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/api/routers (directory listing)",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/routers/video.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/routers/content.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/routers/tts.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/routers/image.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/routers/llm.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/routers/tasks.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/routers/files.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/routers/resources.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/routers/frame.py"
+      ]
+    },
+    {
+      "id": "finding-1-4-all-10-routers-mounted-under-api-prefix-from-api-config-api-prefix",
+      "text": "All 10 routers mounted under `/api` prefix (from `api_config.api_prefix`)",
+      "addedAtIteration": 1,
+      "sources": [
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/app.py",
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/api/routers (directory listing)",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/routers/video.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/routers/content.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/routers/tts.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/routers/image.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/routers/llm.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/routers/tasks.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/routers/files.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/routers/resources.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/routers/frame.py"
+      ]
+    },
+    {
+      "id": "finding-1-3-cors-middleware-conditionally-enabled-via-api-config-cors-enabled-with-origins-f",
+      "text": "CORS middleware conditionally enabled via `api_config.cors_enabled` with origins from `api_config.cors_origins`",
+      "addedAtIteration": 1,
+      "sources": [
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/app.py",
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/api/routers (directory listing)",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/routers/video.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/routers/content.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/routers/tts.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/routers/image.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/routers/llm.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/routers/tasks.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/routers/files.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/routers/resources.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/routers/frame.py"
+      ]
+    },
+    {
+      "id": "finding-1-1-fastapi-app-titled-pixelle-video-api-v0-1-0",
+      "text": "FastAPI app titled \"Pixelle-Video API\" v0.1.0",
+      "addedAtIteration": 1,
+      "sources": [
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/app.py",
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/api/routers (directory listing)",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/routers/video.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/routers/content.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/routers/tts.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/routers/image.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/routers/llm.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/routers/tasks.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/routers/files.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/routers/resources.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/routers/frame.py"
+      ]
+    },
+    {
+      "id": "finding-1-29-image-workflows-legacy-filenames-starting-with-image",
+      "text": "Image workflows (legacy): filenames starting with \"image_\"",
+      "addedAtIteration": 1,
+      "sources": [
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/app.py",
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/api/routers (directory listing)",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/routers/video.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/routers/content.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/routers/tts.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/routers/image.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/routers/llm.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/routers/tasks.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/routers/files.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/routers/resources.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/routers/frame.py"
+      ]
+    },
+    {
+      "id": "finding-1-2-lifespan-manager-handles-startup-task-manager-init-and-shutdown-task-manager-sto",
+      "text": "Lifespan manager handles startup (task_manager init) and shutdown (task_manager stop + shutdown_pixelle_video)",
+      "addedAtIteration": 1,
+      "sources": [
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/app.py",
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/api/routers (directory listing)",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/routers/video.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/routers/content.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/routers/tts.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/routers/image.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/routers/llm.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/routers/tasks.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/routers/files.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/routers/resources.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/routers/frame.py"
+      ]
+    },
+    {
+      "id": "finding-1-28-media-workflows-all-non-tts-workflows",
+      "text": "Media workflows: all non-TTS workflows",
+      "addedAtIteration": 1,
+      "sources": [
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/app.py",
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/api/routers (directory listing)",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/routers/video.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/routers/content.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/routers/tts.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/routers/image.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/routers/llm.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/routers/tasks.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/routers/files.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/routers/resources.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/routers/frame.py"
+      ]
+    },
+    {
+      "id": "finding-1-31-mounted-without-prefix-likely-provides-get-api-health-or-similar",
+      "text": "Mounted without prefix, likely provides `GET /api/health` or similar",
+      "addedAtIteration": 1,
+      "sources": [
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/app.py",
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/api/routers (directory listing)",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/routers/video.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/routers/content.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/routers/tts.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/routers/image.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/routers/llm.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/routers/tasks.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/routers/files.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/routers/resources.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/routers/frame.py"
+      ]
+    },
+    {
+      "id": "finding-1-32-not-fetched-this-iteration-low-priority-for-dashboard-design",
+      "text": "Not fetched this iteration -- low priority for dashboard design",
+      "addedAtIteration": 1,
+      "sources": [
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/app.py",
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/api/routers (directory listing)",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/routers/video.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/routers/content.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/routers/tts.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/routers/image.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/routers/llm.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/routers/tasks.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/routers/files.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/routers/resources.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/routers/frame.py"
+      ]
+    },
+    {
+      "id": "finding-1-5-root-endpoint-get-returns-service-info-and-api-endpoint-listing",
+      "text": "Root endpoint `GET /` returns service info and API endpoint listing",
+      "addedAtIteration": 1,
+      "sources": [
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/app.py",
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/api/routers (directory listing)",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/routers/video.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/routers/content.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/routers/tts.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/routers/image.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/routers/llm.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/routers/tasks.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/routers/files.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/routers/resources.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/routers/frame.py"
+      ]
+    },
+    {
+      "id": "finding-1-26-schemas-imported-from-api-schemas-llm-not-defined-inline",
+      "text": "Schemas imported from `api.schemas.llm` (not defined inline)",
+      "addedAtIteration": 1,
+      "sources": [
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/app.py",
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/api/routers (directory listing)",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/routers/video.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/routers/content.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/routers/tts.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/routers/image.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/routers/llm.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/routers/tasks.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/routers/files.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/routers/resources.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/routers/frame.py"
+      ]
+    },
+    {
+      "id": "finding-1-6-server-launched-via-uvicorn-with-argparse-host-port-reload-flags",
+      "text": "Server launched via uvicorn with argparse (host, port, reload flags)",
+      "addedAtIteration": 1,
+      "sources": [
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/app.py",
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/api/routers (directory listing)",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/routers/video.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/routers/content.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/routers/tts.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/routers/image.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/routers/llm.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/routers/tasks.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/routers/files.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/routers/resources.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/routers/frame.py"
+      ]
+    },
+    {
+      "id": "finding-1-30-template-parameter-syntax-param-name-type-default",
+      "text": "Template parameter syntax: `{{param_name:type=default}}`",
+      "addedAtIteration": 1,
+      "sources": [
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/app.py",
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/api/routers (directory listing)",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/routers/video.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/routers/content.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/routers/tts.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/routers/image.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/routers/llm.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/routers/tasks.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/routers/files.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/routers/resources.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/routers/frame.py"
+      ]
+    },
+    {
+      "id": "finding-1-27-tts-workflows-filenames-starting-with-tts",
+      "text": "TTS workflows: filenames starting with \"tts_\"",
+      "addedAtIteration": 1,
+      "sources": [
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/app.py",
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/api/routers (directory listing)",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/routers/video.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/routers/content.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/routers/tts.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/routers/image.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/routers/llm.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/routers/tasks.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/routers/files.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/routers/resources.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/routers/frame.py"
+      ]
+    },
+    {
+      "id": "finding-1-25-validates-that-video-workflows-are-not-used-returns-400-error",
+      "text": "Validates that video workflows are NOT used (returns 400 error)",
+      "addedAtIteration": 1,
+      "sources": [
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/app.py",
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/api/routers (directory listing)",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/routers/video.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/routers/content.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/routers/tts.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/routers/image.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/routers/llm.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/routers/tasks.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/routers/files.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/routers/resources.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/routers/frame.py"
+      ]
+    },
+    {
+      "id": "finding-2-2-image-html-requires-ai-generated-images",
+      "text": "`image_*.html` = requires AI-generated images",
+      "addedAtIteration": 2,
+      "sources": [
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/api/schemas (directory listing)",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/schemas/base.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/schemas/content.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/schemas/video.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/schemas/tts.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/schemas/image.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/schemas/llm.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/schemas/resources.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/config.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/config.example.yaml"
+      ]
+    },
+    {
+      "id": "finding-2-1-static-html-no-ai-generated-media",
+      "text": "`static_*.html` = no AI-generated media",
+      "addedAtIteration": 2,
+      "sources": [
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/api/schemas (directory listing)",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/schemas/base.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/schemas/content.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/schemas/video.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/schemas/tts.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/schemas/image.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/schemas/llm.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/schemas/resources.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/config.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/config.example.yaml"
+      ]
+    },
+    {
+      "id": "finding-2-3-video-html-requires-ai-generated-videos",
+      "text": "`video_*.html` = requires AI-generated videos",
+      "addedAtIteration": 2,
+      "sources": [
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/api/schemas (directory listing)",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/schemas/base.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/schemas/content.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/schemas/video.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/schemas/tts.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/schemas/image.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/schemas/llm.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/schemas/resources.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/config.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/config.example.yaml"
+      ]
+    },
+    {
+      "id": "finding-3-28-1080x1080-square-1-1-instagram",
+      "text": "`1080x1080/` — square (1:1, Instagram)",
+      "addedAtIteration": 3,
+      "sources": [
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/workflows/selfhost (8 workflow files)",
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/workflows/runninghub (21 workflow files)",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/workflows/selfhost/image_flux.json (workflow node structure)",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/pixelle_video/tts_voices.py (28 Edge-TTS voices)",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/pixelle_video/llm_presets.py (6 LLM providers)",
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/templates/1080x1920 (25 HTML templates)",
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/templates (3 aspect ratio dirs)"
+      ]
+    },
+    {
+      "id": "finding-3-26-1080x1920-vertical-9-16-tiktok-reels-shorts",
+      "text": "`1080x1920/` — vertical (9:16, TikTok/Reels/Shorts)",
+      "addedAtIteration": 3,
+      "sources": [
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/workflows/selfhost (8 workflow files)",
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/workflows/runninghub (21 workflow files)",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/workflows/selfhost/image_flux.json (workflow node structure)",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/pixelle_video/tts_voices.py (28 Edge-TTS voices)",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/pixelle_video/llm_presets.py (6 LLM providers)",
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/templates/1080x1920 (25 HTML templates)",
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/templates (3 aspect ratio dirs)"
+      ]
+    },
+    {
+      "id": "finding-3-27-1920x1080-horizontal-16-9-youtube",
+      "text": "`1920x1080/` — horizontal (16:9, YouTube)",
+      "addedAtIteration": 3,
+      "sources": [
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/workflows/selfhost (8 workflow files)",
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/workflows/runninghub (21 workflow files)",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/workflows/selfhost/image_flux.json (workflow node structure)",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/pixelle_video/tts_voices.py (28 Edge-TTS voices)",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/pixelle_video/llm_presets.py (6 LLM providers)",
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/templates/1080x1920 (25 HTML templates)",
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/templates (3 aspect ratio dirs)"
+      ]
+    },
+    {
+      "id": "finding-3-33-asset-user-uploaded-asset-as-background",
+      "text": "`asset_*` = user-uploaded asset as background",
+      "addedAtIteration": 3,
+      "sources": [
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/workflows/selfhost (8 workflow files)",
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/workflows/runninghub (21 workflow files)",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/workflows/selfhost/image_flux.json (workflow node structure)",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/pixelle_video/tts_voices.py (28 Edge-TTS voices)",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/pixelle_video/llm_presets.py (6 LLM providers)",
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/templates/1080x1920 (25 HTML templates)",
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/templates (3 aspect ratio dirs)"
+      ]
+    },
+    {
+      "id": "finding-3-41-cfg-float-classifier-free-guidance-scale",
+      "text": "`cfg` (float) — classifier-free guidance scale",
+      "addedAtIteration": 3,
+      "sources": [
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/workflows/selfhost (8 workflow files)",
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/workflows/runninghub (21 workflow files)",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/workflows/selfhost/image_flux.json (workflow node structure)",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/pixelle_video/tts_voices.py (28 Edge-TTS voices)",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/pixelle_video/llm_presets.py (6 LLM providers)",
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/templates/1080x1920 (25 HTML templates)",
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/templates (3 aspect ratio dirs)"
+      ]
+    },
+    {
+      "id": "finding-3-12-cfg-float-default-1-0-ksampler-parameter",
+      "text": "`cfg` (float, default 1.0) — KSampler parameter",
+      "addedAtIteration": 3,
+      "sources": [
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/workflows/selfhost (8 workflow files)",
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/workflows/runninghub (21 workflow files)",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/workflows/selfhost/image_flux.json (workflow node structure)",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/pixelle_video/tts_voices.py (28 Edge-TTS voices)",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/pixelle_video/llm_presets.py (6 LLM providers)",
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/templates/1080x1920 (25 HTML templates)",
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/templates (3 aspect ratio dirs)"
+      ]
+    },
+    {
+      "id": "finding-3-4-cliptextencode-node-31-encodes-the-text-prompt",
+      "text": "`CLIPTextEncode` (node 31): encodes the text prompt",
+      "addedAtIteration": 3,
+      "sources": [
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/workflows/selfhost (8 workflow files)",
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/workflows/runninghub (21 workflow files)",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/workflows/selfhost/image_flux.json (workflow node structure)",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/pixelle_video/tts_voices.py (28 Edge-TTS voices)",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/pixelle_video/llm_presets.py (6 LLM providers)",
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/templates/1080x1920 (25 HTML templates)",
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/templates (3 aspect ratio dirs)"
+      ]
+    },
+    {
+      "id": "finding-3-21-config-example-yaml-llm-temperature-default-llm-max-tokens-default",
+      "text": "`config.example.yaml` → `llm.temperature` (default), `llm.max_tokens` (default)",
+      "addedAtIteration": 3,
+      "sources": [
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/workflows/selfhost (8 workflow files)",
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/workflows/runninghub (21 workflow files)",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/workflows/selfhost/image_flux.json (workflow node structure)",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/pixelle_video/tts_voices.py (28 Edge-TTS voices)",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/pixelle_video/llm_presets.py (6 LLM providers)",
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/templates/1080x1920 (25 HTML templates)",
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/templates (3 aspect ratio dirs)"
+      ]
+    },
+    {
+      "id": "finding-3-2-dualcliploader-node-47-loads-clip-l-safetensors-t5xxl-fp8-e4m3fn-safetensors-tex",
+      "text": "`DualCLIPLoader` (node 47): loads `clip_l.safetensors` + `t5xxl_fp8_e4m3fn.safetensors` — text encoders",
+      "addedAtIteration": 3,
+      "sources": [
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/workflows/selfhost (8 workflow files)",
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/workflows/runninghub (21 workflow files)",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/workflows/selfhost/image_flux.json (workflow node structure)",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/pixelle_video/tts_voices.py (28 Edge-TTS voices)",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/pixelle_video/llm_presets.py (6 LLM providers)",
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/templates/1080x1920 (25 HTML templates)",
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/templates (3 aspect ratio dirs)"
+      ]
+    },
+    {
+      "id": "finding-3-7-emptylatentimage-node-43-width-1024-height-1024-batch-1",
+      "text": "`EmptyLatentImage` (node 43): width=1024, height=1024, batch=1",
+      "addedAtIteration": 3,
+      "sources": [
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/workflows/selfhost (8 workflow files)",
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/workflows/runninghub (21 workflow files)",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/workflows/selfhost/image_flux.json (workflow node structure)",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/pixelle_video/tts_voices.py (28 Edge-TTS voices)",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/pixelle_video/llm_presets.py (6 LLM providers)",
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/templates/1080x1920 (25 HTML templates)",
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/templates (3 aspect ratio dirs)"
+      ]
+    },
+    {
+      "id": "finding-3-25-find-preset-by-base-url-and-model-base-url-model-reverse-lookup",
+      "text": "`find_preset_by_base_url_and_model(base_url, model)` — reverse lookup",
+      "addedAtIteration": 3,
+      "sources": [
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/workflows/selfhost (8 workflow files)",
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/workflows/runninghub (21 workflow files)",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/workflows/selfhost/image_flux.json (workflow node structure)",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/pixelle_video/tts_voices.py (28 Edge-TTS voices)",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/pixelle_video/llm_presets.py (6 LLM providers)",
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/templates/1080x1920 (25 HTML templates)",
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/templates (3 aspect ratio dirs)"
+      ]
+    },
+    {
+      "id": "finding-3-5-fluxguidance-node-35-guidance-strength-3-5",
+      "text": "`FluxGuidance` (node 35): guidance strength = 3.5",
+      "addedAtIteration": 3,
+      "sources": [
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/workflows/selfhost (8 workflow files)",
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/workflows/runninghub (21 workflow files)",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/workflows/selfhost/image_flux.json (workflow node structure)",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/pixelle_video/tts_voices.py (28 Edge-TTS voices)",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/pixelle_video/llm_presets.py (6 LLM providers)",
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/templates/1080x1920 (25 HTML templates)",
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/templates (3 aspect ratio dirs)"
+      ]
+    },
+    {
+      "id": "finding-3-46-frame-template-template-params-selects-html-template-and-style",
+      "text": "`frame_template` + `template_params` → selects HTML template and style",
+      "addedAtIteration": 3,
+      "sources": [
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/workflows/selfhost (8 workflow files)",
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/workflows/runninghub (21 workflow files)",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/workflows/selfhost/image_flux.json (workflow node structure)",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/pixelle_video/tts_voices.py (28 Edge-TTS voices)",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/pixelle_video/llm_presets.py (6 LLM providers)",
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/templates/1080x1920 (25 HTML templates)",
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/templates (3 aspect ratio dirs)"
+      ]
+    },
+    {
+      "id": "finding-3-24-get-preset-name-retrieves-config-by-name",
+      "text": "`get_preset(name)` — retrieves config by name",
+      "addedAtIteration": 3,
+      "sources": [
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/workflows/selfhost (8 workflow files)",
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/workflows/runninghub (21 workflow files)",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/workflows/selfhost/image_flux.json (workflow node structure)",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/pixelle_video/tts_voices.py (28 Edge-TTS voices)",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/pixelle_video/llm_presets.py (6 LLM providers)",
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/templates/1080x1920 (25 HTML templates)",
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/templates (3 aspect ratio dirs)"
+      ]
+    },
+    {
+      "id": "finding-3-23-get-preset-names-returns-list-of-provider-names-for-dropdown",
+      "text": "`get_preset_names()` — returns list of provider names for dropdown",
+      "addedAtIteration": 3,
+      "sources": [
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/workflows/selfhost (8 workflow files)",
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/workflows/runninghub (21 workflow files)",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/workflows/selfhost/image_flux.json (workflow node structure)",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/pixelle_video/tts_voices.py (28 Edge-TTS voices)",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/pixelle_video/llm_presets.py (6 LLM providers)",
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/templates/1080x1920 (25 HTML templates)",
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/templates (3 aspect ratio dirs)"
+      ]
+    },
+    {
+      "id": "finding-3-14-get-voice-display-name-voice-locale-t-returns-localized-display-name-with-transl",
+      "text": "`get_voice_display_name(voice, locale, t)` — returns localized display name with translation function fallback",
+      "addedAtIteration": 3,
+      "sources": [
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/workflows/selfhost (8 workflow files)",
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/workflows/runninghub (21 workflow files)",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/workflows/selfhost/image_flux.json (workflow node structure)",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/pixelle_video/tts_voices.py (28 Edge-TTS voices)",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/pixelle_video/llm_presets.py (6 LLM providers)",
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/templates/1080x1920 (25 HTML templates)",
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/templates (3 aspect ratio dirs)"
+      ]
+    },
+    {
+      "id": "finding-3-13-guidance-float-default-3-5-fluxguidance-parameter",
+      "text": "`guidance` (float, default 3.5) — FluxGuidance parameter",
+      "addedAtIteration": 3,
+      "sources": [
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/workflows/selfhost (8 workflow files)",
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/workflows/runninghub (21 workflow files)",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/workflows/selfhost/image_flux.json (workflow node structure)",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/pixelle_video/tts_voices.py (28 Edge-TTS voices)",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/pixelle_video/llm_presets.py (6 LLM providers)",
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/templates/1080x1920 (25 HTML templates)",
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/templates (3 aspect ratio dirs)"
+      ]
+    },
+    {
+      "id": "finding-3-42-guidance-float-model-specific-guidance-flux",
+      "text": "`guidance` (float) — model-specific guidance (FLUX)",
+      "addedAtIteration": 3,
+      "sources": [
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/workflows/selfhost (8 workflow files)",
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/workflows/runninghub (21 workflow files)",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/workflows/selfhost/image_flux.json (workflow node structure)",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/pixelle_video/tts_voices.py (28 Edge-TTS voices)",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/pixelle_video/llm_presets.py (6 LLM providers)",
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/templates/1080x1920 (25 HTML templates)",
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/templates (3 aspect ratio dirs)"
+      ]
+    },
+    {
+      "id": "finding-3-30-image-generated-image-as-background-with-text-overlay",
+      "text": "`image_*` = generated image as background with text overlay",
+      "addedAtIteration": 3,
+      "sources": [
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/workflows/selfhost (8 workflow files)",
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/workflows/runninghub (21 workflow files)",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/workflows/selfhost/image_flux.json (workflow node structure)",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/pixelle_video/tts_voices.py (28 Edge-TTS voices)",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/pixelle_video/llm_presets.py (6 LLM providers)",
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/templates/1080x1920 (25 HTML templates)",
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/templates (3 aspect ratio dirs)"
+      ]
+    },
+    {
+      "id": "finding-3-45-image-workflow-selects-comfyui-image-workflow",
+      "text": "`image_workflow` → selects ComfyUI image workflow",
+      "addedAtIteration": 3,
+      "sources": [
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/workflows/selfhost (8 workflow files)",
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/workflows/runninghub (21 workflow files)",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/workflows/selfhost/image_flux.json (workflow node structure)",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/pixelle_video/tts_voices.py (28 Edge-TTS voices)",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/pixelle_video/llm_presets.py (6 LLM providers)",
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/templates/1080x1920 (25 HTML templates)",
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/templates (3 aspect ratio dirs)"
+      ]
+    },
+    {
+      "id": "finding-3-6-ksampler-node-29-steps-20-cfg-1-0-sampler-euler-scheduler-simple-denoise-1-0",
+      "text": "`KSampler` (node 29): steps=20, cfg=1.0, sampler=euler, scheduler=simple, denoise=1.0",
+      "addedAtIteration": 3,
+      "sources": [
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/workflows/selfhost (8 workflow files)",
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/workflows/runninghub (21 workflow files)",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/workflows/selfhost/image_flux.json (workflow node structure)",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/pixelle_video/tts_voices.py (28 Edge-TTS voices)",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/pixelle_video/llm_presets.py (6 LLM providers)",
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/templates/1080x1920 (25 HTML templates)",
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/templates (3 aspect ratio dirs)"
+      ]
+    },
+    {
+      "id": "finding-3-43-llm-provider-model-selects-llm-preset",
+      "text": "`llm_provider` + `model` → selects LLM preset",
+      "addedAtIteration": 3,
+      "sources": [
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/workflows/selfhost (8 workflow files)",
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/workflows/runninghub (21 workflow files)",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/workflows/selfhost/image_flux.json (workflow node structure)",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/pixelle_video/tts_voices.py (28 Edge-TTS voices)",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/pixelle_video/llm_presets.py (6 LLM providers)",
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/templates/1080x1920 (25 HTML templates)",
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/templates (3 aspect ratio dirs)"
+      ]
+    },
+    {
+      "id": "finding-3-8-prompt-text-injected-into-cliptextencode-node",
+      "text": "`prompt` (text) — injected into CLIPTextEncode node",
+      "addedAtIteration": 3,
+      "sources": [
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/workflows/selfhost (8 workflow files)",
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/workflows/runninghub (21 workflow files)",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/workflows/selfhost/image_flux.json (workflow node structure)",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/pixelle_video/tts_voices.py (28 Edge-TTS voices)",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/pixelle_video/llm_presets.py (6 LLM providers)",
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/templates/1080x1920 (25 HTML templates)",
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/templates (3 aspect ratio dirs)"
+      ]
+    },
+    {
+      "id": "finding-3-37-prompt-text-the-image-description",
+      "text": "`prompt` (text) — the image description",
+      "addedAtIteration": 3,
+      "sources": [
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/workflows/selfhost (8 workflow files)",
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/workflows/runninghub (21 workflow files)",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/workflows/selfhost/image_flux.json (workflow node structure)",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/pixelle_video/tts_voices.py (28 Edge-TTS voices)",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/pixelle_video/llm_presets.py (6 LLM providers)",
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/templates/1080x1920 (25 HTML templates)",
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/templates (3 aspect ratio dirs)"
+      ]
+    },
+    {
+      "id": "finding-3-11-seed-int-ksampler-parameter",
+      "text": "`seed` (int) — KSampler parameter",
+      "addedAtIteration": 3,
+      "sources": [
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/workflows/selfhost (8 workflow files)",
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/workflows/runninghub (21 workflow files)",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/workflows/selfhost/image_flux.json (workflow node structure)",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/pixelle_video/tts_voices.py (28 Edge-TTS voices)",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/pixelle_video/llm_presets.py (6 LLM providers)",
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/templates/1080x1920 (25 HTML templates)",
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/templates (3 aspect ratio dirs)"
+      ]
+    },
+    {
+      "id": "finding-3-40-seed-int-reproducibility",
+      "text": "`seed` (int) — reproducibility",
+      "addedAtIteration": 3,
+      "sources": [
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/workflows/selfhost (8 workflow files)",
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/workflows/runninghub (21 workflow files)",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/workflows/selfhost/image_flux.json (workflow node structure)",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/pixelle_video/tts_voices.py (28 Edge-TTS voices)",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/pixelle_video/llm_presets.py (6 LLM providers)",
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/templates/1080x1920 (25 HTML templates)",
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/templates (3 aspect ratio dirs)"
+      ]
+    },
+    {
+      "id": "finding-3-15-speed-to-rate-speed-float-str-converts-multiplier-e-g-1-2-to-edge-tts-rate-forma",
+      "text": "`speed_to_rate(speed: float) -> str` — converts multiplier (e.g., 1.2) to Edge-TTS rate format (\"+20%\")",
+      "addedAtIteration": 3,
+      "sources": [
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/workflows/selfhost (8 workflow files)",
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/workflows/runninghub (21 workflow files)",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/workflows/selfhost/image_flux.json (workflow node structure)",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/pixelle_video/tts_voices.py (28 Edge-TTS voices)",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/pixelle_video/llm_presets.py (6 LLM providers)",
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/templates/1080x1920 (25 HTML templates)",
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/templates (3 aspect ratio dirs)"
+      ]
+    },
+    {
+      "id": "finding-3-32-static-no-dynamic-background",
+      "text": "`static_*` = no dynamic background",
+      "addedAtIteration": 3,
+      "sources": [
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/workflows/selfhost (8 workflow files)",
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/workflows/runninghub (21 workflow files)",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/workflows/selfhost/image_flux.json (workflow node structure)",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/pixelle_video/tts_voices.py (28 Edge-TTS voices)",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/pixelle_video/llm_presets.py (6 LLM providers)",
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/templates/1080x1920 (25 HTML templates)",
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/templates (3 aspect ratio dirs)"
+      ]
+    },
+    {
+      "id": "finding-3-10-steps-int-default-20-ksampler-parameter",
+      "text": "`steps` (int, default 20) — KSampler parameter",
+      "addedAtIteration": 3,
+      "sources": [
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/workflows/selfhost (8 workflow files)",
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/workflows/runninghub (21 workflow files)",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/workflows/selfhost/image_flux.json (workflow node structure)",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/pixelle_video/tts_voices.py (28 Edge-TTS voices)",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/pixelle_video/llm_presets.py (6 LLM providers)",
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/templates/1080x1920 (25 HTML templates)",
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/templates (3 aspect ratio dirs)"
+      ]
+    },
+    {
+      "id": "finding-3-39-steps-int-inference-steps-quality-vs-speed",
+      "text": "`steps` (int) — inference steps (quality vs speed)",
+      "addedAtIteration": 3,
+      "sources": [
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/workflows/selfhost (8 workflow files)",
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/workflows/runninghub (21 workflow files)",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/workflows/selfhost/image_flux.json (workflow node structure)",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/pixelle_video/tts_voices.py (28 Edge-TTS voices)",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/pixelle_video/llm_presets.py (6 LLM providers)",
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/templates/1080x1920 (25 HTML templates)",
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/templates (3 aspect ratio dirs)"
+      ]
+    },
+    {
+      "id": "finding-3-18-tts-edge-json-edge-tts-cloud-free-28-voices",
+      "text": "`tts_edge.json` — Edge-TTS (cloud, free, 28+ voices)",
+      "addedAtIteration": 3,
+      "sources": [
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/workflows/selfhost (8 workflow files)",
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/workflows/runninghub (21 workflow files)",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/workflows/selfhost/image_flux.json (workflow node structure)",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/pixelle_video/tts_voices.py (28 Edge-TTS voices)",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/pixelle_video/llm_presets.py (6 LLM providers)",
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/templates/1080x1920 (25 HTML templates)",
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/templates (3 aspect ratio dirs)"
+      ]
+    },
+    {
+      "id": "finding-3-19-tts-index2-json-index-tts-local-model-voice-cloning-capable",
+      "text": "`tts_index2.json` — Index-TTS (local model, voice cloning capable)",
+      "addedAtIteration": 3,
+      "sources": [
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/workflows/selfhost (8 workflow files)",
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/workflows/runninghub (21 workflow files)",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/workflows/selfhost/image_flux.json (workflow node structure)",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/pixelle_video/tts_voices.py (28 Edge-TTS voices)",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/pixelle_video/llm_presets.py (6 LLM providers)",
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/templates/1080x1920 (25 HTML templates)",
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/templates (3 aspect ratio dirs)"
+      ]
+    },
+    {
+      "id": "finding-3-20-tts-spark-json-spark-tts-runninghub-only-cloud-model",
+      "text": "`tts_spark.json` — Spark-TTS (RunningHub only, cloud model)",
+      "addedAtIteration": 3,
+      "sources": [
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/workflows/selfhost (8 workflow files)",
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/workflows/runninghub (21 workflow files)",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/workflows/selfhost/image_flux.json (workflow node structure)",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/pixelle_video/tts_voices.py (28 Edge-TTS voices)",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/pixelle_video/llm_presets.py (6 LLM providers)",
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/templates/1080x1920 (25 HTML templates)",
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/templates (3 aspect ratio dirs)"
+      ]
+    },
+    {
+      "id": "finding-3-44-tts-workflow-voice-id-or-ref-audio-selects-tts-engine-and-voice",
+      "text": "`tts_workflow` + `voice_id` or `ref_audio` → selects TTS engine and voice",
+      "addedAtIteration": 3,
+      "sources": [
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/workflows/selfhost (8 workflow files)",
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/workflows/runninghub (21 workflow files)",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/workflows/selfhost/image_flux.json (workflow node structure)",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/pixelle_video/tts_voices.py (28 Edge-TTS voices)",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/pixelle_video/llm_presets.py (6 LLM providers)",
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/templates/1080x1920 (25 HTML templates)",
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/templates (3 aspect ratio dirs)"
+      ]
+    },
+    {
+      "id": "finding-3-29-type-style-html-where-type-image-video-static-asset",
+      "text": "`{type}_{style}.html` where type = image|video|static|asset",
+      "addedAtIteration": 3,
+      "sources": [
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/workflows/selfhost (8 workflow files)",
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/workflows/runninghub (21 workflow files)",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/workflows/selfhost/image_flux.json (workflow node structure)",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/pixelle_video/tts_voices.py (28 Edge-TTS voices)",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/pixelle_video/llm_presets.py (6 LLM providers)",
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/templates/1080x1920 (25 HTML templates)",
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/templates (3 aspect ratio dirs)"
+      ]
+    },
+    {
+      "id": "finding-3-1-unetloader-node-48-loads-flux1-dev-safetensors-the-diffusion-model",
+      "text": "`UNETLoader` (node 48): loads `flux1-dev.safetensors` — the diffusion model",
+      "addedAtIteration": 3,
+      "sources": [
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/workflows/selfhost (8 workflow files)",
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/workflows/runninghub (21 workflow files)",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/workflows/selfhost/image_flux.json (workflow node structure)",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/pixelle_video/tts_voices.py (28 Edge-TTS voices)",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/pixelle_video/llm_presets.py (6 LLM providers)",
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/templates/1080x1920 (25 HTML templates)",
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/templates (3 aspect ratio dirs)"
+      ]
+    },
+    {
+      "id": "finding-3-3-vaeloader-node-49-loads-ae-safetensors-decoder",
+      "text": "`VAELoader` (node 49): loads `ae.safetensors` — decoder",
+      "addedAtIteration": 3,
+      "sources": [
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/workflows/selfhost (8 workflow files)",
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/workflows/runninghub (21 workflow files)",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/workflows/selfhost/image_flux.json (workflow node structure)",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/pixelle_video/tts_voices.py (28 Edge-TTS voices)",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/pixelle_video/llm_presets.py (6 LLM providers)",
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/templates/1080x1920 (25 HTML templates)",
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/templates (3 aspect ratio dirs)"
+      ]
+    },
+    {
+      "id": "finding-3-31-video-generated-video-as-background",
+      "text": "`video_*` = generated video as background",
+      "addedAtIteration": 3,
+      "sources": [
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/workflows/selfhost (8 workflow files)",
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/workflows/runninghub (21 workflow files)",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/workflows/selfhost/image_flux.json (workflow node structure)",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/pixelle_video/tts_voices.py (28 Edge-TTS voices)",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/pixelle_video/llm_presets.py (6 LLM providers)",
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/templates/1080x1920 (25 HTML templates)",
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/templates (3 aspect ratio dirs)"
+      ]
+    },
+    {
+      "id": "finding-3-47-video-workflow-optional-video-generation-workflow",
+      "text": "`video_workflow` → optional video generation workflow",
+      "addedAtIteration": 3,
+      "sources": [
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/workflows/selfhost (8 workflow files)",
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/workflows/runninghub (21 workflow files)",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/workflows/selfhost/image_flux.json (workflow node structure)",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/pixelle_video/tts_voices.py (28 Edge-TTS voices)",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/pixelle_video/llm_presets.py (6 LLM providers)",
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/templates/1080x1920 (25 HTML templates)",
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/templates (3 aspect ratio dirs)"
+      ]
+    },
+    {
+      "id": "finding-3-9-width-height-int-injected-into-emptylatentimage-node",
+      "text": "`width` / `height` (int) — injected into EmptyLatentImage node",
+      "addedAtIteration": 3,
+      "sources": [
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/workflows/selfhost (8 workflow files)",
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/workflows/runninghub (21 workflow files)",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/workflows/selfhost/image_flux.json (workflow node structure)",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/pixelle_video/tts_voices.py (28 Edge-TTS voices)",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/pixelle_video/llm_presets.py (6 LLM providers)",
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/templates/1080x1920 (25 HTML templates)",
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/templates (3 aspect ratio dirs)"
+      ]
+    },
+    {
+      "id": "finding-3-38-width-height-int-output-resolution",
+      "text": "`width` / `height` (int) — output resolution",
+      "addedAtIteration": 3,
+      "sources": [
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/workflows/selfhost (8 workflow files)",
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/workflows/runninghub (21 workflow files)",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/workflows/selfhost/image_flux.json (workflow node structure)",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/pixelle_video/tts_voices.py (28 Edge-TTS voices)",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/pixelle_video/llm_presets.py (6 LLM providers)",
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/templates/1080x1920 (25 HTML templates)",
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/templates (3 aspect ratio dirs)"
+      ]
+    },
+    {
+      "id": "finding-3-16-add-thai-voices-to-the-config-or",
+      "text": "Add Thai voices to the config, or",
+      "addedAtIteration": 3,
+      "sources": [
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/workflows/selfhost (8 workflow files)",
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/workflows/runninghub (21 workflow files)",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/workflows/selfhost/image_flux.json (workflow node structure)",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/pixelle_video/tts_voices.py (28 Edge-TTS voices)",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/pixelle_video/llm_presets.py (6 LLM providers)",
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/templates/1080x1920 (25 HTML templates)",
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/templates (3 aspect ratio dirs)"
+      ]
+    },
+    {
+      "id": "finding-3-36-each-template-has-its-own-template-params-schema-dynamic-per-template-from-itera",
+      "text": "Each template has its own `template_params` schema (dynamic per-template, from iteration 2's VideoComposeRequest)",
+      "addedAtIteration": 3,
+      "sources": [
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/workflows/selfhost (8 workflow files)",
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/workflows/runninghub (21 workflow files)",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/workflows/selfhost/image_flux.json (workflow node structure)",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/pixelle_video/tts_voices.py (28 Edge-TTS voices)",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/pixelle_video/llm_presets.py (6 LLM providers)",
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/templates/1080x1920 (25 HTML templates)",
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/templates (3 aspect ratio dirs)"
+      ]
+    },
+    {
+      "id": "finding-3-34-filter-by-aspect-ratio-from-api-s-width-height-or-explicit-ratio-selector",
+      "text": "Filter by aspect ratio (from API's `width`/`height` or explicit ratio selector)",
+      "addedAtIteration": 3,
+      "sources": [
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/workflows/selfhost (8 workflow files)",
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/workflows/runninghub (21 workflow files)",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/workflows/selfhost/image_flux.json (workflow node structure)",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/pixelle_video/tts_voices.py (28 Edge-TTS voices)",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/pixelle_video/llm_presets.py (6 LLM providers)",
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/templates/1080x1920 (25 HTML templates)",
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/templates (3 aspect ratio dirs)"
+      ]
+    },
+    {
+      "id": "finding-3-22-per-request-override-via-api-llm-generate-body-temperature-max-tokens-fields-in-",
+      "text": "Per-request override via `/api/llm/generate` body (`temperature`, `max_tokens` fields in LLMRequest schema)",
+      "addedAtIteration": 3,
+      "sources": [
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/workflows/selfhost (8 workflow files)",
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/workflows/runninghub (21 workflow files)",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/workflows/selfhost/image_flux.json (workflow node structure)",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/pixelle_video/tts_voices.py (28 Edge-TTS voices)",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/pixelle_video/llm_presets.py (6 LLM providers)",
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/templates/1080x1920 (25 HTML templates)",
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/templates (3 aspect ratio dirs)"
+      ]
+    },
+    {
+      "id": "finding-3-35-show-template-previews-grouped-by-type-image-video-static-asset",
+      "text": "Show template previews grouped by type (image/video/static/asset)",
+      "addedAtIteration": 3,
+      "sources": [
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/workflows/selfhost (8 workflow files)",
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/workflows/runninghub (21 workflow files)",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/workflows/selfhost/image_flux.json (workflow node structure)",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/pixelle_video/tts_voices.py (28 Edge-TTS voices)",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/pixelle_video/llm_presets.py (6 LLM providers)",
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/templates/1080x1920 (25 HTML templates)",
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/templates (3 aspect ratio dirs)"
+      ]
+    },
+    {
+      "id": "finding-3-17-use-the-ref-audio-voice-cloning-path-ref-audio-ref-text-in-tts-schema",
+      "text": "Use the `ref_audio` voice cloning path (ref_audio + ref_text in TTS schema)",
+      "addedAtIteration": 3,
+      "sources": [
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/workflows/selfhost (8 workflow files)",
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/workflows/runninghub (21 workflow files)",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/workflows/selfhost/image_flux.json (workflow node structure)",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/pixelle_video/tts_voices.py (28 Edge-TTS voices)",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/pixelle_video/llm_presets.py (6 LLM providers)",
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/templates/1080x1920 (25 HTML templates)",
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/templates (3 aspect ratio dirs)"
+      ]
+    },
+    {
+      "id": "finding-4-19-asset-based-py-assetbasedpipeline-generates-from-existing-assets",
+      "text": "**`asset_based.py`** — AssetBasedPipeline (generates from existing assets)",
+      "addedAtIteration": 4,
+      "sources": [
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main (root directory listing)",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/web/app.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/web/pages/1_Home.py (via encoded URL)",
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/web",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/pixelle_video/service.py",
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/pixelle_video",
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/pixelle_video/pipelines",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/pixelle_video/pipelines/standard.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/web/pipelines/standard.py"
+      ]
+    },
+    {
+      "id": "finding-4-15-base-py-base-pipeline-interface-abc",
+      "text": "**`base.py`** — Base pipeline interface/ABC",
+      "addedAtIteration": 4,
+      "sources": [
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main (root directory listing)",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/web/app.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/web/pages/1_Home.py (via encoded URL)",
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/web",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/pixelle_video/service.py",
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/pixelle_video",
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/pixelle_video/pipelines",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/pixelle_video/pipelines/standard.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/web/pipelines/standard.py"
+      ]
+    },
+    {
+      "id": "finding-4-18-custom-py-custompipeline-user-customized-workflows",
+      "text": "**`custom.py`** — CustomPipeline (user-customized workflows)",
+      "addedAtIteration": 4,
+      "sources": [
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main (root directory listing)",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/web/app.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/web/pages/1_Home.py (via encoded URL)",
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/web",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/pixelle_video/service.py",
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/pixelle_video",
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/pixelle_video/pipelines",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/pixelle_video/pipelines/standard.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/web/pipelines/standard.py"
+      ]
+    },
+    {
+      "id": "finding-4-16-linear-py-linearvideopipeline-base-sequential-frame-processing",
+      "text": "**`linear.py`** — LinearVideoPipeline base (sequential frame processing)",
+      "addedAtIteration": 4,
+      "sources": [
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main (root directory listing)",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/web/app.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/web/pages/1_Home.py (via encoded URL)",
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/web",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/pixelle_video/service.py",
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/pixelle_video",
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/pixelle_video/pipelines",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/pixelle_video/pipelines/standard.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/web/pipelines/standard.py"
+      ]
+    },
+    {
+      "id": "finding-4-17-standard-py-standardpipeline-extends-linearvideopipeline-the-main-pipeline",
+      "text": "**`standard.py`** — StandardPipeline (extends LinearVideoPipeline) — the main pipeline",
+      "addedAtIteration": 4,
+      "sources": [
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main (root directory listing)",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/web/app.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/web/pages/1_Home.py (via encoded URL)",
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/web",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/pixelle_video/service.py",
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/pixelle_video",
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/pixelle_video/pipelines",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/pixelle_video/pipelines/standard.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/web/pipelines/standard.py"
+      ]
+    },
+    {
+      "id": "finding-4-21-fixed-mode-user-provided-script-split-into-segments-by-line",
+      "text": "**\"fixed\"** mode: User-provided script split into segments by line",
+      "addedAtIteration": 4,
+      "sources": [
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main (root directory listing)",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/web/app.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/web/pages/1_Home.py (via encoded URL)",
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/web",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/pixelle_video/service.py",
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/pixelle_video",
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/pixelle_video/pipelines",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/pixelle_video/pipelines/standard.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/web/pipelines/standard.py"
+      ]
+    },
+    {
+      "id": "finding-4-12-frameprocessor-per-frame-rendering-audio-image-template-compositing",
+      "text": "**FrameProcessor** — Per-frame rendering (audio + image + template compositing)",
+      "addedAtIteration": 4,
+      "sources": [
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main (root directory listing)",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/web/app.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/web/pages/1_Home.py (via encoded URL)",
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/web",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/pixelle_video/service.py",
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/pixelle_video",
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/pixelle_video/pipelines",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/pixelle_video/pipelines/standard.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/web/pipelines/standard.py"
+      ]
+    },
+    {
+      "id": "finding-4-20-generate-mode-llm-creates-narrations-from-topic-controlled-by-n-scenes-parameter",
+      "text": "**\"generate\"** mode: LLM creates narrations from topic (controlled by `n_scenes` parameter)",
+      "addedAtIteration": 4,
+      "sources": [
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main (root directory listing)",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/web/app.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/web/pages/1_Home.py (via encoded URL)",
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/web",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/pixelle_video/service.py",
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/pixelle_video",
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/pixelle_video/pipelines",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/pixelle_video/pipelines/standard.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/web/pipelines/standard.py"
+      ]
+    },
+    {
+      "id": "finding-4-33-history-historymanager-provides-browsable-history-powering-the-history-page-in-s",
+      "text": "**History**: `HistoryManager` provides browsable history (powering the History page in Streamlit)",
+      "addedAtIteration": 4,
+      "sources": [
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main (root directory listing)",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/web/app.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/web/pages/1_Home.py (via encoded URL)",
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/web",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/pixelle_video/service.py",
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/pixelle_video",
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/pixelle_video/pipelines",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/pixelle_video/pipelines/standard.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/web/pipelines/standard.py"
+      ]
+    },
+    {
+      "id": "finding-4-2-history-web-pages-2-history-py-past-generation-history-browser",
+      "text": "**History** (`web/pages/2_History.py`) — Past generation history browser",
+      "addedAtIteration": 4,
+      "sources": [
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main (root directory listing)",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/web/app.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/web/pages/1_Home.py (via encoded URL)",
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/web",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/pixelle_video/service.py",
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/pixelle_video",
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/pixelle_video/pipelines",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/pixelle_video/pipelines/standard.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/web/pipelines/standard.py"
+      ]
+    },
+    {
+      "id": "finding-4-14-historymanager-generation-history-tracking",
+      "text": "**HistoryManager** — Generation history tracking",
+      "addedAtIteration": 4,
+      "sources": [
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main (root directory listing)",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/web/app.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/web/pages/1_Home.py (via encoded URL)",
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/web",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/pixelle_video/service.py",
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/pixelle_video",
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/pixelle_video/pipelines",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/pixelle_video/pipelines/standard.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/web/pipelines/standard.py"
+      ]
+    },
+    {
+      "id": "finding-4-1-home-web-pages-1-home-py-main-video-generation-interface",
+      "text": "**Home** (`web/pages/1_Home.py`) — Main video generation interface",
+      "addedAtIteration": 4,
+      "sources": [
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main (root directory listing)",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/web/app.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/web/pages/1_Home.py (via encoded URL)",
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/web",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/pixelle_video/service.py",
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/pixelle_video",
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/pixelle_video/pipelines",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/pixelle_video/pipelines/standard.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/web/pipelines/standard.py"
+      ]
+    },
+    {
+      "id": "finding-4-9-imageanalysisservice-image-analysis",
+      "text": "**ImageAnalysisService** — Image analysis",
+      "addedAtIteration": 4,
+      "sources": [
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main (root directory listing)",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/web/app.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/web/pages/1_Home.py (via encoded URL)",
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/web",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/pixelle_video/service.py",
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/pixelle_video",
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/pixelle_video/pipelines",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/pixelle_video/pipelines/standard.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/web/pipelines/standard.py"
+      ]
+    },
+    {
+      "id": "finding-4-23-image-generation-generates-visual-via-comfyui-workflow-image-prompt-flux-sd-wan",
+      "text": "**Image generation** — Generates visual via ComfyUI workflow (image_prompt → FLUX/SD/WAN)",
+      "addedAtIteration": 4,
+      "sources": [
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main (root directory listing)",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/web/app.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/web/pages/1_Home.py (via encoded URL)",
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/web",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/pixelle_video/service.py",
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/pixelle_video",
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/pixelle_video/pipelines",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/pixelle_video/pipelines/standard.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/web/pipelines/standard.py"
+      ]
+    },
+    {
+      "id": "finding-4-3-left-column-content-input-render-content-input-bgm-selection-render-bgm-section-",
+      "text": "**Left column**: Content input (`render_content_input()`), BGM selection (`render_bgm_section()`), version info",
+      "addedAtIteration": 4,
+      "sources": [
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main (root directory listing)",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/web/app.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/web/pages/1_Home.py (via encoded URL)",
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/web",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/pixelle_video/service.py",
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/pixelle_video",
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/pixelle_video/pipelines",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/pixelle_video/pipelines/standard.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/web/pipelines/standard.py"
+      ]
+    },
+    {
+      "id": "finding-4-6-llmservice-script-narration-generation",
+      "text": "**LLMService** — Script/narration generation",
+      "addedAtIteration": 4,
+      "sources": [
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main (root directory listing)",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/web/app.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/web/pages/1_Home.py (via encoded URL)",
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/web",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/pixelle_video/service.py",
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/pixelle_video",
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/pixelle_video/pipelines",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/pixelle_video/pipelines/standard.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/web/pipelines/standard.py"
+      ]
+    },
+    {
+      "id": "finding-4-8-mediaservice-image-video-generation",
+      "text": "**MediaService** — Image/video generation",
+      "addedAtIteration": 4,
+      "sources": [
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main (root directory listing)",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/web/app.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/web/pages/1_Home.py (via encoded URL)",
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/web",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/pixelle_video/service.py",
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/pixelle_video",
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/pixelle_video/pipelines",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/pixelle_video/pipelines/standard.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/web/pipelines/standard.py"
+      ]
+    },
+    {
+      "id": "finding-4-4-middle-column-style-configuration-render-style-config-pixelle-video-template-voi",
+      "text": "**Middle column**: Style configuration (`render_style_config(pixelle_video)`) — template, voice, image workflow",
+      "addedAtIteration": 4,
+      "sources": [
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main (root directory listing)",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/web/app.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/web/pages/1_Home.py (via encoded URL)",
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/web",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/pixelle_video/service.py",
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/pixelle_video",
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/pixelle_video/pipelines",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/pixelle_video/pipelines/standard.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/web/pipelines/standard.py"
+      ]
+    },
+    {
+      "id": "finding-4-31-persistence-persistenceservice-save-task-metadata-stores-task-config-result-meta",
+      "text": "**Persistence**: `PersistenceService.save_task_metadata()` stores task config + result metadata as JSON",
+      "addedAtIteration": 4,
+      "sources": [
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main (root directory listing)",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/web/app.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/web/pages/1_Home.py (via encoded URL)",
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/web",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/pixelle_video/service.py",
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/pixelle_video",
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/pixelle_video/pipelines",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/pixelle_video/pipelines/standard.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/web/pipelines/standard.py"
+      ]
+    },
+    {
+      "id": "finding-4-13-persistenceservice-task-metadata-storage",
+      "text": "**PersistenceService** — Task metadata storage",
+      "addedAtIteration": 4,
+      "sources": [
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main (root directory listing)",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/web/app.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/web/pages/1_Home.py (via encoded URL)",
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/web",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/pixelle_video/service.py",
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/pixelle_video",
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/pixelle_video/pipelines",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/pixelle_video/pipelines/standard.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/web/pipelines/standard.py"
+      ]
+    },
+    {
+      "id": "finding-4-34-result-object-videogenerationresult-video-path-storyboard-duration-file-size",
+      "text": "**Result object**: `VideoGenerationResult(video_path, storyboard, duration, file_size)`",
+      "addedAtIteration": 4,
+      "sources": [
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main (root directory listing)",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/web/app.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/web/pages/1_Home.py (via encoded URL)",
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/web",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/pixelle_video/service.py",
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/pixelle_video",
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/pixelle_video/pipelines",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/pixelle_video/pipelines/standard.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/web/pipelines/standard.py"
+      ]
+    },
+    {
+      "id": "finding-4-5-right-column-output-preview-render-output-preview-pixelle-video-video-params",
+      "text": "**Right column**: Output preview (`render_output_preview(pixelle_video, video_params)`)",
+      "addedAtIteration": 4,
+      "sources": [
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main (root directory listing)",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/web/app.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/web/pages/1_Home.py (via encoded URL)",
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/web",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/pixelle_video/service.py",
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/pixelle_video",
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/pixelle_video/pipelines",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/pixelle_video/pipelines/standard.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/web/pipelines/standard.py"
+      ]
+    },
+    {
+      "id": "finding-4-28-runninghub-cloud-detected-via-is-runninghub-flag-from-workflow-configuration-use",
+      "text": "**RunningHub (cloud)**: Detected via `is_runninghub` flag from workflow configuration. Uses cloud GPU via API key (`runninghub_api_key` in config). Parallel frame processing enabled with configurable `runninghub_concurrent_limit`.",
+      "addedAtIteration": 4,
+      "sources": [
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main (root directory listing)",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/web/app.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/web/pages/1_Home.py (via encoded URL)",
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/web",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/pixelle_video/service.py",
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/pixelle_video",
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/pixelle_video/pipelines",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/pixelle_video/pipelines/standard.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/web/pipelines/standard.py"
+      ]
+    },
+    {
+      "id": "finding-4-26-runninghub-cloud-gpu-frames-processed-in-parallel-with-asyncio-semaphore-running",
+      "text": "**RunningHub (cloud GPU)**: Frames processed in parallel with `asyncio.Semaphore(runninghub_concurrent_limit)` — configurable concurrency",
+      "addedAtIteration": 4,
+      "sources": [
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main (root directory listing)",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/web/app.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/web/pages/1_Home.py (via encoded URL)",
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/web",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/pixelle_video/service.py",
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/pixelle_video",
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/pixelle_video/pipelines",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/pixelle_video/pipelines/standard.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/web/pipelines/standard.py"
+      ]
+    },
+    {
+      "id": "finding-4-29-self-hosted-local-default-mode-serial-frame-processing-comfykit-initialized-lazi",
+      "text": "**Self-hosted (local)**: Default mode. Serial frame processing. ComfyKit initialized lazily with hot-reload.",
+      "addedAtIteration": 4,
+      "sources": [
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main (root directory listing)",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/web/app.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/web/pages/1_Home.py (via encoded URL)",
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/web",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/pixelle_video/service.py",
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/pixelle_video",
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/pixelle_video/pipelines",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/pixelle_video/pipelines/standard.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/web/pipelines/standard.py"
+      ]
+    },
+    {
+      "id": "finding-4-27-self-hosted-local-gpu-frames-processed-sequentially-serial-loop",
+      "text": "**Self-hosted (local GPU)**: Frames processed sequentially (serial loop)",
+      "addedAtIteration": 4,
+      "sources": [
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main (root directory listing)",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/web/app.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/web/pages/1_Home.py (via encoded URL)",
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/web",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/pixelle_video/service.py",
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/pixelle_video",
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/pixelle_video/pipelines",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/pixelle_video/pipelines/standard.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/web/pipelines/standard.py"
+      ]
+    },
+    {
+      "id": "finding-4-32-storyboard-persistenceservice-save-storyboard-stores-frame-by-frame-details",
+      "text": "**Storyboard**: `PersistenceService.save_storyboard()` stores frame-by-frame details",
+      "addedAtIteration": 4,
+      "sources": [
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main (root directory listing)",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/web/app.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/web/pages/1_Home.py (via encoded URL)",
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/web",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/pixelle_video/service.py",
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/pixelle_video",
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/pixelle_video/pipelines",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/pixelle_video/pipelines/standard.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/web/pipelines/standard.py"
+      ]
+    },
+    {
+      "id": "finding-4-30-task-id-generated-during-setup-environment-used-as-primary-key-for-all-artifacts",
+      "text": "**Task ID**: Generated during `setup_environment()`, used as primary key for all artifacts",
+      "addedAtIteration": 4,
+      "sources": [
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main (root directory listing)",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/web/app.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/web/pages/1_Home.py (via encoded URL)",
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/web",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/pixelle_video/service.py",
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/pixelle_video",
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/pixelle_video/pipelines",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/pixelle_video/pipelines/standard.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/web/pipelines/standard.py"
+      ]
+    },
+    {
+      "id": "finding-4-24-template-rendering-composites-audio-image-into-html-template-frame",
+      "text": "**Template rendering** — Composites audio + image into HTML template frame",
+      "addedAtIteration": 4,
+      "sources": [
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main (root directory listing)",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/web/app.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/web/pages/1_Home.py (via encoded URL)",
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/web",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/pixelle_video/service.py",
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/pixelle_video",
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/pixelle_video/pipelines",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/pixelle_video/pipelines/standard.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/web/pipelines/standard.py"
+      ]
+    },
+    {
+      "id": "finding-4-22-tts-generation-converts-narration-text-to-audio-via-ttsservice-voice-id-speed",
+      "text": "**TTS generation** — Converts narration text to audio via TTSService (voice_id, speed)",
+      "addedAtIteration": 4,
+      "sources": [
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main (root directory listing)",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/web/app.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/web/pages/1_Home.py (via encoded URL)",
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/web",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/pixelle_video/service.py",
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/pixelle_video",
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/pixelle_video/pipelines",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/pixelle_video/pipelines/standard.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/web/pipelines/standard.py"
+      ]
+    },
+    {
+      "id": "finding-4-7-ttsservice-text-to-speech-audio",
+      "text": "**TTSService** — Text-to-speech audio",
+      "addedAtIteration": 4,
+      "sources": [
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main (root directory listing)",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/web/app.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/web/pages/1_Home.py (via encoded URL)",
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/web",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/pixelle_video/service.py",
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/pixelle_video",
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/pixelle_video/pipelines",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/pixelle_video/pipelines/standard.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/web/pipelines/standard.py"
+      ]
+    },
+    {
+      "id": "finding-4-10-videoanalysisservice-video-analysis",
+      "text": "**VideoAnalysisService** — Video analysis",
+      "addedAtIteration": 4,
+      "sources": [
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main (root directory listing)",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/web/app.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/web/pages/1_Home.py (via encoded URL)",
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/web",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/pixelle_video/service.py",
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/pixelle_video",
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/pixelle_video/pipelines",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/pixelle_video/pipelines/standard.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/web/pipelines/standard.py"
+      ]
+    },
+    {
+      "id": "finding-4-25-video-segment-renders-frame-to-video-segment-mp4",
+      "text": "**Video segment** — Renders frame to video segment (.mp4)",
+      "addedAtIteration": 4,
+      "sources": [
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main (root directory listing)",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/web/app.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/web/pages/1_Home.py (via encoded URL)",
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/web",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/pixelle_video/service.py",
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/pixelle_video",
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/pixelle_video/pipelines",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/pixelle_video/pipelines/standard.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/web/pipelines/standard.py"
+      ]
+    },
+    {
+      "id": "finding-4-11-videoservice-video-concatenation-composition",
+      "text": "**VideoService** — Video concatenation/composition",
+      "addedAtIteration": 4,
+      "sources": [
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main (root directory listing)",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/web/app.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/web/pages/1_Home.py (via encoded URL)",
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/web",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/pixelle_video/service.py",
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/pixelle_video",
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/pixelle_video/pipelines",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/pixelle_video/pipelines/standard.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/web/pipelines/standard.py"
+      ]
+    },
+    {
+      "id": "finding-5-18-bgm-default-background-music",
+      "text": "`bgm/` — Default background music",
+      "addedAtIteration": 5,
+      "sources": [
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/web/components/content_input.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/web/components/style_config.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/web/pages/2_%F0%9F%93%9A_History.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/routers/files.py",
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/web/pages"
+      ]
+    },
+    {
+      "id": "finding-5-32-data-user-customizable-assets-bgm-templates",
+      "text": "`data/` — user-customizable assets (bgm, templates)",
+      "addedAtIteration": 5,
+      "sources": [
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/web/components/content_input.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/web/components/style_config.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/web/pages/2_%F0%9F%93%9A_History.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/routers/files.py",
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/web/pages"
+      ]
+    },
+    {
+      "id": "finding-5-19-data-bgm-custom-user-background-music",
+      "text": "`data/bgm/` — Custom/user background music",
+      "addedAtIteration": 5,
+      "sources": [
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/web/components/content_input.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/web/components/style_config.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/web/pages/2_%F0%9F%93%9A_History.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/routers/files.py",
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/web/pages"
+      ]
+    },
+    {
+      "id": "finding-5-20-data-templates-custom-user-templates",
+      "text": "`data/templates/` — Custom/user templates",
+      "addedAtIteration": 5,
+      "sources": [
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/web/components/content_input.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/web/components/style_config.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/web/pages/2_%F0%9F%93%9A_History.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/routers/files.py",
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/web/pages"
+      ]
+    },
+    {
+      "id": "finding-5-23-inline-content-disposition-for-browser-preview",
+      "text": "`inline` Content-Disposition for browser preview",
+      "addedAtIteration": 5,
+      "sources": [
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/web/components/content_input.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/web/components/style_config.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/web/pages/2_%F0%9F%93%9A_History.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/routers/files.py",
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/web/pages"
+      ]
+    },
+    {
+      "id": "finding-5-15-output-generated-videos-images-audio-default-fallback",
+      "text": "`output/` — Generated videos, images, audio (DEFAULT fallback)",
+      "addedAtIteration": 5,
+      "sources": [
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/web/components/content_input.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/web/components/style_config.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/web/pages/2_%F0%9F%93%9A_History.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/routers/files.py",
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/web/pages"
+      ]
+    },
+    {
+      "id": "finding-5-27-output-task-id-per-task-output-directory",
+      "text": "`output/{task_id}/` — per-task output directory",
+      "addedAtIteration": 5,
+      "sources": [
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/web/components/content_input.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/web/components/style_config.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/web/pages/2_%F0%9F%93%9A_History.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/routers/files.py",
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/web/pages"
+      ]
+    },
+    {
+      "id": "finding-5-29-output-task-id-audio-narration-audio-segments",
+      "text": "`output/{task_id}/audio/` — narration audio segments",
+      "addedAtIteration": 5,
+      "sources": [
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/web/components/content_input.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/web/components/style_config.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/web/pages/2_%F0%9F%93%9A_History.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/routers/files.py",
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/web/pages"
+      ]
+    },
+    {
+      "id": "finding-5-28-output-task-id-frames-composed-frame-images",
+      "text": "`output/{task_id}/frames/` — composed frame images",
+      "addedAtIteration": 5,
+      "sources": [
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/web/components/content_input.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/web/components/style_config.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/web/pages/2_%F0%9F%93%9A_History.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/routers/files.py",
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/web/pages"
+      ]
+    },
+    {
+      "id": "finding-5-30-output-task-id-video-video-segments-final-output",
+      "text": "`output/{task_id}/video/` — video segments + final output",
+      "addedAtIteration": 5,
+      "sources": [
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/web/components/content_input.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/web/components/style_config.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/web/pages/2_%F0%9F%93%9A_History.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/routers/files.py",
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/web/pages"
+      ]
+    },
+    {
+      "id": "finding-5-13-pixelle-video-history-delete-task-task-id-success-message",
+      "text": "`pixelle_video.history.delete_task(task_id)` → success/message",
+      "addedAtIteration": 5,
+      "sources": [
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/web/components/content_input.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/web/components/style_config.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/web/pages/2_%F0%9F%93%9A_History.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/routers/files.py",
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/web/pages"
+      ]
+    },
+    {
+      "id": "finding-5-14-pixelle-video-history-get-statistics-completed-failed-counts",
+      "text": "`pixelle_video.history.get_statistics()` → completed/failed counts",
+      "addedAtIteration": 5,
+      "sources": [
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/web/components/content_input.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/web/components/style_config.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/web/pages/2_%F0%9F%93%9A_History.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/routers/files.py",
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/web/pages"
+      ]
+    },
+    {
+      "id": "finding-5-12-pixelle-video-history-get-task-detail-task-id-full-metadata-storyboard",
+      "text": "`pixelle_video.history.get_task_detail(task_id)` → full metadata + storyboard",
+      "addedAtIteration": 5,
+      "sources": [
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/web/components/content_input.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/web/components/style_config.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/web/pages/2_%F0%9F%93%9A_History.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/routers/files.py",
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/web/pages"
+      ]
+    },
+    {
+      "id": "finding-5-11-pixelle-video-history-get-task-list-page-page-size-status-sort-by-sort-order-tas",
+      "text": "`pixelle_video.history.get_task_list(page, page_size, status, sort_by, sort_order)` → {tasks[], total, total_pages}",
+      "addedAtIteration": 5,
+      "sources": [
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/web/components/content_input.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/web/components/style_config.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/web/pages/2_%F0%9F%93%9A_History.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/routers/files.py",
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/web/pages"
+      ]
+    },
+    {
+      "id": "finding-5-21-resources-miscellaneous-assets-images-fonts-examples",
+      "text": "`resources/` — Miscellaneous assets (images, fonts, examples)",
+      "addedAtIteration": 5,
+      "sources": [
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/web/components/content_input.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/web/components/style_config.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/web/pages/2_%F0%9F%93%9A_History.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/routers/files.py",
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/web/pages"
+      ]
+    },
+    {
+      "id": "finding-5-31-resources-shared-resources-fonts-example-images",
+      "text": "`resources/` — shared resources (fonts, example images)",
+      "addedAtIteration": 5,
+      "sources": [
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/web/components/content_input.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/web/components/style_config.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/web/pages/2_%F0%9F%93%9A_History.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/routers/files.py",
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/web/pages"
+      ]
+    },
+    {
+      "id": "finding-5-17-templates-html-template-files",
+      "text": "`templates/` — HTML template files",
+      "addedAtIteration": 5,
+      "sources": [
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/web/components/content_input.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/web/components/style_config.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/web/pages/2_%F0%9F%93%9A_History.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/routers/files.py",
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/web/pages"
+      ]
+    },
+    {
+      "id": "finding-5-16-workflows-comfyui-workflow-json-files",
+      "text": "`workflows/` — ComfyUI workflow JSON files",
+      "addedAtIteration": 5,
+      "sources": [
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/web/components/content_input.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/web/components/style_config.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/web/pages/2_%F0%9F%93%9A_History.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/routers/files.py",
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/web/pages"
+      ]
+    },
+    {
+      "id": "finding-5-8-actions-per-task-view-details-download-mp4-delete-with-confirmation-dialog",
+      "text": "**Actions per task**: View details, Download MP4, Delete (with confirmation dialog)",
+      "addedAtIteration": 5,
+      "sources": [
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/web/components/content_input.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/web/components/style_config.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/web/pages/2_%F0%9F%93%9A_History.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/routers/files.py",
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/web/pages"
+      ]
+    },
+    {
+      "id": "finding-5-36-boolean-params-st-checkbox",
+      "text": "**boolean** params → st.checkbox",
+      "addedAtIteration": 5,
+      "sources": [
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/web/components/content_input.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/web/components/style_config.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/web/pages/2_%F0%9F%93%9A_History.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/routers/files.py",
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/web/pages"
+      ]
+    },
+    {
+      "id": "finding-5-35-color-params-st-color-picker",
+      "text": "**color** params → st.color_picker",
+      "addedAtIteration": 5,
+      "sources": [
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/web/components/content_input.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/web/components/style_config.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/web/pages/2_%F0%9F%93%9A_History.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/routers/files.py",
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/web/pages"
+      ]
+    },
+    {
+      "id": "finding-5-41-comfyui-mode-workflow-selector-reference-audio-uploader-for-voice-cloning",
+      "text": "**ComfyUI mode**: workflow selector + reference audio uploader (for voice cloning)",
+      "addedAtIteration": 5,
+      "sources": [
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/web/components/content_input.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/web/components/style_config.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/web/pages/2_%F0%9F%93%9A_History.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/routers/files.py",
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/web/pages"
+      ]
+    },
+    {
+      "id": "finding-5-7-detail-modal-3-column-full-storyboard-frames-composed-images-narration-audio-vid",
+      "text": "**Detail modal** (3-column): full storyboard frames, composed images, narration audio, video segments",
+      "addedAtIteration": 5,
+      "sources": [
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/web/components/content_input.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/web/components/style_config.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/web/pages/2_%F0%9F%93%9A_History.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/routers/files.py",
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/web/pages"
+      ]
+    },
+    {
+      "id": "finding-5-24-fallback-to-application-octet-stream",
+      "text": "Fallback to `application/octet-stream`",
+      "addedAtIteration": 5,
+      "sources": [
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/web/components/content_input.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/web/components/style_config.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/web/pages/2_%F0%9F%93%9A_History.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/routers/files.py",
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/web/pages"
+      ]
+    },
+    {
+      "id": "finding-5-37-fetch-template-list-from-api-resources-templates",
+      "text": "Fetch template list from `/api/resources/templates`",
+      "addedAtIteration": 5,
+      "sources": [
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/web/components/content_input.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/web/components/style_config.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/web/pages/2_%F0%9F%93%9A_History.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/routers/files.py",
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/web/pages"
+      ]
+    },
+    {
+      "id": "finding-5-40-local-mode-voice-selector-speed-slider",
+      "text": "**Local mode**: voice selector + speed slider",
+      "addedAtIteration": 5,
+      "sources": [
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/web/components/content_input.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/web/components/style_config.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/web/pages/2_%F0%9F%93%9A_History.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/routers/files.py",
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/web/pages"
+      ]
+    },
+    {
+      "id": "finding-5-22-mime-type-detection-by-extension-mp4-mp3-wav-png-jpg-gif-html-json",
+      "text": "MIME type detection by extension (mp4, mp3, wav, png, jpg, gif, html, json)",
+      "addedAtIteration": 5,
+      "sources": [
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/web/components/content_input.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/web/components/style_config.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/web/pages/2_%F0%9F%93%9A_History.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/routers/files.py",
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/web/pages"
+      ]
+    },
+    {
+      "id": "finding-5-9-no-re-run-capability-re-generation-requires-going-back-to-home-page",
+      "text": "**No re-run capability** — re-generation requires going back to Home page",
+      "addedAtIteration": 5,
+      "sources": [
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/web/components/content_input.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/web/components/style_config.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/web/pages/2_%F0%9F%93%9A_History.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/routers/files.py",
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/web/pages"
+      ]
+    },
+    {
+      "id": "finding-5-34-number-params-st-number-input",
+      "text": "**number** params → st.number_input",
+      "addedAtIteration": 5,
+      "sources": [
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/web/components/content_input.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/web/components/style_config.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/web/pages/2_%F0%9F%93%9A_History.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/routers/files.py",
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/web/pages"
+      ]
+    },
+    {
+      "id": "finding-5-5-pagination-page-size-15-30-60-prev-next-buttons",
+      "text": "**Pagination**: page_size 15/30/60, prev/next buttons",
+      "addedAtIteration": 5,
+      "sources": [
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/web/components/content_input.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/web/components/style_config.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/web/pages/2_%F0%9F%93%9A_History.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/routers/files.py",
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/web/pages"
+      ]
+    },
+    {
+      "id": "finding-5-25-path-validation-must-start-with-allowed-prefix-resolved-path-must-stay-within-bo",
+      "text": "Path validation: must start with allowed prefix, resolved path must stay within boundaries",
+      "addedAtIteration": 5,
+      "sources": [
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/web/components/content_input.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/web/components/style_config.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/web/pages/2_%F0%9F%93%9A_History.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/routers/files.py",
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/web/pages"
+      ]
+    },
+    {
+      "id": "finding-5-10-preview-st-video-for-output-segments-st-image-for-frames-st-audio-for-narration",
+      "text": "**Preview**: st.video() for output + segments, st.image() for frames, st.audio() for narration",
+      "addedAtIteration": 5,
+      "sources": [
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/web/components/content_input.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/web/components/style_config.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/web/pages/2_%F0%9F%93%9A_History.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/routers/files.py",
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/web/pages"
+      ]
+    },
+    {
+      "id": "finding-5-38-read-each-template-s-parameter-declarations",
+      "text": "Read each template's parameter declarations",
+      "addedAtIteration": 5,
+      "sources": [
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/web/components/content_input.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/web/components/style_config.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/web/pages/2_%F0%9F%93%9A_History.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/routers/files.py",
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/web/pages"
+      ]
+    },
+    {
+      "id": "finding-5-39-render-a-dynamic-form-matching-the-template-s-declared-params",
+      "text": "Render a dynamic form matching the template's declared params",
+      "addedAtIteration": 5,
+      "sources": [
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/web/components/content_input.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/web/components/style_config.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/web/pages/2_%F0%9F%93%9A_History.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/routers/files.py",
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/web/pages"
+      ]
+    },
+    {
+      "id": "finding-5-26-security-403-if-path-escapes-404-if-nonexistent",
+      "text": "Security: 403 if path escapes, 404 if nonexistent",
+      "addedAtIteration": 5,
+      "sources": [
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/web/components/content_input.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/web/components/style_config.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/web/pages/2_%F0%9F%93%9A_History.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/routers/files.py",
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/web/pages"
+      ]
+    },
+    {
+      "id": "finding-5-4-sort-by-created-at-completed-at-title-duration-selectbox-asc-desc-radio",
+      "text": "**Sort**: by created_at / completed_at / title / duration (selectbox) + asc/desc (radio)",
+      "addedAtIteration": 5,
+      "sources": [
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/web/components/content_input.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/web/components/style_config.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/web/pages/2_%F0%9F%93%9A_History.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/routers/files.py",
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/web/pages"
+      ]
+    },
+    {
+      "id": "finding-5-6-statistics-completed-count-failed-count-st-metric-in-sidebar",
+      "text": "**Statistics**: completed count + failed count (st.metric in sidebar)",
+      "addedAtIteration": 5,
+      "sources": [
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/web/components/content_input.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/web/components/style_config.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/web/pages/2_%F0%9F%93%9A_History.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/routers/files.py",
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/web/pages"
+      ]
+    },
+    {
+      "id": "finding-5-3-status-filter-all-completed-failed-running-pending-sidebar-selectbox",
+      "text": "**Status filter**: all / completed / failed / running / pending (sidebar selectbox)",
+      "addedAtIteration": 5,
+      "sources": [
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/web/components/content_input.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/web/components/style_config.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/web/pages/2_%F0%9F%93%9A_History.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/routers/files.py",
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/web/pages"
+      ]
+    },
+    {
+      "id": "finding-5-33-string-params-st-text-input",
+      "text": "**string** params → st.text_input",
+      "addedAtIteration": 5,
+      "sources": [
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/web/components/content_input.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/web/components/style_config.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/web/pages/2_%F0%9F%93%9A_History.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/routers/files.py",
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/web/pages"
+      ]
+    },
+    {
+      "id": "finding-5-1-st-text-input-st-number-input-st-color-picker-st-checkbox-rendered-dynamically-p",
+      "text": "st.text_input / st.number_input / st.color_picker / st.checkbox — rendered dynamically per template's declared parameters",
+      "addedAtIteration": 5,
+      "sources": [
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/web/components/content_input.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/web/components/style_config.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/web/pages/2_%F0%9F%93%9A_History.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/routers/files.py",
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/web/pages"
+      ]
+    },
+    {
+      "id": "finding-5-2-task-list-grid-with-video-thumbnail-title-status-emoji-duration-frame-count-crea",
+      "text": "**Task list grid** with video thumbnail, title, status emoji, duration, frame count, creation date",
+      "addedAtIteration": 5,
+      "sources": [
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/web/components/content_input.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/web/components/style_config.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/web/pages/2_%F0%9F%93%9A_History.py",
+        "https://raw.githubusercontent.com/AIDC-AI/Pixelle-Video/main/api/routers/files.py",
+        "https://github.com/AIDC-AI/Pixelle-Video/tree/main/web/pages"
+      ]
+    }
+  ],
+  "ruledOutDirections": [
+    {
+      "id": "ruled-out-1-1-health-router-source-fetch-low-priority-inferred-from-mount-pattern-can-confirm-",
+      "text": "Health router source fetch: low priority, inferred from mount pattern. Can confirm in a later iteration if needed.",
+      "addedAtIteration": 1
+    },
+    {
+      "id": "ruled-out-2-1-none-identified",
+      "text": "None identified.",
+      "addedAtIteration": 2
+    },
+    {
+      "id": "ruled-out-2-2-none-this-iteration-all-targeted-sources-were-successfully-fetched",
+      "text": "None this iteration. All targeted sources were successfully fetched.",
+      "addedAtIteration": 2
+    },
+    {
+      "id": "ruled-out-3-2-none-all-five-target-areas-yielded-substantial-results-from-github-source-files",
+      "text": "None. All five target areas yielded substantial results from GitHub source files.",
+      "addedAtIteration": 3
+    },
+    {
+      "id": "ruled-out-3-1-none-identified-the-direct-raw-github-fetch-approach-continues-to-be-highly-prod",
+      "text": "None identified. The direct raw GitHub fetch approach continues to be highly productive.",
+      "addedAtIteration": 3
+    },
+    {
+      "id": "ruled-out-4-3-pixelle-video-content-py-does-not-exist-as-a-standalone-file-content-generation-",
+      "text": "`pixelle_video/content.py` — does not exist as a standalone file; content generation is embedded in pipeline stages",
+      "addedAtIteration": 4
+    },
+    {
+      "id": "ruled-out-4-4-pixelle-video-services-content-py-does-not-exist-the-service-layer-is-flat-at-pi",
+      "text": "`pixelle_video/services/content.py` — does not exist; the service layer is flat at `pixelle_video/service.py`",
+      "addedAtIteration": 4
+    },
+    {
+      "id": "ruled-out-4-2-webui-directory-path-does-not-exist-the-streamlit-ui-is-at-web-instead",
+      "text": "`webui/` directory path — does not exist; the Streamlit UI is at `web/` instead",
+      "addedAtIteration": 4
+    },
+    {
+      "id": "ruled-out-4-1-none-all-paths-that-returned-404-were-quickly-corrected-by-discovering-the-actua",
+      "text": "None. All paths that returned 404 were quickly corrected by discovering the actual repository structure.",
+      "addedAtIteration": 4
+    },
+    {
+      "id": "ruled-out-5-3-2-history-py-path-without-emoji-404-actual-filename-is-2-history-py-with-url-enc",
+      "text": "`2_History.py` path without emoji (404) — actual filename is `2_📚_History.py` with URL-encoded emoji prefix",
+      "addedAtIteration": 5
+    },
+    {
+      "id": "ruled-out-5-5-file-cleanup-api-endpoint-does-not-exist-cleanup-is-manual-external",
+      "text": "File cleanup API endpoint — does not exist; cleanup is manual/external",
+      "addedAtIteration": 5
+    },
+    {
+      "id": "ruled-out-5-4-file-upload-api-endpoint-does-not-exist-all-files-are-generated-by-the-pipeline",
+      "text": "File upload API endpoint — does not exist; all files are generated by the pipeline",
+      "addedAtIteration": 5
+    },
+    {
+      "id": "ruled-out-5-2-no-auto-cleanup-generated-files-accumulate-indefinitely-viral-ops-must-implement",
+      "text": "No auto-cleanup — generated files accumulate indefinitely. viral-ops must implement its own cleanup policy (cron job or storage quota).",
+      "addedAtIteration": 5
+    },
+    {
+      "id": "ruled-out-5-1-no-file-upload-endpoint-in-the-entire-api-pixelle-video-generates-all-files-inte",
+      "text": "No file upload endpoint in the entire API — Pixelle-Video generates all files internally. The viral-ops dashboard will need a separate upload mechanism for voice clone reference audio (store in data/ and pass path to API).",
+      "addedAtIteration": 5
+    },
+    {
+      "id": "ruled-out-5-6-re-run-re-generate-from-history-page-not-available-must-go-to-home-page",
+      "text": "Re-run/re-generate from History page — not available; must go to Home page",
+      "addedAtIteration": 5
+    },
+    {
+      "id": "ruled-out-5-7-tts-pitch-control-does-not-exist-anywhere-in-the-system",
+      "text": "TTS pitch control — does not exist anywhere in the system",
+      "addedAtIteration": 5
+    }
+  ],
+  "blockedStopHistory": [],
+  "graphConvergenceScore": 0,
+  "graphDecision": null,
+  "graphBlockers": [],
+  "metrics": {
+    "iterationsCompleted": 5,
+    "openQuestions": 14,
+    "resolvedQuestions": 0,
+    "keyFindings": 157,
+    "convergenceScore": 0.86,
+    "coverageBySources": {
+      "github.com": 18,
+      "raw.githubusercontent.com": 34
+    }
+  },
+  "corruptionWarnings": [],
+  "status": "INITIALIZED"
+}

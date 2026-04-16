@@ -46,6 +46,13 @@ dist/
 **/node_modules
 node_modules/
 
+# Third-party skills (installed via npx skills add, see skills-lock.json)
+# Run: bash scripts/install-skills.sh after clone
+# ───────────────────────────────────────────
+.agents/
+.junie/
+.windsurf/
+
 # Environment files
 # ───────────────────────────────────────────
 .env

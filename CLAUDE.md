@@ -27,8 +27,20 @@
 **FRONTEND DESIGN RULE [HARD]:** (detail: `.design-pipeline.md`)
 - **Source of truth**: `DESIGN.md` (Linear-inspired). All UI must follow its tokens. `.stitch/DESIGN.md` is a symlink to the same file.
 - **Plan phase**: For NEW page/screen tasks → `/shape` (design brief) → Stitch mockup via `enhance-prompt` → `stitch-design` → save to `specs/{folder}/scratch/`. Skip for standard patterns (CRUD, table) or if Stitch MCP is disabled.
-- **Build phase**: Read `DESIGN.md` + `.impeccable.md` + mockup (if exists). Build with shadcn/ui + Tremor. DESIGN.md tokens override mockup on conflict.
+- **Build phase**: Read `DESIGN.md` + `.impeccable.md` + mockup (if exists). Build with shadcn/ui (incl. shadcn charts). DESIGN.md tokens override mockup on conflict.
 - **Verify phase**: `/critique` (UX review) → `/audit` ≥14/20 + Anti-Patterns ≥3/4. FAIL → fix commands → `/polish` → re-audit.
+
+**LICENSE RULE [HARD]:**
+- **Adding third-party code** (npm packages, skills, copied files, cloned repos): Check the license. Add an entry to the "Third-party components" table in `README.md` with component name, license type, and source URL.
+- **Modifying Apache 2.0 files** (impeccable skills, Stitch skills): Add `# Modified by viral-ops — [description]` at the top. Do NOT remove existing copyright headers or license references in SKILL.md frontmatter.
+- **License obligations reference**: See `.opencode/skill/README.md` "Third-Party Skill Licenses" section for full details.
+
+**TEST RULE [HARD]:** (reference: `sk-code-full-stack/references/frontend/react/testing_strategy.md`)
+- **Every feature must include tests**. No implementation is complete with 0 test files. Follow the testing pyramid: unit (~60%) → integration (~30%) → E2E (~10%).
+- **Unit tests**: Every new utility, hook, or non-trivial component gets a `.test.ts` file. Use React Testing Library + Vitest/Jest.
+- **E2E tests**: Every new page/screen gets at least one Playwright E2E test covering the critical user journey. File: `e2e/{page-name}.spec.ts`.
+- **API integration tests**: Every new API route or n8n webhook integration gets MSW-mocked integration tests.
+- **Verification**: `npm test` must pass with >0 test suites before claiming done. Zero test files = FAIL.
 
 **HALT CONDITIONS (Stop and Report):**
 - [ ] Target file does not exist or line numbers don't match.
@@ -371,5 +383,5 @@ For ALL git workflows, `sk-git` orchestrates workspace setup, commit hygiene, an
 | Phase | Tool | Role |
 |-------|------|------|
 | `/spec_kit:plan` | `/shape` → Stitch | Design brief → mockup (new pages only) |
-| `/spec_kit:complete` | shadcn/ui + Tremor | Build real code from DESIGN.md tokens + mockup reference |
+| `/spec_kit:complete` | shadcn/ui (incl. shadcn charts) | Build real code from DESIGN.md tokens + mockup reference |
 | Verify (before done) | `/critique` → `/audit` ≥14/20 | UX review + technical quality gate |

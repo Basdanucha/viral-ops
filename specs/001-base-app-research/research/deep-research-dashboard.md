@@ -15,14 +15,14 @@ Reducer-generated observability surface for the active research packet.
 <!-- /ANCHOR:overview -->
 <!-- ANCHOR:status -->
 ## 2. STATUS
-- Topic: Find the best open-source base app to fork as the foundation for viral-ops, including UI stack for the dashboard
-- Started: 2026-04-16T12:00:00Z
+- Topic: viral-ops framework version update — boilerplate replacement (next-saas-stripe-starter is dead), Next.js 16, Prisma 7, n8n 2.x compatibility, and stable versions for all stack components
+- Started: 2026-04-17T10:00:00Z
 - Status: INITIALIZED
-- Iteration: 13 of 25
-- Session ID: dr-1776310994-5288
-- Parent Session: none
-- Lifecycle Mode: new
-- Generation: 1
+- Iteration: 5 of 10
+- Session ID: dr-gen2-1776397200
+- Parent Session: dr-1776310994-5288
+- Lifecycle Mode: restart
+- Generation: 2
 - continuedFromRun: none
 
 <!-- /ANCHOR:status -->
@@ -31,106 +31,65 @@ Reducer-generated observability surface for the active research packet.
 
 | # | Focus | Track | Ratio | Findings | Status |
 |---|-------|-------|-------|----------|--------|
-| 1 | OSS SaaS boilerplate landscape survey — identify and evaluate top candidates | landscape-survey | 0.90 | 6 | complete |
-| 2 | Deep-dive fork viability: BoxyHQ, Open SaaS (Wasp), next-saas-stripe-starter, Cal.com | fork-viability | 0.83 | 6 | complete |
-| 3 | OSS video generation engine deep-dive: Pixelle-Video vs MoneyPrinterTurbo vs short-video-maker vs TikTok-Forge | video-gen-engine | 0.92 | 6 | complete |
-| 4 | Pixelle-Video deep-dive: API architecture, Thai TTS verification, ComfyUI workflows, GPU requirements, code modularity | video-gen-engine-integration | 0.92 | 6 | complete |
-| 5 | n8n integration pattern, glue architecture, Index-TTS Thai voice cloning | integration-architecture | 0.83 | 6 | complete |
-| 6 | Multi-platform upload strategy (TikTok, YouTube Shorts, Instagram Reels, Facebook Reels) + multi-platform DB schema design | multi-platform-upload | 0.92 | 6 | complete |
-| 7 | Affiliate/Shopping API deep-dive: cart pin (ปักตะกร้า) across TikTok, YouTube, Instagram, Facebook | affiliate-shopping-api | 0.92 | 6 | complete |
-| 8 | CONVERGENCE SYNTHESIS — consolidate all 7 iterations into definitive Phase 1 architecture recommendation | convergence-synthesis | 0.35 | 6 | complete |
-| 9 | Intelligence layers — Trend Layer (scraping/monitoring) + Viral Brain (scoring algorithm) | intelligence-layers | 0.92 | 6 | complete |
-| 10 | Content Lab A/B testing (Q24) + Feedback Loop analytics APIs (Q25) | intelligence-layers | 0.83 | 6 | complete |
-| 11 | Product Discovery (Path B) — affiliate catalog scanning, product scoring, affiliate link generation, product-first script generation | product-discovery-path-b | 0.92 | 6 | complete |
-| 12 | Multi-channel identity & persona management — per-channel persona DB schema, Pixelle-Video per-request config, n8n branching, TikTok fingerprinting/penalty, LLM persona prompts | multi-channel-identity | 0.92 | 6 | complete |
-| 13 | FINAL CONVERGENCE SYNTHESIS -- definitive complete architecture document covering all 7 layers, both paths, 14 tables, 15 decisions | convergence-synthesis | 0.20 | 6 | complete |
+| 1 | Stack component version survey — Next.js, Prisma, n8n, Tailwind, Node.js, Tremor, boilerplate status | version-survey | 0.86 | 7 | complete |
+| 2 | Boilerplate replacement candidates (Q1) + Tremor status deep dive (Q6) | boilerplate-and-ui | 0.80 | 5 | complete |
+| 3 | next-forge version confirmation + shadcn/ui charts + remaining component versions (TypeScript, PostgreSQL, Auth.js) | version-pinning | 0.86 | 7 | complete |
+| 4 | Remaining components + breaking changes + auth decision (Pixelle-Video, Better Auth, Next.js 16 migration, n8n partial, architecture validation) | version-audit | 0.79 | 7 | complete |
+| 5 | Prisma 5->7 breaking changes (Q3) + n8n 2.0 breaking changes (Q4) + ComfyUI/Edge-TTS pinning (Q9) + architecture synthesis (Q10) | version-audit | 0.90 | 5 | complete |
 
-- iterationsCompleted: 13
-- keyFindings: 486
-- openQuestions: 19
-- resolvedQuestions: 1
+- iterationsCompleted: 5
+- keyFindings: 205
+- openQuestions: 10
+- resolvedQuestions: 0
 
 <!-- /ANCHOR:progress -->
 <!-- ANCHOR:questions -->
 ## 4. QUESTIONS
-- Answered: 1/20
-- [x] Q1: What are the best OSS SaaS boilerplates/starter kits? → ANSWERED (iter 1-2): next-saas-stripe-starter (top pick for solo start) + BoxyHQ (when multi-tenant needed). Deferred to next phase.
-- [ ] Q2: Which UI framework + component library best fits a data-heavy, real-time dashboard? (DEFERRED — revisit after video gen engine decided)
-- [ ] Q3: How well do the top candidates support the viral-ops pipeline architecture? (DEFERRED)
-- [ ] Q4: Database and ORM trade-offs? (DEFERRED)
-- [ ] Q5: Extensibility for video gen, upload, affiliate? (PARTIALLY — depends on video gen engine choice)
-- [ ] Q6: Admin/dashboard frameworks? (DEFERRED)
-- [ ] Q7: Background job orchestration? (DEFERRED)
-- [ ] Q8: Licensing, community health? (DEFERRED — re-evaluate for video gen candidates)
-- [ ] Q9: Which OSS video gen engine best covers the full pipeline (script → visuals → TTS → captions → composite) for viral-ops?
-- [ ] Q10: How modular are the candidates — can you swap TTS engine, image gen model, composition backend?
-- [ ] Q11: Do candidates have API/headless mode for integration with a dashboard/orchestrator?
-- [ ] Q12: Multi-language TTS support — especially Thai or pluggable TTS engines?
-- [ ] Q13: Active maintenance status (2026) and Windows compatibility?
-- [ ] Q14: Are there additional OSS video gen engines beyond Pixelle-Video, short-video-maker, and TikTok-Forge?
-- [ ] Q22: TREND LAYER — How to scrape/monitor trending content per platform? APIs (TikTok Creative Center, YT Trending, IG Explore), OSS tools (pentos, exolyt), trend clustering?
-- [ ] Q23: VIRAL BRAIN — What algorithms/models/papers exist for viral scoring? Hook strength, curiosity gap, retention prediction? OSS implementations?
-- [ ] Q24: CONTENT LAB — How does A/B testing work for short-form video? Variant generation strategies? Hook testing methodology?
-- [ ] Q25: FEEDBACK LOOP — How to pull analytics per platform (TikTok Analytics API, YT Analytics, IG Insights)? How to feed data back to re-train scoring?
-- [ ] Q26: PRODUCT DISCOVERY (Path B) — How to scan affiliate catalogs? TikTok Shop product search API? Product relevance scoring?
-- [ ] Q27: MULTI-CHANNEL IDENTITY — Per-channel persona (voice, style, hooks, ComfyUI workflow), DB schema, Pixelle-Video config, n8n branching, brand consistency rules?
+- Answered: 0/10
+- [ ] Q1: What replaces next-saas-stripe-starter as the dashboard boilerplate? (dead repo — find living alternatives with Next.js 16 + App Router)
+- [ ] Q2: Next.js 16 — what's new, stable?, breaking changes from 14? Migration path?
+- [ ] Q3: Prisma 7 — stable? Breaking changes from 5.x? New features relevant to viral-ops?
+- [ ] Q4: n8n 2.x — stable? Breaking changes from 1.x? New features? Self-hosted licensing changes?
+- [ ] Q5: Auth.js / NextAuth — latest stable version? Breaking changes? Better alternatives?
+- [ ] Q6: ShadCN UI + Tremor + Tailwind CSS — latest versions? Tailwind v4? Tremor status?
+- [ ] Q7: Pixelle-Video — latest version? API changes since v0.1.15? New features?
+- [ ] Q8: Node.js LTS, PostgreSQL, TypeScript — latest stable versions to pin?
+- [ ] Q9: ComfyUI, Edge-TTS, RunningHub — any significant updates?
+- [ ] Q10: Does the gen1 architecture (3-service localhost) still hold with updated versions? Any breaking incompatibilities?
 
 <!-- /ANCHOR:questions -->
 <!-- ANCHOR:trend -->
 ## 5. TREND
-- Last 3 ratios: 0.92 -> 0.92 -> 0.20
+- Last 3 ratios: 0.86 -> 0.79 -> 0.90
 - Stuck count: 0
 - Guard violations: none recorded by the reducer pass
-- convergenceScore: 0.20
-- coverageBySources: {"affiliate.shopee.co.th":2,"agencyanalytics.com":1,"aiforautomation.io":1,"almcorp.com":1,"api2cart.com":2,"apify.com":3,"arxiv.org":2,"autofaceless.ai":2,"bryanbonifacio.com":1,"code":4,"data365.co":1,"developers.facebook.com":6,"developers.google.com":4,"developers.tiktok.com":4,"docs.n8n.io":4,"driveeditor.com":2,"feedonomics.com":1,"fluxnote.io":2,"github.com":32,"help.involve.asia":1,"houseofmarketers.com":2,"influenceflow.io":1,"insights.ttsvibes.com":2,"joinbrands.com":2,"learn.microsoft.com":2,"medium.com":2,"miraflow.ai":2,"napolify.com":4,"open.lazada.com":2,"opensaas.sh":1,"other":11,"partner.tiktokshop.com":2,"raw.githubusercontent.com":10,"scrapfly.io":1,"seller.shopee.co.th":1,"snscrape.com":2,"support.google.com":2,"virvid.ai":1,"wasp.sh":2,"www.atomwriter.com":2,"www.getphyllo.com":3,"www.mirra.my":2}
+- convergenceScore: 0.90
+- coverageBySources: {"authjs.dev":1,"better-auth.com":1,"docs.n8n.io":1,"github.com":14,"nextjs.org":2,"nodejs.org":1,"pypi.org":1,"raw.githubusercontent.com":4,"tailwindcss.com":1,"ui.shadcn.com":2,"web":1,"www.npmjs.com":2,"www.postgresql.org":2,"www.prisma.io":3,"www.typescriptlang.org":2}
 
 <!-- /ANCHOR:trend -->
 <!-- ANCHOR:dead-ends -->
 ## 6. DEAD ENDS
-- **Documenso as fork base**: Too domain-specific (document signing), AGPL license, would require extensive gutting. Useful only as reference architecture. (iteration 1)
-- **Midday as fork base**: AGPL license requires commercial license, tightly coupled to financial domain. Best used as reference for Supabase + Trigger.dev architecture. (iteration 1)
-- Cal.com as fork base is definitively eliminated — the domain coupling is fundamental, not superficial. (iteration 2)
-- **Cal.com/Cal.diy as fork base**: Too domain-specific (scheduling/booking), stripping would leave minimal scaffolding. Turborepo monorepo is over-engineered for solo-dev start. Better as architecture reference only. (iteration 2)
-- **Reddit-style generators (RedditReels, FullyAutomatedRedditVideoMakerBot)**: Too narrow (Reddit story format), not generalizable to viral-ops content types. (iteration 3)
-- **short-video-maker as primary engine**: Windows NOT supported, English-only TTS, stock footage only. Value limited to MCP pattern reference. (iteration 3)
-- **short-video-maker for Windows deployment**: Explicitly unsupported, whisper.cpp fails on Windows. Fundamental platform limitation, not a configuration issue. (iteration 3)
-- **TikTok-Forge as primary engine**: Too immature (72 stars, 4 commits), no TTS docs, tight n8n coupling. Value limited to architecture reference. (iteration 3)
-- **TikTok-Forge for production use**: 4 commits total, no community, no documentation depth. Would require building from near-scratch. (iteration 3)
-- **GPU as hard requirement for Phase 1** — TTS, composition, and captions can run CPU-only; RunningHub handles image gen in the cloud. (iteration 4)
-- **"Need to build FastAPI wrapper" assumption** — Pixelle-Video already has one. The MoneyPrinterTurbo API pattern reference is less critical than assumed. (iteration 4)
-- **Building custom job queue in Next.js dashboard**: Not needed. n8n handles all orchestration, scheduling, retries, and background job management. This eliminates the "no job queue" gap identified in iterations 1-2 for next-saas-stripe-starter. (iteration 5)
-- **Index-TTS for immediate Thai support**: The model is primarily Chinese + English. Thai would require cross-lingual transfer with uncertain quality. This is not a viable Phase 1 path. However, this is NOT permanently blocked — Index-TTS is actively developed and may add Thai support. (iteration 5)
-- **Index-TTS for Thai in Phase 1**: Not viable without Thai training data. Edge-TTS (3 Thai Neural voices) is sufficient. Index-TTS is a Phase 2+ consideration if Thai voice cloning becomes a priority. (iteration 5)
-- **n8n docs website for detailed technical extraction**: The docs.n8n.io site renders as an SPA with minimal content in fetch responses. GitHub README and direct knowledge of n8n's well-documented API are more productive sources. (iteration 5)
-- **Affiliate cart pin via Content Posting APIs**: NONE of the four platforms expose cart/product pinning through their content upload APIs — shopping/affiliate is always a separate API surface (iteration 6)
-- **Affiliate cart pin via upload API on ANY platform**: All four platforms separate content publishing from commerce/shopping. Cart pin ("ปักตะกร้า") requires separate Shop API integration on each platform. This is a fundamental architectural separation, not a missing feature. (iteration 6)
-- **Single unified upload API (upload-post.com)**: Paid service, not OSS — already ruled out in prior iterations, confirmed not viable for our stack (iteration 6)
-- **TikTok official API for scheduling**: No `scheduled_publish_time` parameter — scheduling must be handled by n8n + upload queue (iteration 6)
-- **Lundehund/tiktok-shop-api** as viable library: Only 12 stars, 7 commits, read-only RapidAPI wrapper. Does not cover Affiliate APIs or any write operations. (iteration 7)
-- **OSS wrapper libraries for Shopping APIs**: The available OSS libraries (Lundehund, ipfans, EcomPHP) are all either too immature, wrong language, or read-only. Direct HTTP API calls via n8n is the correct approach for all platforms. (iteration 7)
-- **Unified cart pin approach across all platforms**: Each platform has fundamentally different levels of API support (full, partial, none). Architecture must handle all three modes. (iteration 7)
-- **YouTube Shopping via API for Phase 1**: No API exists for programmatic product tagging in YouTube videos/Shorts. Must be manual. (iteration 7)
-- Building a new admin framework assessment -- ShadCN UI + Tremor covers the dashboard needs without a dedicated admin framework (iteration 8)
-- Evaluating alternative ORMs (Drizzle, Kysely) -- Prisma comes with the boilerplate and the viral-ops schema is straightforward relational (iteration 8)
-- **drawrowfly/tiktok-scraper as production tool**: Abandoned since July 2021, will break on current TikTok web interface. Architecture reference only. (iteration 9)
-- **Medium "Decoding AI Virality" article**: Marketed as "complete guide" but contains no technical depth — no formulas, no academic citations, no OSS tools. Zero research value beyond confirming engagement velocity and emotional resonance as generic dimensions. (iteration 9)
-- **TikTok Research API for commercial use**: Requires academic/institutional affiliation, explicitly prohibits commercial applications. Not viable for viral-ops. (iteration 9)
-- **Native A/B testing on short-form platforms**: None of the three platforms (TikTok, YouTube Shorts, Instagram Reels) offer built-in A/B testing for organic short-form content. Sequential variant testing is the only viable approach. (iteration 10)
-- **Native platform A/B testing for organic short-form video**: This is a fundamental platform limitation, not a missing feature. None of the platforms have incentive to add this because their recommendation algorithms control distribution, making controlled experiments impossible for organic content. (iteration 10)
-- **Real-time analytics ingestion**: All platforms have 24-48h data delay, making real-time feedback impossible. Minimum practical polling interval is every 6 hours. (iteration 10)
-- **Swipe-away rate via YouTube API**: Visible in YouTube Studio UI but not available via the Analytics API. (iteration 10)
-- **Direct web scraping of affiliate platform partner portals**: All three platforms (TikTok Shop Partner Center, Shopee Affiliate, Lazada Open Platform) serve their API documentation as JavaScript SPAs that return minimal content to automated fetches. This is a fundamental architectural pattern across all Southeast Asian e-commerce platforms, not a temporary issue. API documentation can only be accessed through authenticated portal sessions. (iteration 11)
-- **Involve Asia help article for Lazada deep link specs**: Redirects to generic help center (301), original article unavailable. (iteration 11)
-- **Lazada Open Platform docs for direct API spec extraction**: SPA at open.lazada.com returns only header. Same SPA limitation pattern. (iteration 11)
-- **Shopee Affiliate portal for direct API spec extraction**: SPA at affiliate.shopee.co.th/api returns only page title. Requires login for full documentation. (iteration 11)
-- **TikTok Shop Partner Center docs for direct API spec extraction**: SPA renders minimal content via WebFetch. Requires authenticated login for full endpoint documentation. Same pattern as iteration 7. (iteration 11)
-- **Pixelle-Video LLM endpoint for direct system prompt injection**: The `/api/llm/chat` endpoint does NOT expose a `system_prompt` parameter. Persona prompts must be prepended to the `prompt` field at the n8n orchestration layer. This is a workaround, not a limitation -- the LLM still receives the full persona context. (iteration 12)
-- **Separate n8n workflows per channel**: Maintenance overhead scales linearly with channel count. A single universal pipeline with dynamic config injection is the standard pattern for multi-brand automation. (iteration 12)
+- Checking Auth.js, ShadCN UI, TypeScript, PostgreSQL, ComfyUI, Edge-TTS, Pixelle-Video versions (not enough tool budget this iteration -- deferred) (iteration 1)
+- Checking individual component changelogs in detail (deferred to focused iterations per component) (iteration 1)
+- None identified this iteration (first survey pass) (iteration 1)
+- **Makerkit, SaaS-Starter-Kit, SaaSBold, Shipfast**: Not investigated this iteration -- defer to iteration 3 if next-forge doesn't pan out (iteration 2)
+- **npm direct scraping for Tremor**: Returns 403, need alternative approach (GitHub API or registry.npmjs.org API) (iteration 2)
+- **taxonomy (shadcn/taxonomy)**: Not investigated this iteration due to tool budget -- defer to iteration 3 (iteration 2)
+- **tremor-raw as alternative to Tremor**: Confirmed dead. Only 2 commits, redirects to main tremor repo. Not a viable separate path. (iteration 2)
+- **Auth.js v5 as auth solution**: Auth.js has been absorbed into "Better Auth" project. The authjs.dev site confirms this. Auth.js v5 as a standalone maintained project is effectively deprecated. This eliminates Auth.js as a direct dependency choice -- must either adopt Better Auth, use Clerk (next-forge default), or evaluate alternatives. (iteration 3)
+- Checking individual next-forge workspace packages (e.g., `@repo/auth`, `@repo/design-system`) for exact Clerk/Prisma versions -- deferred due to tool budget. The web app package.json confirmed the framework versions which was the priority. (iteration 3)
+- Direct npm registry scraping (already BLOCKED from iteration 2) (iteration 3)
+- Auth.js v5 as auth solution (already BLOCKED from iteration 3 -- confirmed again: Better Auth is the successor) (iteration 4)
+- n8n v2.0 breaking changes at `docs.n8n.io/release-notes/2-0-breaking-changes/` (404 -- URL restructured) (iteration 4)
+- None this iteration. The n8n URL 404 is a URL issue, not a fundamental dead end -- alternative URLs exist. (iteration 4)
+- Direct Prisma 5->7 upgrade: Must go through 6 first (two-stage migration) (iteration 5)
+- n8n docs.n8n.io breaking changes URL: Already blocked from iteration 4; used GitHub releases instead (success) (iteration 5)
+- None new this iteration. All research avenues were productive. (iteration 5)
 
 <!-- /ANCHOR:dead-ends -->
 <!-- ANCHOR:next-focus -->
 ## 7. NEXT FOCUS
-Research is COMPLETE. Next step is implementation via spec folder creation for Sprint 1 (Fork boilerplate, Prisma schema, n8n setup, Pixelle-Video integration test).
+All 10 key questions are now answered. The next iteration should be **pure synthesis**: consolidate iterations 1-5 into the definitive version matrix and migration guide in research/research.md. No new research needed.
 
 <!-- /ANCHOR:next-focus -->
 <!-- ANCHOR:active-risks -->

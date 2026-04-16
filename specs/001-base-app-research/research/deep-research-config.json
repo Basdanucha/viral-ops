@@ -1,6 +1,6 @@
 {
-  "topic": "Find the best open-source base app to fork as the foundation for viral-ops, including UI stack for the dashboard",
-  "maxIterations": 25,
+  "topic": "viral-ops framework version update — boilerplate replacement (next-saas-stripe-starter is dead), Next.js 16, Prisma 7, n8n 2.x compatibility, and stable versions for all stack components",
+  "maxIterations": 10,
   "convergenceThreshold": 0.05,
   "stuckThreshold": 3,
   "maxDurationMinutes": 120,
@@ -8,15 +8,15 @@
   "maxMinutesPerIteration": 10,
   "progressiveSynthesis": true,
   "specFolder": "specs/001-base-app-research",
-  "createdAt": "2026-04-16T12:00:00Z",
+  "createdAt": "2026-04-17T10:00:00Z",
   "status": "complete",
   "executionMode": "confirm",
   "lineage": {
-    "sessionId": "dr-1776310994-5288",
-    "parentSessionId": null,
-    "lineageMode": "new",
+    "sessionId": "dr-gen2-1776397200",
+    "parentSessionId": "dr-1776310994-5288",
+    "lineageMode": "restart",
     "allowedModes": ["new", "resume", "restart"],
-    "generation": 1,
+    "generation": 2,
     "continuedFromRun": null
   },
   "reducer": {
@@ -26,22 +26,13 @@
     "dashboardFile": "research/deep-research-dashboard.md",
     "strategyFile": "research/deep-research-strategy.md",
     "machineOwnedSections": [
-      "key-questions",
-      "answered-questions",
-      "what-worked",
-      "what-failed",
-      "exhausted-approaches",
-      "ruled-out-directions",
-      "next-focus"
+      "key-questions", "answered-questions", "what-worked", "what-failed",
+      "exhausted-approaches", "ruled-out-directions", "next-focus"
     ]
   },
-  "capabilityMatrixPath": ".opencode/skill/sk-deep-research/assets/runtime_capabilities.json",
-  "capabilityMatrixDocPath": ".opencode/skill/sk-deep-research/references/capability_matrix.md",
-  "runtimeCapabilityResolver": ".opencode/skill/sk-deep-research/scripts/runtime-capabilities.cjs",
   "reducerScriptPath": ".opencode/skill/sk-deep-research/scripts/reduce-state.cjs",
   "pauseSentinelPath": "research/.deep-research-pause",
   "archiveRoot": "research/archive",
-  "migrationWindowDays": 28,
   "fileProtection": {
     "deep-research-config.json": "immutable",
     "deep-research-state.jsonl": "append-only",

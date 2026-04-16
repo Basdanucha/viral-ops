@@ -51,9 +51,9 @@ Adding a skill is intentional. Every new skill goes through `sk-doc`'s scaffoldi
 
 | Metric | Value | Notes |
 | --- | --- | --- |
-| Total skill folders | 21 | 20 skills plus the `skill-advisor/` support package |
-| Folders with graph metadata | 21 | Every folder under `.opencode/skill/` currently ships with `graph-metadata.json` |
-| Graph families | 6 | `cli`, `mcp`, `sk-code`, `sk-deep`, `sk-util`, `system` |
+| Total skill folders | 47 | 21 framework + 17 impeccable.style + 8 Google Stitch + skill-advisor |
+| Folders with graph metadata | 21 | Framework skills ship with `graph-metadata.json`; third-party skills do not |
+| Graph families | 8 | `cli`, `mcp`, `sk-code`, `sk-deep`, `sk-util`, `system`, `impeccable`, `stitch` |
 | CLI orchestrator skills | 4 | cli-claude-code, cli-codex, cli-copilot, cli-gemini |
 | MCP integration skills | 5 | mcp-chrome-devtools, mcp-clickup, mcp-coco-index, mcp-code-mode, mcp-figma |
 | Code quality overlays | 4 | sk-code-full-stack, sk-code-opencode, sk-code-review, sk-code-web |
@@ -180,6 +180,55 @@ The skill system covers four distinct workflow domains.
 | `sk-git` | 1.1.0.0 | Git workflow orchestrator for workspace setup, clean commits, and work completion |
 | `system-spec-kit` | 2.2.27.0 | Spec folder workflow, template architecture, validation, and Spec Kit Memory |
 
+**impeccable.style — Design Quality Skills (17)** — installed via [impeccable.style](https://impeccable.style/)
+
+| Skill | Description |
+| --- | --- |
+| `impeccable` | Orchestrator: design context gathering, craft mode, teach mode, extract mode |
+| `audit` | Technical quality checks (a11y, performance, theming, responsive, anti-patterns) → scored report 0-20 |
+| `polish` | Final quality pass: alignment, spacing, consistency, micro-details |
+| `shape` | Pre-code UX/UI planning: structured discovery interview → design brief |
+| `critique` | UX evaluation: visual hierarchy, cognitive load, persona-based testing, quantitative scoring |
+| `typeset` | Typography: font choices, hierarchy, sizing, weight, readability |
+| `layout` | Layout and spacing: grids, visual rhythm, composition, hierarchy |
+| `colorize` | Color strategy: palette, contrast, monotone fixes |
+| `adapt` | Responsive design: breakpoints, fluid layouts, touch targets |
+| `animate` | Motion design: transitions, micro-interactions, entrance/exit |
+| `optimize` | UI performance: loading speed, rendering, animations, bundle size |
+| `clarify` | UX writing: labels, error messages, microcopy, instructions |
+| `bolder` | Amplify bland designs: increase visual impact while maintaining usability |
+| `quieter` | Tone down aggressive designs: reduce intensity, refine aesthetic |
+| `delight` | Add personality: joy, micro-interactions, memorable touches |
+| `overdrive` | Push limits: shaders, spring physics, scroll-driven effects |
+| `distill` | Simplify: remove unnecessary complexity, declutter |
+
+Design context: `.impeccable.md` (brand personality). Design tokens: `DESIGN.md` (Linear-inspired). Pipeline detail: `.design-pipeline.md`.
+
+**Google Stitch — AI Visual Prototyping Skills (8)** — installed via [google-labs-code/stitch-skills](https://github.com/google-labs-code/stitch-skills)
+
+| Skill | Description |
+| --- | --- |
+| `stitch-design` | Orchestrator: prompt enhancement + screen generation + design system management |
+| `stitch-loop` | Multi-page autonomous build via baton-passing pattern |
+| `design-md` | Generate DESIGN.md from Stitch project screens |
+| `enhance-prompt` | Refine vague prompts into structured Stitch-optimized prompts |
+| `react-components` | Convert Stitch HTML screens to React/TypeScript component systems |
+| `shadcn-ui` | shadcn/ui component integration guidance and discovery |
+| `taste-design` | Opinionated design critique and premium DESIGN.md generator |
+| `remotion` | Generate walkthrough videos from Stitch project screens |
+
+MCP: `stitch` in `.mcp.json`. Design tokens: `.stitch/DESIGN.md` → symlink to `DESIGN.md`.
+
+### Third-Party Skill Licenses
+
+| Source | License | Origin | Obligations |
+| --- | --- | --- | --- |
+| **Framework** (21 skills) | MIT | [MichelKerkmeester/opencode--spec-kit-skilled-agent-orchestration](https://github.com/MichelKerkmeester/opencode--spec-kit-skilled-agent-orchestration) | Preserve copyright notice in LICENSE |
+| **impeccable.style** (17 skills) | Apache 2.0 | [pbakaus/impeccable](https://github.com/pbakaus/impeccable) — based on Anthropic's frontend-design skill | Preserve NOTICE, state modifications, include Apache 2.0 copy |
+| **Google Stitch skills** (8 skills) | Apache 2.0 | [google-labs-code/stitch-skills](https://github.com/google-labs-code/stitch-skills) — "not an officially supported Google product" | Preserve NOTICE, state modifications, include Apache 2.0 copy |
+
+**When modifying third-party skills**: Apache 2.0 requires you to state that you changed the file. Add a comment at the top of modified files: `# Modified by viral-ops — [description of change]`. Do NOT remove existing copyright headers or license references in SKILL.md frontmatter.
+
 <!-- /ANCHOR:features -->
 
 ---
@@ -216,6 +265,33 @@ The skill system covers four distinct workflow domains.
 ├── sk-git/                 # Git workflow orchestrator
 ├── sk-improve-prompt/      # Prompt engineering specialist
 ├── system-spec-kit/        # Spec folder and memory foundation
+├── # --- impeccable.style (17 skills) ---
+├── impeccable/             # Design orchestrator (craft, teach, extract)
+├── audit/                  # Technical quality checks (0-20 score)
+├── polish/                 # Final quality pass
+├── shape/                  # Pre-code UX/UI planning
+├── critique/               # UX evaluation with personas
+├── typeset/                # Typography fixes
+├── layout/                 # Layout and spacing
+├── colorize/               # Color strategy
+├── adapt/                  # Responsive design
+├── animate/                # Motion design
+├── optimize/               # UI performance
+├── clarify/                # UX writing
+├── bolder/                 # Amplify bland designs
+├── quieter/                # Tone down aggressive designs
+├── delight/                # Add personality
+├── overdrive/              # Push limits
+├── distill/                # Simplify/declutter
+├── # --- Google Stitch (8 skills) ---
+├── stitch-design/          # Stitch orchestrator
+├── stitch-loop/            # Multi-page autonomous build
+├── design-md/              # DESIGN.md generator
+├── enhance-prompt/         # Prompt refinement
+├── react-components/       # Stitch HTML → React conversion
+├── shadcn-ui/              # shadcn/ui integration
+├── taste-design/           # Design critique + premium DESIGN.md
+├── remotion/               # Walkthrough video generation
 └── README.md               # This file
 ```
 

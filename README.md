@@ -125,4 +125,15 @@ claude                                        # opens Claude Code with framework
 
 ## License
 
-MIT — see [`LICENSE`](LICENSE). Based on [spec-kit-autopilot](https://github.com/Basdanucha/spec-kit-autopilot), itself a Windows-patched derivative of [opencode--spec-kit-skilled-agent-orchestration](https://github.com/MichelKerkmeester/opencode--spec-kit-skilled-agent-orchestration) by Michel Kerkmeester. Original copyright + permission notice preserved per MIT terms.
+MIT — see [`LICENSE`](LICENSE).
+
+### Third-party components
+
+| Component | License | Source |
+|-----------|---------|--------|
+| spec-kit-autopilot (framework) | MIT | [Basdanucha/spec-kit-autopilot](https://github.com/Basdanucha/spec-kit-autopilot), derivative of [MichelKerkmeester/opencode--spec-kit-skilled-agent-orchestration](https://github.com/MichelKerkmeester/opencode--spec-kit-skilled-agent-orchestration) |
+| impeccable.style (17 design skills) | Apache 2.0 | [pbakaus/impeccable](https://github.com/pbakaus/impeccable), based on Anthropic's frontend-design skill |
+| Google Stitch skills (8 skills) | Apache 2.0 | [google-labs-code/stitch-skills](https://github.com/google-labs-code/stitch-skills) — not an officially supported Google product |
+| DESIGN.md (Linear-inspired) | MIT | [VoltAgent/awesome-design-md](https://github.com/VoltAgent/awesome-design-md), installed via [getdesign.md](https://getdesign.md/) |
+
+Original copyright and permission notices preserved per respective license terms. See `.opencode/skill/README.md` for detailed obligations when modifying third-party skills.
