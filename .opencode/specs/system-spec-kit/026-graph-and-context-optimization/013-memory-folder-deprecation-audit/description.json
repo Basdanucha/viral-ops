@@ -1,5 +1,5 @@
 {
-  "specFolder": ".opencode/specs/system-spec-kit/026-graph-and-context-optimization/013-memory-folder-deprecation-audit",
+  "specFolder": "system-spec-kit/026-graph-and-context-optimization/013-memory-folder-deprecation-audit",
   "description": "Feature Specification: [spec]/memory/ Folder Deprecation Audit",
   "keywords": [
     "feature",
@@ -10,12 +10,10 @@
     "deprecation",
     "audit"
   ],
-  "lastUpdated": "2026-04-14T17:11:40.158Z",
+  "lastUpdated": "2026-04-16T03:32:27.628Z",
   "specId": "013",
   "folderSlug": "memory-folder-deprecation-audit",
   "parentChain": [
-    ".opencode",
-    "specs",
     "system-spec-kit",
     "026-graph-and-context-optimization"
   ],

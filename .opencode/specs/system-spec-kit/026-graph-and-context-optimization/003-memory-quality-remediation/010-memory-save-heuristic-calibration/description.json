@@ -1,7 +1,6 @@
 {
-  "title": "Feature Specification: Memory Save Heuristic Calibration",
-  "description": "Level 3 packet for closing the remaining memory-save schema, sanitizer, validator, and D5 continuation defects identified by the 2026-04-09 RCA and skipped-recommendation audits.",
   "specFolder": "system-spec-kit/026-graph-and-context-optimization/003-memory-quality-remediation/010-memory-save-heuristic-calibration",
+  "description": "Feature Specification: Memory Save Heuristic Calibration",
   "keywords": [
     "feature",
     "specification",
@@ -10,7 +9,7 @@
     "heuristic",
     "calibration"
   ],
-  "lastUpdated": "2026-04-12T18:30:00Z",
+  "lastUpdated": "2026-04-16T03:32:27.547Z",
   "specId": "010",
   "folderSlug": "memory-save-heuristic-calibration",
   "parentChain": [

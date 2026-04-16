@@ -1,22 +1,16 @@
 {
   "specFolder": "system-spec-kit/026-graph-and-context-optimization/012-spec-kit-commands",
-  "description": "Introduce /spec_kit:start as canonical spec-folder intake interview and require deep-research to anchor every run to a real spec.md",
+  "description": "Feature Specification: Spec Kit Command Intake Refactor",
   "keywords": [
-    "introduce",
-    "start",
-    "canonical",
-    "spec-folder",
+    "feature",
+    "specification",
+    "spec",
+    "kit",
+    "command",
     "intake",
-    "interview",
-    "require",
-    "deep-research",
-    "anchor",
-    "every",
-    "run",
-    "real",
-    "spec"
+    "refactor"
   ],
-  "lastUpdated": "2026-04-14T07:49:36.500Z",
+  "lastUpdated": "2026-04-16T03:32:27.626Z",
   "specId": "012",
   "folderSlug": "spec-kit-commands",
   "parentChain": [

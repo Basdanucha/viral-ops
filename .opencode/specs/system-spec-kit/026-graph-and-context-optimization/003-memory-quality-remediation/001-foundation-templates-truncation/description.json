@@ -1,7 +1,6 @@
 {
-  "title": "Feature Specification: Phase 1: Foundation (Templates & Truncation)",
-  "description": "Phase 1 defines the P0 foundation slice for memory-quality remediation: fix the OVERVIEW anchor mismatch, introduce the shared truncation helper, and preserve OVERVIEW text on word boundaries before later metadata and heuristic phases build on it.",
   "specFolder": "system-spec-kit/026-graph-and-context-optimization/003-memory-quality-remediation/001-foundation-templates-truncation",
+  "description": "Feature Specification: Phase 1: Foundation (Templates & Truncation)",
   "keywords": [
     "feature",
     "specification",
@@ -10,7 +9,7 @@
     "templates",
     "truncation"
   ],
-  "lastUpdated": "2026-04-13T10:39:18.710Z",
+  "lastUpdated": "2026-04-16T03:32:27.531Z",
   "specId": "001",
   "folderSlug": "foundation-templates-truncation",
   "parentChain": [

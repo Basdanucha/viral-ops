@@ -24,6 +24,12 @@
 - **Verify with checks** (simplicity, performance, maintainability, scope) before making changes
 - **Truth over agreement** - correct user misconceptions with evidence; do not agree for conversational flow
 
+**FRONTEND DESIGN RULE [HARD]:** (detail: `.design-pipeline.md`)
+- **Source of truth**: `DESIGN.md` (Linear-inspired). All UI must follow its tokens. `.stitch/DESIGN.md` is a symlink to the same file.
+- **Plan phase**: For NEW page/screen tasks → `/shape` (design brief) → Stitch mockup via `enhance-prompt` → `stitch-design` → save to `specs/{folder}/scratch/`. Skip for standard patterns (CRUD, table) or if Stitch MCP is disabled.
+- **Build phase**: Read `DESIGN.md` + `.impeccable.md` + mockup (if exists). Build with shadcn/ui + Tremor. DESIGN.md tokens override mockup on conflict.
+- **Verify phase**: `/critique` (UX review) → `/audit` ≥14/20 + Anti-Patterns ≥3/4. FAIL → fix commands → `/polish` → re-audit.
+
 **HALT CONDITIONS (Stop and Report):**
 - [ ] Target file does not exist or line numbers don't match.
 - [ ] Syntax check or Tests fail after edit.
@@ -163,6 +169,7 @@ Trigger: "save context", "save memory", `/memory:save`, continuity support artif
 Trigger: Claiming "done", "complete", "finished", "works"
 1. Validation runs automatically on spec folder (if exists)
 2. Load `checklist.md` → Verify ALL items → Mark `[x]` with evidence
+3. **If task touched frontend/UI code**: Run `/audit [target]`. FAIL if score <14/20 or Anti-Patterns <3/4. Fix issues via `/polish` then re-audit.
 - Skip: Level 1 tasks (no checklist.md required) | Exit 0 = pass, Exit 1 = warnings, Exit 2 = errors (must fix)
 
 #### VIOLATION RECOVERY [SELF-CORRECTION]
@@ -352,3 +359,17 @@ For ALL git workflows, `sk-git` orchestrates workspace setup, commit hygiene, an
 **Trigger Keywords:** worktree, branch, commit, merge, pr, pull request, git workflow, conventional commits, finish work, integrate changes
 
 **Invocation:** Automatic via Gate 2 routing when git tasks detected, or manually via `Read(".opencode/skill/sk-git/SKILL.md")`.
+
+---
+
+## 9. 🎨 DESIGN SYSTEM
+
+**Full pipeline detail**: See [`.design-pipeline.md`](.design-pipeline.md) — covers Stitch workflow, impeccable commands, fix flow, context files.
+
+**Summary**: Three tools, three phases, one source of truth (`DESIGN.md`):
+
+| Phase | Tool | Role |
+|-------|------|------|
+| `/spec_kit:plan` | `/shape` → Stitch | Design brief → mockup (new pages only) |
+| `/spec_kit:complete` | shadcn/ui + Tremor | Build real code from DESIGN.md tokens + mockup reference |
+| Verify (before done) | `/critique` → `/audit` ≥14/20 | UX review + technical quality gate |

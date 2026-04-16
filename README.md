@@ -123,8 +123,6 @@ claude                                        # opens Claude Code with framework
 /spec_kit:complete <feature description>      # scaffold a feature spec folder
 ```
 
-Framework reference: [`docs/FRAMEWORK_README.md`](docs/FRAMEWORK_README.md).
-
 ## License
 
 MIT — see [`LICENSE`](LICENSE). Based on [spec-kit-autopilot](https://github.com/Basdanucha/spec-kit-autopilot), itself a Windows-patched derivative of [opencode--spec-kit-skilled-agent-orchestration](https://github.com/MichelKerkmeester/opencode--spec-kit-skilled-agent-orchestration) by Michel Kerkmeester. Original copyright + permission notice preserved per MIT terms.

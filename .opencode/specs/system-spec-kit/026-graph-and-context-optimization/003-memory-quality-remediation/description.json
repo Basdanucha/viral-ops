@@ -1,8 +1,6 @@
 {
-  "title": "Feature Specification: Memory Quality Backend Improvements",
-  "description": "Parent packet spec for the shipped remediation train plus the scoped Phase 8 and Phase 9 follow-ons triggered by later packet audits.",
-  "type": "coordination-parent",
   "specFolder": "system-spec-kit/026-graph-and-context-optimization/003-memory-quality-remediation",
+  "description": "Feature Specification: Memory Quality Backend Improvements",
   "keywords": [
     "feature",
     "specification",
@@ -11,7 +9,7 @@
     "backend",
     "improvements"
   ],
-  "lastUpdated": "2026-04-13T10:39:18.705Z",
+  "lastUpdated": "2026-04-16T03:32:27.530Z",
   "specId": "003",
   "folderSlug": "memory-quality-remediation",
   "parentChain": [

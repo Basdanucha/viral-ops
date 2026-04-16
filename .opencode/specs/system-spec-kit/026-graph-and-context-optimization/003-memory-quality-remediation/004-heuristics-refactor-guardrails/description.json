@@ -1,7 +1,6 @@
 {
-  "title": "Feature Specification: Phase 4 \u2014 Heuristics, Refactor & Guardrails",
-  "description": "Phase 4 of the memory quality remediation train: D5 auto-supersedes with continuation gating, SaveMode enum refactor, and post-save reviewer CHECK-D1..D8 coverage.",
   "specFolder": "system-spec-kit/026-graph-and-context-optimization/003-memory-quality-remediation/004-heuristics-refactor-guardrails",
+  "description": "Feature Specification: Phase 4 — Heuristics, Refactor & Guardrails",
   "keywords": [
     "feature",
     "specification",
@@ -10,7 +9,7 @@
     "refactor",
     "guardrails"
   ],
-  "lastUpdated": "2026-04-13T10:39:18.733Z",
+  "lastUpdated": "2026-04-16T03:32:27.536Z",
   "specId": "004",
   "folderSlug": "heuristics-refactor-guardrails",
   "parentChain": [

@@ -42,6 +42,18 @@
         "UTCP_CONFIG_FILE": ".utcp_config.json"
       },
       "disabled": false
+    },
+    "stitch": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@_davideast/stitch-mcp",
+        "proxy"
+      ],
+      "env": {
+        "STITCH_API_KEY": "${STITCH_API_KEY}"
+      },
+      "disabled": false
     }
   }
 }
