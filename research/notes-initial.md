@@ -63,6 +63,10 @@ Topic → Script (LLM) → Visuals (Flux/Kling/Sora/Veo OR Pexels stock)
        → Affiliate pin (TikTok Shop / Meta Shop)
 ```
 
+### UI + design tooling (for AI-driven development)
+- [getdesign.md](https://getdesign.md/) — curated DESIGN.md files from popular brands (Stripe, Apple, Figma, etc.). Drop a file into project → AI agent builds UI matching that style. GitHub: awesome-design-md
+- [impeccable.style](https://impeccable.style/) — Apache 2.0, 18 commands (/polish, /audit, /typeset) that teach AI agents to produce better design. Anti-pattern detection (prevents AI monoculture UI). CLI + Chrome extension. Works with Claude Code.
+
 ## Open questions to resolve via `/research`
 
 1. Video gen: self-host (short-video-maker/Pixelle) vs API-based (fal.ai/Sora)?
