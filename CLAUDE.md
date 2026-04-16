@@ -147,7 +147,7 @@ Trigger: EACH new user message (re-evaluate even in ongoing conversations)
 #### GATE 3: SPEC FOLDER QUESTION [HARD] BLOCK - PRIORITY GATE
 - **Overrides Gates 1-2:** If file modification detected → ask Gate 3 BEFORE any analysis/tool calls
 - **Triggers:** rename, move, delete, create, add, remove, update, change, modify, edit, fix, refactor, implement, build, write, generate, configure, analyze, decompose, phase - or any task resulting in file changes
-- **Options:** A) Existing | B) New | C) Update related | D) Skip | E) Phase folder (e.g., `specs/NNN-name/001-phase/`)
+- **Options:** A) Existing | B) New (under `.opencode/specs/viral-ops/`) | C) Update related | D) Skip | E) Phase folder (e.g., `.opencode/specs/viral-ops/NNN-name/001-phase/`)
 - **DO NOT** use Read/Edit/Write/Bash (except Gate Actions) before asking. ASK FIRST, wait for response, THEN proceed
 - **Phase boundary:** Gate 3 answers apply ONLY within current workflow phase. Plan→implement transition MUST re-evaluate. Exception: carry-over IS valid for Memory Save Rule
 
@@ -215,7 +215,9 @@ Every conversation that modifies files MUST have a spec folder. **Full details:*
 
 **Rules:** When in doubt → higher level. LOC is soft guidance (risk/complexity can override). Single typo/whitespace fixes (<5 characters in one file) are exempt.
 
-**Spec folder path:** `specs/[###-short-name]/` | **Templates:** `.opencode/skill/system-spec-kit/templates/`
+**Spec folder path:** `.opencode/specs/viral-ops/[###-short-name]/` | **Templates:** `.opencode/skill/system-spec-kit/templates/`
+
+> **Project convention:** viral-ops research/feature specs live under `.opencode/specs/viral-ops/` (track folder pattern). Do NOT create specs at `specs/` or `.opencode/specs/` root — the `viral-ops/` track folder is required. This matches the framework's canonical `.opencode/specs/{track}/{NNN-slug}/` convention used by existing entries and keeps memory indexing consistent.
 
 **For details on:** folder structure, `scratch/` usage, canonical continuity surfaces, sub-folder versioning, checklist verification (P0/P1/P2), and completion workflow - see system-spec-kit SKILL.md §3.
 

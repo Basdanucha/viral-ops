@@ -293,8 +293,7 @@ const STATIC_CONFIG = Object.freeze({
   TIMEZONE_OFFSET_HOURS: userConfig.timezoneOffsetHours,
   TOOL_PREVIEW_LINES: userConfig.toolPreviewLines,
   TEMPLATE_DIR: path.join(SCRIPTS_DIR, '..', 'templates'),
-  // Modified by viral-ops — fix: 3 levels only reached .opencode/, need 4 to reach project root
-  PROJECT_ROOT: path.resolve(SCRIPTS_DIR, '..', '..', '..', '..'),
+  PROJECT_ROOT: path.resolve(SCRIPTS_DIR, '..', '..', '..'),
   MAX_FILES_IN_MEMORY: userConfig.maxFilesInMemory,
   MAX_OBSERVATIONS: userConfig.maxObservations,
   MIN_PROMPT_LENGTH: userConfig.minPromptLength,

@@ -1,5 +1,0 @@
-$ ls -la .opencode/specs/system-spec-kit/020-mcp-working-memory-hybrid-rag/scratch
-exit_code: 1
-stdout: <empty>
-stderr:
-ls: .opencode/specs/system-spec-kit/020-mcp-working-memory-hybrid-rag/scratch: No such file or directory

@@ -1,0 +1,125 @@
+{
+  "schema_version": 1,
+  "packet_id": "viral-ops/007-l7-feedback-loop",
+  "spec_folder": "viral-ops/007-l7-feedback-loop",
+  "parent_id": null,
+  "children_ids": [],
+  "manual": {
+    "depends_on": [],
+    "supersedes": [],
+    "related_to": []
+  },
+  "derived": {
+    "trigger_phrases": [],
+    "key_topics": [
+      "deep-research",
+      "active",
+      "topic",
+      "research",
+      "remains",
+      "canonical",
+      "iteration",
+      "files",
+      "live",
+      "iterations",
+      "synthesis",
+      "write"
+    ],
+    "importance_tier": "important",
+    "status": "research",
+    "key_files": [
+      "research/research.md",
+      "research/deep-research-strategy.md",
+      "research/iterations/iteration-002.md",
+      "spec.md"
+    ],
+    "entities": [
+      {
+        "name": "research.md",
+        "kind": "doc",
+        "path": "research/research.md",
+        "source": "derived"
+      },
+      {
+        "name": "deep-research-strategy.md",
+        "kind": "doc",
+        "path": "research/deep-research-strategy.md",
+        "source": "derived"
+      },
+      {
+        "name": "iteration-002.md",
+        "kind": "doc",
+        "path": "research/iterations/iteration-002.md",
+        "source": "derived"
+      },
+      {
+        "name": "spec.md",
+        "kind": "doc",
+        "path": "spec.md",
+        "source": "derived"
+      },
+      {
+        "name": "Feedback Loop",
+        "kind": "proper_noun",
+        "path": "research/research.md",
+        "source": "derived"
+      },
+      {
+        "name": "Research Findings",
+        "kind": "proper_noun",
+        "path": "spec.md",
+        "source": "derived"
+      },
+      {
+        "name": "Content Lab",
+        "kind": "proper_noun",
+        "path": "research/research.md",
+        "source": "derived"
+      },
+      {
+        "name": "Thompson Sampling",
+        "kind": "proper_noun",
+        "path": "research/research.md",
+        "source": "derived"
+      },
+      {
+        "name": "Open Questions",
+        "kind": "proper_noun",
+        "path": "spec.md",
+        "source": "derived"
+      },
+      {
+        "name": "Research Context Deep",
+        "kind": "proper_noun",
+        "path": "spec.md",
+        "source": "derived"
+      },
+      {
+        "name": "Progressive Research Synthesis",
+        "kind": "proper_noun",
+        "path": "research/research.md",
+        "source": "derived"
+      },
+      {
+        "name": "Research Topic",
+        "kind": "proper_noun",
+        "path": "research/research.md",
+        "source": "derived"
+      },
+      {
+        "name": "Platform Analytics",
+        "kind": "proper_noun",
+        "path": "research/research.md",
+        "source": "derived"
+      }
+    ],
+    "causal_summary": "Deep-research is active for this topic. `research/research.md` remains canonical. Iteration files live under `research/iterations/`. Synthesis will write a bounded `## Research Findings` block here when complete.",
+    "created_at": "2026-04-16T21:10:00.149Z",
+    "last_save_at": "2026-04-16T21:10:00.149Z",
+    "last_accessed_at": null,
+    "source_docs": [
+      "spec.md",
+      "research/research.md"
+    ]
+  }
+}

@@ -1,0 +1,20 @@
+{
+  "openQuestions": [
+    {"id": "Q1", "text": "What is the optimal schema + ingestion strategy for tracking LLM and TTS API costs per content piece across multi-provider stack (GPT-4o-mini, Claude, DeepSeek, ElevenLabs, OpenAI) with correct token/char unit accounting and current 2025-2026 pricing?", "status": "open"},
+    {"id": "Q2", "text": "How to track API quota consumption and platform rate limits (YouTube, TikTok, Instagram, Facebook) with pre-emptive budget alerts, quota reservation, and deterministic back-off before provider throttle/ban?", "status": "open"},
+    {"id": "Q3", "text": "What are the best practices for revenue attribution from affiliate programs (Amazon, Shopee, TikTok Shop, CJ Affiliate, Impact.com) + platform monetization (YouTube Partner, TikTok Creator Fund/Rewards, IG Reels bonus, FB Reels monetization), and how to map delayed/aggregated revenue back to individual content pieces?", "status": "open"},
+    {"id": "Q4", "text": "How to design ROI calculation at per-video / per-platform / per-niche granularity that reconciles variable-lag cost data with delayed revenue, handles multi-touch attribution across reposts, and exposes confidence intervals?", "status": "open"},
+    {"id": "Q5", "text": "What's the recommended architecture for daily/monthly cost dashboards and budget-alert pipelines on next-forge + Prisma 7.4 + n8n stack, including storage tier strategy, alert channels, and dashboard UI patterns (shadcn/ui + chart library)?", "status": "open"}
+  ],
+  "resolvedQuestions": [],
+  "keyFindings": [],
+  "ruledOutDirections": [],
+  "metrics": {
+    "iterationsCompleted": 0,
+    "openQuestions": 5,
+    "resolvedQuestions": 0,
+    "keyFindings": 0,
+    "convergenceScore": 0,
+    "coverageBySources": {}
+  }
+}
