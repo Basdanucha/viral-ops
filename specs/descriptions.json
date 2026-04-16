@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "generated": "2026-04-16T13:51:02.620Z",
+  "generated": "2026-04-16T17:15:50.562Z",
   "folders": [
     {
       "specFolder": "001-base-app-research",
@@ -12,7 +12,7 @@
         "research",
         "viral-ops"
       ],
-      "lastUpdated": "2026-04-16T13:51:02.620Z"
+      "lastUpdated": "2026-04-16T17:15:50.562Z"
     },
     {
       "specFolder": "002-pixelle-video-audit",
@@ -23,7 +23,7 @@
         "feature",
         "audit"
       ],
-      "lastUpdated": "2026-04-16T13:51:02.620Z"
+      "lastUpdated": "2026-04-16T17:15:50.562Z"
     },
     {
       "specFolder": "003-thai-voice-pipeline",
@@ -36,7 +36,31 @@
         "script",
         "pipeline"
       ],
-      "lastUpdated": "2026-04-16T13:51:02.620Z"
+      "lastUpdated": "2026-04-16T17:15:50.562Z"
+    },
+    {
+      "specFolder": "004-platform-upload-deepdive",
+      "description": "Spec: Upload Per-Platform Deep Dive",
+      "keywords": [
+        "spec",
+        "upload",
+        "per-platform",
+        "deep",
+        "dive"
+      ],
+      "lastUpdated": "2026-04-16T17:15:50.562Z"
+    },
+    {
+      "specFolder": "005-trend-viral-brain",
+      "description": "Spec: L1 Trend Layer + L2 Viral Brain",
+      "keywords": [
+        "spec",
+        "trend",
+        "layer",
+        "viral",
+        "brain"
+      ],
+      "lastUpdated": "2026-04-16T17:15:50.562Z"
     },
     {
       "specFolder": "skilled-agent-orchestration/022-mcp-coco-integration",
@@ -4152,7 +4176,7 @@
         "post-memory-folder",
         "retirement"
       ],
-      "lastUpdated": "2026-04-16T13:51:02.620Z"
+      "lastUpdated": "2026-04-16T17:15:50.562Z"
     },
     {
       "specFolder": "system-spec-kit/026-graph-and-context-optimization/015-save-flow-planner-first-trim",
@@ -4177,7 +4201,7 @@
         "context-prime",
         "agent"
       ],
-      "lastUpdated": "2026-04-16T13:51:02.620Z"
+      "lastUpdated": "2026-04-16T17:15:50.562Z"
     },
     {
       "specFolder": "system-spec-kit/026-graph-and-context-optimization/z_archive/016-release-alignment/001-sk-system-speckit",
@@ -4192,7 +4216,7 @@
         "system",
         "speckit"
       ],
-      "lastUpdated": "2026-04-16T13:51:02.620Z"
+      "lastUpdated": "2026-04-16T17:15:50.562Z"
     },
     {
       "specFolder": "system-spec-kit/026-graph-and-context-optimization/z_archive/016-release-alignment/002-cmd-memory-and-speckit",
@@ -4207,7 +4231,7 @@
         "memory",
         "commands"
       ],
-      "lastUpdated": "2026-04-16T13:51:02.620Z"
+      "lastUpdated": "2026-04-16T17:15:50.562Z"
     },
     {
       "specFolder": "system-spec-kit/026-graph-and-context-optimization/z_archive/016-release-alignment/003-readme-alignment",
@@ -4220,7 +4244,7 @@
         "alignment",
         "planning"
       ],
-      "lastUpdated": "2026-04-16T13:51:02.620Z"
+      "lastUpdated": "2026-04-16T17:15:50.562Z"
     },
     {
       "specFolder": "system-spec-kit/026-graph-and-context-optimization/z_archive/016-release-alignment/004-memory-retroactive-alignment",
@@ -4232,7 +4256,7 @@
         "memory",
         "alignment"
       ],
-      "lastUpdated": "2026-04-16T13:51:02.620Z"
+      "lastUpdated": "2026-04-16T17:15:50.562Z"
     },
     {
       "specFolder": "system-spec-kit/026-graph-and-context-optimization/z_archive/016-release-alignment/005-memory-deep-quality-investigation",
@@ -4245,7 +4269,7 @@
         "quality",
         "investigation"
       ],
-      "lastUpdated": "2026-04-16T13:51:02.620Z"
+      "lastUpdated": "2026-04-16T17:15:50.562Z"
     },
     {
       "specFolder": "system-spec-kit/026-graph-and-context-optimization/z_archive/research-governance-contracts/005-provisional-measurement-contract",

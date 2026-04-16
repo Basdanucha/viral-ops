@@ -46,6 +46,7 @@
     "typescript": "^5.9.3"
   },
   "dependencies": {
-    "onnxruntime-common": "^1.21.0"
+    "onnxruntime-common": "^1.21.0",
+    "onnxruntime-node": "^1.21.0"
   }
 }

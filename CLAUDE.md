@@ -26,9 +26,9 @@
 
 **FRONTEND DESIGN RULE [HARD]:** (detail: `.design-pipeline.md`)
 - **Source of truth**: `DESIGN.md` (Linear-inspired). All UI must follow its tokens. `.stitch/DESIGN.md` is a symlink to the same file.
-- **Plan phase**: For NEW page/screen tasks → `/shape` (design brief) → Stitch mockup via `enhance-prompt` → `stitch-design` → save to `specs/{folder}/scratch/`. Skip for standard patterns (CRUD, table) or if Stitch MCP is disabled.
-- **Build phase**: Read `DESIGN.md` + `.impeccable.md` + mockup (if exists). Build with shadcn/ui (incl. shadcn charts). DESIGN.md tokens override mockup on conflict.
-- **Verify phase**: `/critique` (UX review) → `/audit` ≥14/20 + Anti-Patterns ≥3/4. FAIL → fix commands → `/polish` → re-audit.
+- **Step 6 (Planning)**: Run `/shape` to create design brief for UI features. Include in plan.md.
+- **Step 10 (Development)**: Before writing code for a NEW page/screen task → `enhance-prompt` → `stitch-design` → use mockup as layout reference. Skip for standard patterns (CRUD form, data table) or if Stitch MCP is disabled. Build with shadcn/ui (incl. shadcn charts) + DESIGN.md tokens. DESIGN.md overrides mockup on conflict.
+- **Step 11 (Checklist Verify)**: `/critique` (UX review) → `/audit` ≥14/20 + Anti-Patterns ≥3/4. FAIL → fix commands → `/polish` → re-audit.
 
 **LICENSE RULE [HARD]:**
 - **Adding third-party code** (npm packages, skills, copied files, cloned repos): Check the license. Add an entry to the "Third-party components" table in `README.md` with component name, license type, and source URL.
@@ -380,8 +380,8 @@ For ALL git workflows, `sk-git` orchestrates workspace setup, commit hygiene, an
 
 **Summary**: Three tools, three phases, one source of truth (`DESIGN.md`):
 
-| Phase | Tool | Role |
-|-------|------|------|
-| `/spec_kit:plan` | `/shape` → Stitch | Design brief → mockup (new pages only) |
-| `/spec_kit:complete` | shadcn/ui (incl. shadcn charts) | Build real code from DESIGN.md tokens + mockup reference |
-| Verify (before done) | `/critique` → `/audit` ≥14/20 | UX review + technical quality gate |
+| `/spec_kit:complete` Step | Tool | Role |
+|---------------------------|------|------|
+| Step 6 (Planning) | `/shape` | Design brief for UI features |
+| Step 10 (Development) | Stitch → shadcn/ui + DESIGN.md | Mockup (new pages) → build real code |
+| Step 11 (Checklist Verify) | `/critique` → `/audit` ≥14/20 | UX review + technical quality gate |
