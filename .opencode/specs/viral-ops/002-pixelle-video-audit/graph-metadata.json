@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
-  "packet_id": "viral-ops/007-l7-feedback-loop",
-  "spec_folder": "viral-ops/007-l7-feedback-loop",
+  "packet_id": "viral-ops/002-pixelle-video-audit",
+  "spec_folder": "viral-ops/002-pixelle-video-audit",
   "parent_id": null,
   "children_ids": [],
   "manual": {
@@ -12,25 +12,23 @@
   "derived": {
     "trigger_phrases": [],
     "key_topics": [
-      "deep-research",
-      "active",
-      "topic",
-      "research",
-      "remains",
-      "canonical",
-      "iteration",
-      "files",
-      "live",
-      "iterations",
-      "synthesis",
-      "write"
+      "complete",
+      "feature",
+      "audit",
+      "pixelle-video",
+      "apache",
+      "catalog",
+      "every",
+      "api",
+      "endpoint",
+      "configurable",
+      "setting",
+      "workflow"
     ],
     "importance_tier": "important",
-    "status": "research",
+    "status": "planned",
     "key_files": [
       "research/research.md",
-      "research/deep-research-strategy.md",
-      "research/iterations/iteration-002.md",
       "spec.md"
     ],
     "entities": [
@@ -41,49 +39,19 @@
         "source": "derived"
       },
       {
-        "name": "deep-research-strategy.md",
-        "kind": "doc",
-        "path": "research/deep-research-strategy.md",
-        "source": "derived"
-      },
-      {
-        "name": "iteration-002.md",
-        "kind": "doc",
-        "path": "research/iterations/iteration-002.md",
-        "source": "derived"
-      },
-      {
         "name": "spec.md",
         "kind": "doc",
         "path": "spec.md",
         "source": "derived"
       },
       {
-        "name": "Feedback Loop",
+        "name": "Video Feature Audit",
         "kind": "proper_noun",
         "path": "research/research.md",
         "source": "derived"
       },
       {
-        "name": "Research Findings",
-        "kind": "proper_noun",
-        "path": "spec.md",
-        "source": "derived"
-      },
-      {
-        "name": "Content Lab",
-        "kind": "proper_noun",
-        "path": "research/research.md",
-        "source": "derived"
-      },
-      {
-        "name": "Thompson Sampling",
-        "kind": "proper_noun",
-        "path": "research/research.md",
-        "source": "derived"
-      },
-      {
-        "name": "Open Questions",
+        "name": "Open Questions All",
         "kind": "proper_noun",
         "path": "spec.md",
         "source": "derived"
@@ -95,27 +63,57 @@
         "source": "derived"
       },
       {
-        "name": "Progressive Research Synthesis",
+        "name": "Feature Audit Summary",
+        "kind": "proper_noun",
+        "path": "spec.md",
+        "source": "derived"
+      },
+      {
+        "name": "Content Generation Subsystems",
+        "kind": "proper_noun",
+        "path": "spec.md",
+        "source": "derived"
+      },
+      {
+        "name": "Stage Pipeline",
+        "kind": "proper_noun",
+        "path": "spec.md",
+        "source": "derived"
+      },
+      {
+        "name": "Research Synthesis",
         "kind": "proper_noun",
         "path": "research/research.md",
         "source": "derived"
       },
       {
-        "name": "Research Topic",
+        "name": "Endpoint Catalog",
         "kind": "proper_noun",
         "path": "research/research.md",
         "source": "derived"
       },
       {
-        "name": "Platform Analytics",
+        "name": "Core Generation Endpoints",
+        "kind": "proper_noun",
+        "path": "research/research.md",
+        "source": "derived"
+      },
+      {
+        "name": "Request Body",
+        "kind": "proper_noun",
+        "path": "research/research.md",
+        "source": "derived"
+      },
+      {
+        "name": "Content Pipeline Endpoints",
         "kind": "proper_noun",
         "path": "research/research.md",
         "source": "derived"
       }
     ],
-    "causal_summary": "Deep-research is active for this topic. `research/research.md` remains canonical. Iteration files live under `research/iterations/`. Synthesis will write a bounded `## Research Findings` block here when complete.",
-    "created_at": "2026-04-16T21:10:00.149Z",
-    "last_save_at": "2026-04-16T22:40:12.882Z",
+    "causal_summary": "Complete feature audit of Pixelle-Video (v0.1.15, Apache 2.0) to catalog every API endpoint, configurable setting, UI feature, workflow pipeline stage, and configuration option. Output a feature matrix mapping each Pixelle-Video capability to the corresponding viral-ops dashboard surface.",
+    "created_at": "2026-04-16T22:40:12.778Z",
+    "last_save_at": "2026-04-16T22:40:12.778Z",
     "last_accessed_at": null,
     "source_docs": [
       "spec.md",

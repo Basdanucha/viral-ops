@@ -1,0 +1,147 @@
+{
+  "schema_version": 1,
+  "packet_id": "viral-ops/008-cost-profit-tracking",
+  "spec_folder": "viral-ops/008-cost-profit-tracking",
+  "parent_id": null,
+  "children_ids": [],
+  "manual": {
+    "depends_on": [],
+    "supersedes": [],
+    "related_to": []
+  },
+  "derived": {
+    "trigger_phrases": [
+      "cost tracking",
+      "profit tracking",
+      "ROI",
+      "budget alerts",
+      "token cost",
+      "API cost",
+      "LLM cost",
+      "TTS cost",
+      "revenue attribution",
+      "viral-ops cost"
+    ],
+    "key_topics": [
+      "cost",
+      "tracking",
+      "profit",
+      "roi",
+      "budget",
+      "alerts",
+      "token",
+      "api",
+      "llm",
+      "tts",
+      "revenue",
+      "attribution"
+    ],
+    "importance_tier": "normal",
+    "status": "planned",
+    "key_files": [
+      "research/research.md",
+      "research/iterations/iteration-007.md",
+      "spec.md"
+    ],
+    "entities": [
+      {
+        "name": "research.md",
+        "kind": "doc",
+        "path": "research/research.md",
+        "source": "derived"
+      },
+      {
+        "name": "iteration-007.md",
+        "kind": "doc",
+        "path": "research/iterations/iteration-007.md",
+        "source": "derived"
+      },
+      {
+        "name": "spec.md",
+        "kind": "doc",
+        "path": "spec.md",
+        "source": "derived"
+      },
+      {
+        "name": "Feature Specification",
+        "kind": "proper_noun",
+        "path": "spec.md",
+        "source": "derived"
+      },
+      {
+        "name": "Profit Tracking System",
+        "kind": "proper_noun",
+        "path": "spec.md",
+        "source": "derived"
+      },
+      {
+        "name": "Problem Statement",
+        "kind": "proper_noun",
+        "path": "spec.md",
+        "source": "derived"
+      },
+      {
+        "name": "Claude Haiku",
+        "kind": "proper_noun",
+        "path": "spec.md",
+        "source": "derived"
+      },
+      {
+        "name": "Purpose Build",
+        "kind": "proper_noun",
+        "path": "spec.md",
+        "source": "derived"
+      },
+      {
+        "name": "In Scope",
+        "kind": "proper_noun",
+        "path": "spec.md",
+        "source": "derived"
+      },
+      {
+        "name": "Deep Research Synthesis",
+        "kind": "proper_noun",
+        "path": "research/research.md",
+        "source": "derived"
+      },
+      {
+        "name": "Profit Tracking",
+        "kind": "proper_noun",
+        "path": "research/research.md",
+        "source": "derived"
+      },
+      {
+        "name": "Cost Schema",
+        "kind": "proper_noun",
+        "path": "research/research.md",
+        "source": "derived"
+      },
+      {
+        "name": "Pricing Feeds",
+        "kind": "proper_noun",
+        "path": "research/research.md",
+        "source": "derived"
+      },
+      {
+        "name": "Fast Mode",
+        "kind": "proper_noun",
+        "path": "research/research.md",
+        "source": "derived"
+      },
+      {
+        "name": "Limit Tracking",
+        "kind": "proper_noun",
+        "path": "research/research.md",
+        "source": "derived"
+      }
+    ],
+    "causal_summary": "Build a per-content cost + revenue ledger with an ROI engine, daily/monthly dashboards, and budget-alert pipelines so every video, platform, and niche exposes its true economic picture.",
+    "created_at": "2026-04-16T22:40:12.903Z",
+    "last_save_at": "2026-04-16T22:40:12.903Z",
+    "last_accessed_at": null,
+    "source_docs": [
+      "spec.md",
+      "research/research.md"
+    ]
+  }
+}

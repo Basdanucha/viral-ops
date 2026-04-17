@@ -1,0 +1,43 @@
+{
+  "specFolder": "viral-ops/008-cost-profit-tracking",
+  "description": "Deep research into viral-ops cost & profit tracking: LLM/TTS token costs, API quota consumption, per-content cost attribution, revenue from affiliates",
+  "keywords": [
+    "deep",
+    "research",
+    "viral-ops",
+    "cost",
+    "profit",
+    "tracking",
+    "llm",
+    "tts",
+    "token",
+    "costs",
+    "api",
+    "quota",
+    "consumption",
+    "per-content",
+    "attribution",
+    "revenue",
+    "affiliates",
+    "platform",
+    "monetization",
+    "roi",
+    "calculation",
+    "per",
+    "video",
+    "niche",
+    "daily",
+    "monthly",
+    "dashboards",
+    "budget",
+    "alerts"
+  ],
+  "lastUpdated": "2026-04-16T22:40:09.085Z",
+  "specId": "008",
+  "folderSlug": "cost-profit-tracking",
+  "parentChain": [
+    "viral-ops"
+  ],
+  "memorySequence": 0,
+  "memoryNameHistory": []
+}

@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
-  "packet_id": "viral-ops/007-l7-feedback-loop",
-  "spec_folder": "viral-ops/007-l7-feedback-loop",
+  "packet_id": "viral-ops/001-base-app-research",
+  "spec_folder": "viral-ops/001-base-app-research",
   "parent_id": null,
   "children_ids": [],
   "manual": {
@@ -12,25 +12,24 @@
   "derived": {
     "trigger_phrases": [],
     "key_topics": [
-      "deep-research",
-      "active",
-      "topic",
-      "research",
-      "remains",
-      "canonical",
-      "iteration",
-      "files",
-      "live",
-      "iterations",
-      "synthesis",
-      "write"
+      "find",
+      "best",
+      "open-source",
+      "base",
+      "app",
+      "fork",
+      "foundation",
+      "viral-ops",
+      "saas-style",
+      "platform",
+      "drives",
+      "full"
     ],
     "importance_tier": "important",
-    "status": "research",
+    "status": "planned",
     "key_files": [
+      "research/archive/gen1-2026-04-16/research.md",
       "research/research.md",
-      "research/deep-research-strategy.md",
-      "research/iterations/iteration-002.md",
       "spec.md"
     ],
     "entities": [
@@ -41,81 +40,81 @@
         "source": "derived"
       },
       {
-        "name": "deep-research-strategy.md",
-        "kind": "doc",
-        "path": "research/deep-research-strategy.md",
-        "source": "derived"
-      },
-      {
-        "name": "iteration-002.md",
-        "kind": "doc",
-        "path": "research/iterations/iteration-002.md",
-        "source": "derived"
-      },
-      {
         "name": "spec.md",
         "kind": "doc",
         "path": "spec.md",
         "source": "derived"
       },
       {
-        "name": "Feedback Loop",
-        "kind": "proper_noun",
-        "path": "research/research.md",
-        "source": "derived"
-      },
-      {
-        "name": "Research Findings",
+        "name": "Base App Research",
         "kind": "proper_noun",
         "path": "spec.md",
         "source": "derived"
       },
       {
-        "name": "Content Lab",
-        "kind": "proper_noun",
-        "path": "research/research.md",
-        "source": "derived"
-      },
-      {
-        "name": "Thompson Sampling",
-        "kind": "proper_noun",
-        "path": "research/research.md",
-        "source": "derived"
-      },
-      {
-        "name": "Open Questions",
+        "name": "Open Questions All",
         "kind": "proper_noun",
         "path": "spec.md",
         "source": "derived"
       },
       {
-        "name": "Research Context Deep",
+        "name": "Research Context",
         "kind": "proper_noun",
         "path": "spec.md",
         "source": "derived"
       },
       {
-        "name": "Progressive Research Synthesis",
+        "name": "Research Findings Summary",
+        "kind": "proper_noun",
+        "path": "spec.md",
+        "source": "derived"
+      },
+      {
+        "name": "Updated Stack",
+        "kind": "proper_noun",
+        "path": "spec.md",
+        "source": "derived"
+      },
+      {
+        "name": "Better Auth",
         "kind": "proper_noun",
         "path": "research/research.md",
         "source": "derived"
       },
       {
-        "name": "Research Topic",
+        "name": "Framework Version Update",
         "kind": "proper_noun",
         "path": "research/research.md",
         "source": "derived"
       },
       {
-        "name": "Platform Analytics",
+        "name": "Version Matrix",
+        "kind": "proper_noun",
+        "path": "research/research.md",
+        "source": "derived"
+      },
+      {
+        "name": "Current Stable",
+        "kind": "proper_noun",
+        "path": "research/research.md",
+        "source": "derived"
+      },
+      {
+        "name": "Migration Effort",
+        "kind": "proper_noun",
+        "path": "research/research.md",
+        "source": "derived"
+      },
+      {
+        "name": "Boilerplate Replacement",
         "kind": "proper_noun",
         "path": "research/research.md",
         "source": "derived"
       }
     ],
-    "causal_summary": "Deep-research is active for this topic. `research/research.md` remains canonical. Iteration files live under `research/iterations/`. Synthesis will write a bounded `## Research Findings` block here when complete.",
-    "created_at": "2026-04-16T21:10:00.149Z",
-    "last_save_at": "2026-04-16T22:40:12.882Z",
+    "causal_summary": "Find the best open-source base app to fork as the foundation for viral-ops — a SaaS-style platform where AI drives the full viral lifecycle (trend intelligence, viral scoring, content lab, multi-platform distribution, affiliate monetization, and a feedback loop). Including UI stack selection for the ops dashboard.",
+    "created_at": "2026-04-16T22:40:12.737Z",
+    "last_save_at": "2026-04-16T22:40:12.737Z",
     "last_accessed_at": null,
     "source_docs": [
       "spec.md",

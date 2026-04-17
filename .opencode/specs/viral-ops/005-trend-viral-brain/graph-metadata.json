@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
-  "packet_id": "viral-ops/007-l7-feedback-loop",
-  "spec_folder": "viral-ops/007-l7-feedback-loop",
+  "packet_id": "viral-ops/005-trend-viral-brain",
+  "spec_folder": "viral-ops/005-trend-viral-brain",
   "parent_id": null,
   "children_ids": [],
   "manual": {
@@ -12,25 +12,23 @@
   "derived": {
     "trigger_phrases": [],
     "key_topics": [
-      "deep-research",
-      "active",
-      "topic",
+      "deep",
+      "dive",
       "research",
-      "remains",
-      "canonical",
-      "iteration",
-      "files",
-      "live",
-      "iterations",
-      "synthesis",
-      "write"
+      "trend",
+      "discovery",
+      "viral",
+      "brain",
+      "intelligence",
+      "layers",
+      "viral-ops",
+      "covering",
+      "multi-platform"
     ],
     "importance_tier": "important",
-    "status": "research",
+    "status": "planned",
     "key_files": [
       "research/research.md",
-      "research/deep-research-strategy.md",
-      "research/iterations/iteration-002.md",
       "spec.md"
     ],
     "entities": [
@@ -41,81 +39,75 @@
         "source": "derived"
       },
       {
-        "name": "deep-research-strategy.md",
-        "kind": "doc",
-        "path": "research/deep-research-strategy.md",
-        "source": "derived"
-      },
-      {
-        "name": "iteration-002.md",
-        "kind": "doc",
-        "path": "research/iterations/iteration-002.md",
-        "source": "derived"
-      },
-      {
         "name": "spec.md",
         "kind": "doc",
         "path": "spec.md",
         "source": "derived"
       },
       {
-        "name": "Feedback Loop",
+        "name": "Trend Layer",
         "kind": "proper_noun",
         "path": "research/research.md",
         "source": "derived"
       },
       {
-        "name": "Research Findings",
+        "name": "Viral Brain",
+        "kind": "proper_noun",
+        "path": "research/research.md",
+        "source": "derived"
+      },
+      {
+        "name": "Trend Discovery",
         "kind": "proper_noun",
         "path": "spec.md",
         "source": "derived"
       },
       {
-        "name": "Content Lab",
-        "kind": "proper_noun",
-        "path": "research/research.md",
-        "source": "derived"
-      },
-      {
-        "name": "Thompson Sampling",
-        "kind": "proper_noun",
-        "path": "research/research.md",
-        "source": "derived"
-      },
-      {
-        "name": "Open Questions",
+        "name": "Viral Brain Intelligence",
         "kind": "proper_noun",
         "path": "spec.md",
         "source": "derived"
       },
       {
-        "name": "Research Context Deep",
+        "name": "Google Trends",
         "kind": "proper_noun",
         "path": "spec.md",
         "source": "derived"
       },
       {
-        "name": "Progressive Research Synthesis",
+        "name": "Creative Center",
+        "kind": "proper_noun",
+        "path": "spec.md",
+        "source": "derived"
+      },
+      {
+        "name": "Research Synthesis",
         "kind": "proper_noun",
         "path": "research/research.md",
         "source": "derived"
       },
       {
-        "name": "Research Topic",
+        "name": "Trend Data Sources",
         "kind": "proper_noun",
         "path": "research/research.md",
         "source": "derived"
       },
       {
-        "name": "Platform Analytics",
+        "name": "Source Viability Matrix",
+        "kind": "proper_noun",
+        "path": "research/research.md",
+        "source": "derived"
+      },
+      {
+        "name": "Thai Support",
         "kind": "proper_noun",
         "path": "research/research.md",
         "source": "derived"
       }
     ],
-    "causal_summary": "Deep-research is active for this topic. `research/research.md` remains canonical. Iteration files live under `research/iterations/`. Synthesis will write a bounded `## Research Findings` block here when complete.",
-    "created_at": "2026-04-16T21:10:00.149Z",
-    "last_save_at": "2026-04-16T22:40:12.882Z",
+    "causal_summary": "Deep dive research into the Trend Discovery (L1) and Viral Brain Intelligence (L2) layers for viral-ops — covering multi-platform trend scraping tools, trend clustering, viral scoring with LLM-as-judge, hook variant generation, and GBDT model training for content optimization. Focus on tools that actually work in 2026 and Thai market considerations.",
+    "created_at": "2026-04-16T22:40:12.831Z",
+    "last_save_at": "2026-04-16T22:40:12.831Z",
     "last_accessed_at": null,
     "source_docs": [
       "spec.md",
