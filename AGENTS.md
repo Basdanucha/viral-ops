@@ -181,11 +181,35 @@ Trigger: EACH new user message (re-evaluate even in ongoing conversations)
 
 #### GATE 3: SPEC FOLDER QUESTION [HARD] BLOCK - PRIORITY GATE
 - **Overrides Gates 1-2:** If file modification detected → ask Gate 3 BEFORE any analysis/tool calls
-- **Triggers:** rename, move, delete, create, add, remove, update, change, modify, edit, fix, refactor, implement, build, write, generate, configure, analyze, decompose, phase - or any task resulting in file changes
+- **Machine contract:** `.opencode/skill/system-spec-kit/shared/gate-3-classifier.ts` (`classifyPrompt()`). The prose lists below are human-readable; the classifier module is authoritative for runtimes that call it.
+- **Positive triggers (write actions):** create, add, remove, delete, rename, move, update, change, modify, edit, fix, refactor, implement, build, write, generate, configure
+- **Positive triggers (continuity writes):** `save context`, `save memory`, `/memory:save`, `/spec_kit:resume`, `resume iteration`, `resume deep research`, `resume deep review`, `continue iteration` (these produce `description.json` / `graph-metadata.json` / continuity frontmatter / `iteration-NNN.md` writes)
+- **Read-only disqualifiers:** `review`, `audit`, `inspect`, `analyze`, `explain` — suppress Gate 3 when they appear ALONE (e.g. "review the decomposition phase"). Do NOT suppress when a continuity-write trigger is also present.
+- **Note:** tokens `analyze`, `decompose`, `phase` are NOT positive triggers; they false-positive on read-only review prompts.
 - **Options:** A) Existing | B) New | C) Update related | D) Skip | E) Phase folder (e.g., `specs/NNN-name/001-phase/`)
 - **DO NOT** use Read/Edit/Write/Bash (except Gate Actions) before asking. ASK FIRST, wait for response, THEN proceed
 - **Session persistence:** Once the user answers Gate 3 in a conversation, that answer applies for the ENTIRE session. Do NOT re-ask on subsequent messages unless the user explicitly starts a completely different task/feature. Follow-up messages, implementation steps, and phase transitions within the same task reuse the original answer.
 - **Re-ask ONLY when:** the user says "new task" / "different feature" / explicitly names a different spec folder, OR the user asks you to re-ask.
+
+#### GATE 4: SKILL-OWNED WORKFLOW ENFORCEMENT [HARD] BLOCK
+Trigger phrases: "deep-research", "deep-review", "iterations", ":auto" suffix, "convergence", "autoresearch", "research loop", "review loop", iterative investigation/audit at scale (>5 iterations).
+
+**RULE:** Iterative investigation or review loops MUST use the canonical skill-owned command surface:
+- Deep research → `/spec_kit:deep-research :auto`
+- Deep review → `/spec_kit:deep-review :auto`
+
+**FORBIDDEN** (these lose skill-owned state, convergence detection, delta tracking, and auditability):
+- Custom bash dispatchers or parallel drivers for iterations
+- Direct cli-copilot / cli-codex / cli-gemini / cli-claude-code invocation inside a loop
+- Manually managing iteration state in `/tmp` or anywhere outside the skill's `research/` or `review/` folder
+- Skipping the state machine: `deep-research-state.jsonl`, `deep-research-config.json`, `deltas/`, `prompts/`, `logs/`
+- Using the `@deep-research` or `@deep-review` agent directly via Task tool for iteration loops — only the command-owned YAML workflow may dispatch these
+
+**Rationale:** `sk-deep-research` and `sk-deep-review` own append-only state, convergence detectors, per-iteration deltas, dispatch invariants (iteration+delta both required), and the reducer (`reduce-state.cjs`). Bypassing them loses: audit trail, convergence signals, deduplication, dispatcher accountability, lifecycle events (new/resume/restart).
+
+**If the user specifies the executor CLI** (e.g. "use cli-copilot gpt-5.4 high"), that is the HOW — it still runs INSIDE the skill's workflow. Never let the executor name override the skill-owned route.
+
+**Tiebreaker for skill advisor ambiguity:** When `command-spec-kit` matches alongside `cli-*` for iteration phrases, `command-spec-kit` wins. The CLI executor is a tool inside the command's workflow, not a replacement for it.
 
 #### CONSOLIDATED QUESTION PROTOCOL
 When multiple inputs are needed, consolidate into a SINGLE prompt - never split across messages. Include only applicable questions; omit when pre-determined.
@@ -203,7 +227,7 @@ Trigger: "save context", "save memory", `/memory:save`, continuity update
 - If spec folder established at Gate 3 → USE IT (don't re-ask). Carry-over applies ONLY to memory saves
 - If NO folder and Gate 3 never answered → HARD BLOCK → Ask user
 - **Full save (DB + embeddings + graph):** `node .opencode/skill/system-spec-kit/scripts/dist/memory/generate-context.js`
-  - AI composes structured JSON with session context, writes to `/tmp/save-context-data.json`, passes as first arg. Alternatively use `--json '<inline-json>'` or `--stdin`.
+  - AI composes structured JSON with session context, writes to `/tmp/save-context-data-<session-id>.json`, passes as first arg. Alternatively use `--json '<inline-json>'` or `--stdin`.
   - Also refreshes `graph-metadata.json` and `description.json` for the spec folder.
 - **Quick continuity update:** AI may directly edit `_memory.continuity` YAML frontmatter blocks in `implementation-summary.md` without running generate-context.js (per ADR-004). The resume ladder only reads continuity from `implementation-summary.md`.
 - **Indexing:** For immediate MCP visibility after save: `memory_index_scan({ specFolder })` or `memory_save()`
@@ -294,7 +318,7 @@ Use the agent directory that matches the active runtime/provider profile:
 ### Agent Definitions
 
 - **`@general`** - Implementation, complex tasks
-- **`@context`** - Retrieval-first exploration agent for codebase search, pattern discovery, and context loading using memory triggers/context, memory search, CocoIndex, and direct code evidence as needed
+- **`@context`** - LEAF-only retrieval agent for codebase search, pattern discovery, and context loading. Uses memory triggers/context, memory search, CocoIndex, and direct code evidence. LEAF constraint: `@context` MUST NOT dispatch sub-agents, use the Task tool, or write files. All results are returned to the caller; never held in nested context
 - **`@orchestrate`** - Multi-agent coordination, complex workflows
 - **`@write`** - Creating READMEs, Skills, Guides
 - **`@review`** - Code review, PRs, quality gates (READ-ONLY)

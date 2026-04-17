@@ -30,7 +30,7 @@ Executes ONE review iteration within an autonomous review loop. Reads externaliz
 
 **IMPORTANT**: This agent is a hybrid of @review (quality rubric, severity classification, adversarial self-check) and the deep-review loop contract (state protocol, JSONL, lifecycle continuity). It reviews code but does NOT modify it.
 
-> **SPEC FOLDER PERMISSION:** @deep-review may write only `review/` artifacts inside the active spec folder (iteration artifacts, strategy, JSONL, dashboard, report). Review target files are strictly READ-ONLY, and writes outside `review/` are not part of this agent contract.
+> **SPEC FOLDER PERMISSION:** @deep-review may write only the resolved root-level `review/` packet for the active spec tree (iteration artifacts, strategy, JSONL, dashboard, report). Child-phase targets write into a phase-path subfolder inside that root packet. Review target files are strictly READ-ONLY, and writes outside the resolved `review/` packet are not part of this agent contract.
 
 ---
 
@@ -145,45 +145,50 @@ Every new `P0` or `P1` finding MUST include a typed claim-adjudication packet in
 
 #### Step 5: Write Findings
 
-Create `review/iterations/iteration-NNN.md`. Use exactly one canonical template. The reducer at `.opencode/skill/sk-deep-review/scripts/reduce-state.cjs:202` reads only the heading plus these exact sections: `## Focus`, `## Findings`, `## Ruled Out`, `## Dead Ends`, `## Recommended Next Focus`, and `## Assessment`. Inside `## Findings`, use only `### P0`, `### P1`, and `### P2`, with bullets of the form `- **FNNN**: Title — file:line — Description`. Do not add alternate skeletons or rename sections.
+Create `review/iterations/iteration-NNN.md`. Use exactly one canonical template. The reducer at `.opencode/skill/sk-deep-review/scripts/reduce-state.cjs` reads both the legacy section names (`## Focus`, `## Findings`, `## Ruled Out`, `## Dead Ends`, `## Recommended Next Focus`, `## Assessment`) and the live section names below. Inside findings, use `### P0 Findings`, `### P1 Findings`, and `### P2 Findings` subsections. Findings use numbered bullets of the form `N. **Title** — file:line — Description`, each followed by a claim-adjudication JSON block for P0/P1.
 
 ```markdown
-# Iteration [N]: [Focus label, e.g. "Correctness contracts on review loop runtime"]
+# Iteration [N] - [dimension] - [focus area]
 
-## Focus
-[1–3 sentences describing the dimension, files, and scope investigated this iteration.]
+## Dispatcher
+- iteration: [N] of [max]
+- dispatcher: [runtime identity]
+- timestamp: [ISO-8601]
 
-## Findings
+## Files Reviewed
+- [path/to/file1]
+- [path/to/file2]
 
-### P0
-- **F001**: [Title] — `file:line` — [Description with file:line evidence and why it blocks release]
+## Findings - New
+### P0 Findings
+- None.
 
-### P1
-- **F002**: [Title] — `file:line` — [Description]
-
-### P2
-- **F003**: [Title] — `file:line` — [Description]
-
-> Use sequential finding IDs across the whole session (iteration 2 starts at F00K where K = last F-id used in iteration 1). The reducer deduplicates on the `FNNN` prefix, so collisions are silent.
-> For every P0/P1 finding, also emit a typed claim-adjudication packet (schema in state_format.md §9 and loop_protocol.md Step 4a) so `step_post_iteration_claim_adjudication` can validate it. A missing or malformed packet vetoes STOP via the `claimAdjudicationGate` on the next convergence check.
+### P1 Findings
+1. **[Title]** — `file:line`, `file2:line` — [Description with evidence and impact]
 
 ```json
-{"type":"claim-adjudication","findingId":"F002","claim":"One-sentence statement of the P0/P1 finding being adjudicated.","evidenceRefs":["path/to/file:line"],"counterevidenceSought":"Adjacent code, docs, and prior iterations checked for contradictory evidence.","alternativeExplanation":"Most plausible non-bug explanation considered during skeptic/referee review.","finalSeverity":"P0","confidence":0.9,"downgradeTrigger":"What evidence would justify reducing severity or marking this a false positive."}
+{
+  "claim": "One-sentence statement of the finding being adjudicated.",
+  "evidenceRefs": ["path/to/file:line"],
+  "counterevidenceSought": "What contradictory evidence was checked.",
+  "alternativeExplanation": "Plausible non-bug explanation considered.",
+  "finalSeverity": "P1",
+  "confidence": 0.90,
+  "downgradeTrigger": "What evidence would justify downgrading."
+}
 ```
 
-## Ruled Out
-- [Approach]: [Why] — [file:line evidence]
+### P2 Findings
+- None.
 
-## Dead Ends
-- [Direction]: [Why the current evidence does not justify escalation]
+## Traceability Checks
+- [Protocol]: [pass|partial|fail] — [evidence]
 
-## Recommended Next Focus
+## Confirmed-Clean Surfaces
+- [File or area confirmed clean with reasoning]
+
+## Next Focus
 [What the next iteration should investigate. Rotate dimensions unless the current dimension is still incomplete.]
-
-## Assessment
-- New findings ratio: [0.XX]
-- Dimensions addressed: [list]
-- Novelty justification: [1 sentence]
 ```
 
 #### Step 6: Update Strategy
@@ -302,7 +307,7 @@ This agent loads shared review doctrine from .opencode/skill/sk-code-review/refe
 Runtime-supported lifecycle modes (current release):
 - `new`: First run against the spec folder; no prior state.
 - `resume`: Continue the active review session; same `sessionId`, no archive. The workflow appends a typed `resumed` JSONL event before dispatch.
-- `restart`: Archive the existing `review/` tree under `review_archive/{timestamp}/`, mint a fresh `sessionId`, increment `generation`. The workflow appends a typed `restarted` JSONL event with a non-null `archivedPath`.
+- `restart`: Archive the existing resolved `review/` packet under the spec tree root's `review_archive/{phase-subfolder-or-root}/{timestamp}/`, mint a fresh `sessionId`, increment `generation`. The workflow appends a typed `restarted` JSONL event with a non-null `archivedPath`.
 
 Deferred (reserved, not runtime-supported):
 - `fork`: Earlier drafts described this as a child review session from an earlier lineage point. Not emitted today.
@@ -329,7 +334,7 @@ Reducer boundary:
 
 ### File Paths
 
-All paths are relative to the spec folder provided in dispatch context.
+All paths resolve from the spec tree root, not always from the target spec folder. Review artifacts are written to the spec tree ROOT's `review/` folder, and child-phase targets use a subfolder inside that root packet that matches the phase path.
 
 | File | Path | Operation |
 |------|------|-----------|

@@ -12,6 +12,7 @@ Output: JSON array of skill recommendations with confidence scores
 
 Options:
     --health      Run health check diagnostics
+    --validate-only  Run strict skill-graph validation
     --threshold   Confidence threshold used by default dual-threshold filtering (default: 0.8)
     --confidence-only  Explicitly bypass uncertainty filtering
 """
@@ -76,6 +77,11 @@ SKILL_GRAPH_SQLITE_PATH = os.path.normpath(os.path.join(
     'skill-graph.sqlite',
 ))
 GRAPH_ADJACENCY_EDGE_TYPES = ("depends_on", "enhances", "siblings", "prerequisite_for")
+STRICT_TOPOLOGY_HEADERS = (
+    ("DEPENDENCY CYCLE ERRORS", "dependency cycles"),
+    ("SYMMETRY WARNINGS", "asymmetric edges"),
+    ("ZERO-EDGE WARNINGS", "orphan skills"),
+)
 _SKILL_GRAPH: Optional[Dict[str, Any]] = None
 _SKILL_GRAPH_SOURCE: Optional[str] = None
 
@@ -102,6 +108,135 @@ def _compute_hub_skills(adjacency: Dict[str, Dict[str, Dict[str, float]]]) -> Li
     return sorted(skill for skill, count in inbound_counts.items() if count > median)
 
 
+def _normalize_signal_phrase(signal: str) -> str:
+    """Normalize graph-declared signal phrases for stable matching."""
+    return " ".join(signal.strip().lower().split())
+
+
+def _expand_signal_variants(signal: str) -> Set[str]:
+    """Build phrase variants from graph metadata signals and trigger phrases."""
+    normalized = _normalize_signal_phrase(signal)
+    if not normalized:
+        return set()
+    return {
+        normalized,
+        normalized.replace("-", " "),
+        normalized.replace("_", " "),
+        normalized.replace("-", "_"),
+    }
+
+
+def _extend_signal_map(
+    signal_map: Dict[str, List[str]],
+    skill_id: str,
+    raw_signals: Any,
+) -> None:
+    """Merge normalized signal variants into a per-skill routing map."""
+    if not isinstance(raw_signals, list) or not raw_signals:
+        return
+
+    existing = signal_map.setdefault(skill_id, [])
+    seen = set(existing)
+    for raw_signal in raw_signals:
+        if not isinstance(raw_signal, str):
+            continue
+        for variant in sorted(_expand_signal_variants(raw_signal)):
+            if variant and variant not in seen:
+                existing.append(variant)
+                seen.add(variant)
+
+
+def _load_source_graph_signal_map() -> Dict[str, List[str]]:
+    """Load intent signals and derived trigger phrases from source metadata files."""
+    signal_map: Dict[str, List[str]] = {}
+
+    try:
+        skill_entries = sorted(os.scandir(SKILLS_DIR), key=lambda entry: entry.name)
+    except OSError:
+        return signal_map
+
+    for entry in skill_entries:
+        if not entry.is_dir():
+            continue
+
+        graph_metadata_path = os.path.join(entry.path, "graph-metadata.json")
+        if not os.path.exists(graph_metadata_path):
+            continue
+
+        try:
+            with open(graph_metadata_path, "r", encoding="utf-8") as handle:
+                graph_metadata = json.load(handle)
+        except (OSError, ValueError, json.JSONDecodeError):
+            continue
+
+        if not isinstance(graph_metadata, dict):
+            continue
+
+        skill_id = str(graph_metadata.get("skill_id") or entry.name)
+        _extend_signal_map(signal_map, skill_id, graph_metadata.get("intent_signals"))
+
+        derived = graph_metadata.get("derived")
+        if isinstance(derived, dict):
+            _extend_signal_map(signal_map, skill_id, derived.get("trigger_phrases"))
+
+    return signal_map
+
+
+def _load_source_conflict_declarations() -> Dict[str, Set[str]]:
+    """Read per-skill `graph-metadata.json` to recover directional conflict edges.
+
+    T-SAP-04 (R46-002): defense-in-depth for the runtime conflict penalty. The
+    compiled graph's `conflicts` is flattened into undirected pairs, so the
+    runtime cannot detect unilateral-declaration asymmetry from that payload
+    alone. The compiler's T-SGC-03 symmetry check gates against unilateral
+    declarations at build time, but if a compiled graph is shipped that
+    bypassed validation (e.g. a legacy JSON artifact), the runtime must
+    refuse to penalize a non-declaring skill. This helper replays the
+    per-skill `conflicts_with` arrays so the runtime can cross-check.
+    """
+    declarations: Dict[str, Set[str]] = {}
+
+    try:
+        skill_entries = sorted(os.scandir(SKILLS_DIR), key=lambda entry: entry.name)
+    except OSError:
+        return declarations
+
+    for entry in skill_entries:
+        if not entry.is_dir():
+            continue
+
+        graph_metadata_path = os.path.join(entry.path, "graph-metadata.json")
+        if not os.path.exists(graph_metadata_path):
+            continue
+
+        try:
+            with open(graph_metadata_path, "r", encoding="utf-8") as handle:
+                graph_metadata = json.load(handle)
+        except (OSError, ValueError, json.JSONDecodeError):
+            continue
+
+        if not isinstance(graph_metadata, dict):
+            continue
+
+        skill_id = str(graph_metadata.get("skill_id") or entry.name)
+        edges = graph_metadata.get("edges")
+        if not isinstance(edges, dict):
+            continue
+
+        conflicts = edges.get("conflicts_with")
+        if not isinstance(conflicts, list):
+            continue
+
+        for edge in conflicts:
+            if not isinstance(edge, dict):
+                continue
+            target = edge.get("target")
+            if isinstance(target, str) and target:
+                declarations.setdefault(skill_id, set()).add(target)
+
+    return declarations
+
+
 def _load_skill_graph_sqlite() -> Optional[Dict[str, Any]]:
     """Load compiled-equivalent skill graph data from SQLite."""
     if not os.path.exists(SKILL_GRAPH_SQLITE_PATH):
@@ -112,7 +247,7 @@ def _load_skill_graph_sqlite() -> Optional[Dict[str, Any]]:
             connection.row_factory = sqlite3.Row
 
             node_rows = connection.execute(
-                "SELECT id, family, intent_signals FROM skill_nodes ORDER BY id ASC"
+                "SELECT id, family, intent_signals, derived FROM skill_nodes ORDER BY id ASC"
             ).fetchall()
             if not node_rows:
                 return None
@@ -131,6 +266,10 @@ def _load_skill_graph_sqlite() -> Optional[Dict[str, Any]]:
             generated_at_row = connection.execute(
                 "SELECT value FROM skill_graph_metadata WHERE key = 'last_scan_timestamp'"
             ).fetchone()
+            # T-SGC-02 / R45-003: durable topology-warning payload.
+            topology_warnings_row = connection.execute(
+                "SELECT value FROM skill_graph_metadata WHERE key = 'topology_warnings'"
+            ).fetchone()
     except sqlite3.Error:
         return None
 
@@ -147,9 +286,13 @@ def _load_skill_graph_sqlite() -> Optional[Dict[str, Any]]:
 
             raw_signals = node_row["intent_signals"]
             if raw_signals:
-                parsed_signals = json.loads(raw_signals)
-                if isinstance(parsed_signals, list) and parsed_signals:
-                    signals[skill_id] = [str(signal) for signal in parsed_signals]
+                _extend_signal_map(signals, skill_id, json.loads(raw_signals))
+
+            raw_derived = node_row["derived"]
+            if raw_derived:
+                parsed_derived = json.loads(raw_derived)
+                if isinstance(parsed_derived, dict):
+                    _extend_signal_map(signals, skill_id, parsed_derived.get("trigger_phrases"))
 
         for edge_row in edge_rows:
             source_id = str(edge_row["source_id"])
@@ -177,6 +320,24 @@ def _load_skill_graph_sqlite() -> Optional[Dict[str, Any]]:
 
         schema_version = int(schema_row["version"]) if schema_row and schema_row["version"] is not None else 1
 
+        # T-SGC-02: decode persisted topology warnings (best-effort; missing or
+        # malformed payload degrades gracefully to empty).
+        topology_warnings_payload: Dict[str, List[str]] = {}
+        if topology_warnings_row and topology_warnings_row["value"]:
+            try:
+                decoded = json.loads(str(topology_warnings_row["value"]))
+            except (TypeError, ValueError, json.JSONDecodeError):
+                decoded = None
+            if isinstance(decoded, dict):
+                for category, messages in decoded.items():
+                    if not isinstance(category, str):
+                        continue
+                    if not isinstance(messages, list):
+                        continue
+                    cleaned = sorted(str(m) for m in messages if isinstance(m, str) and m.strip())
+                    if cleaned:
+                        topology_warnings_payload[category] = cleaned
+
         return {
             "schema_version": schema_version,
             "generated_at": generated_at,
@@ -186,6 +347,7 @@ def _load_skill_graph_sqlite() -> Optional[Dict[str, Any]]:
             "signals": dict(sorted(signals.items())),
             "conflicts": [list(pair) for pair in sorted(conflicts)],
             "hub_skills": _compute_hub_skills(adjacency),
+            "topology_warnings": dict(sorted(topology_warnings_payload.items())),
         }
     except (TypeError, ValueError, json.JSONDecodeError):
         return None
@@ -195,9 +357,36 @@ def _load_skill_graph_json() -> Optional[Dict[str, Any]]:
     """Load the legacy compiled JSON graph."""
     try:
         with open(SKILL_GRAPH_PATH, "r", encoding="utf-8") as f:
-            return json.load(f)
+            graph = json.load(f)
     except (OSError, json.JSONDecodeError):
         return None
+
+    if not isinstance(graph, dict):
+        return None
+
+    signal_map: Dict[str, List[str]] = {}
+    for skill_id, raw_signals in (graph.get("signals") or {}).items():
+        if isinstance(skill_id, str):
+            _extend_signal_map(signal_map, skill_id, raw_signals)
+
+    source_signal_map = _load_source_graph_signal_map()
+    for skill_id, raw_signals in source_signal_map.items():
+        _extend_signal_map(signal_map, skill_id, raw_signals)
+
+    graph["signals"] = dict(sorted(signal_map.items()))
+
+    # T-SGC-02 (R45-003): Normalize topology_warnings (older graphs may omit).
+    raw_warnings = graph.get("topology_warnings")
+    normalized_warnings: Dict[str, List[str]] = {}
+    if isinstance(raw_warnings, dict):
+        for category, messages in raw_warnings.items():
+            if not isinstance(category, str) or not isinstance(messages, list):
+                continue
+            cleaned = sorted(str(m) for m in messages if isinstance(m, str) and m.strip())
+            if cleaned:
+                normalized_warnings[category] = cleaned
+    graph["topology_warnings"] = dict(sorted(normalized_warnings.items()))
+    return graph
 
 
 def _load_skill_graph() -> Optional[Dict[str, Any]]:
@@ -245,6 +434,78 @@ def _load_skill_graph() -> Optional[Dict[str, Any]]:
 
     _SKILL_GRAPH_SOURCE = None
     return None
+
+
+def _collect_strict_topology_violations(output: str) -> Dict[str, List[str]]:
+    """Extract topology issues that strict validation must treat as fatal."""
+    collected: Dict[str, List[str]] = {}
+    active_category: Optional[str] = None
+    header_to_category = dict(STRICT_TOPOLOGY_HEADERS)
+    reset_headers = {
+        "WEIGHT-BAND WARNINGS",
+        "WEIGHT-PARITY WARNINGS",
+        "VALIDATION PASSED",
+        "VALIDATION FAILED",
+    }
+
+    for raw_line in output.splitlines():
+        line = raw_line.rstrip()
+        matched_header = next(
+            (header for header in header_to_category if line.startswith(header)),
+            None,
+        )
+        if matched_header is not None:
+            active_category = header_to_category[matched_header]
+            collected.setdefault(active_category, [])
+            continue
+
+        if any(line.startswith(header) for header in reset_headers):
+            active_category = None
+            continue
+
+        if active_category and line.startswith("  - "):
+            collected[active_category].append(line[4:])
+            continue
+
+        if line and not line.startswith(" "):
+            active_category = None
+
+    return {category: issues for category, issues in collected.items() if issues}
+
+
+def run_skill_graph_validation(strict_topology: bool = False) -> int:
+    """Run compiler validation and optionally fail hard on topology issues."""
+    try:
+        result = subprocess.run(
+            [sys.executable, SKILL_GRAPH_COMPILER_PATH, "--validate-only"],
+            capture_output=True,
+            text=True,
+        )
+    except OSError as exc:
+        print(f"Failed to run skill graph validator: {exc}", file=sys.stderr)
+        return 2
+
+    if result.stdout:
+        print(result.stdout, end="")
+    if result.stderr:
+        print(result.stderr, end="", file=sys.stderr)
+
+    if strict_topology:
+        combined_output = "\n".join(part for part in (result.stdout, result.stderr) if part)
+        topology_violations = _collect_strict_topology_violations(combined_output)
+        if topology_violations:
+            summary = ", ".join(
+                f"{category}={len(topology_violations[category])}"
+                for _, category in STRICT_TOPOLOGY_HEADERS
+                if topology_violations.get(category)
+            )
+            print(
+                f"STRICT TOPOLOGY VALIDATION FAILED: {summary}",
+                file=sys.stderr,
+            )
+            return 2
+
+    return result.returncode
 
 
 def _apply_graph_boosts(
@@ -318,8 +579,59 @@ def _apply_family_affinity(
                     boost_reasons.setdefault(member, []).append(f"!graph:family({family_name})")
 
 
+def _signal_match_boost(signal_phrase: str) -> float:
+    """Weight exact graph-signal matches by phrase specificity."""
+    token_count = max(1, len(re.findall(r'\b\w+\b', signal_phrase)))
+    return min(0.9 + 0.35 * (token_count - 1), 1.8)
+
+
+def _apply_signal_boosts(
+    prompt_lower: str,
+    skill_boosts: Dict[str, float],
+    boost_reasons: Dict[str, List[str]],
+) -> None:
+    """Apply routing boosts from graph intent signals and trigger phrases."""
+    graph = _load_skill_graph()
+    if not graph:
+        return
+
+    for skill_name, signal_phrases in (graph.get("signals") or {}).items():
+        if not isinstance(signal_phrases, list):
+            continue
+
+        matched_signals: List[str] = []
+        total_boost = 0.0
+        for signal_phrase in signal_phrases:
+            if not isinstance(signal_phrase, str):
+                continue
+            normalized = _normalize_signal_phrase(signal_phrase)
+            if not normalized or normalized in matched_signals:
+                continue
+            if not _matches_phrase_boundary(prompt_lower, normalized):
+                continue
+
+            total_boost += max(_signal_match_boost(normalized) - 0.15 * len(matched_signals), 0.2)
+            matched_signals.append(normalized)
+
+        if not matched_signals:
+            continue
+
+        skill_boosts[skill_name] = skill_boosts.get(skill_name, 0.0) + min(total_boost, 3.0)
+        reasons = boost_reasons.setdefault(skill_name, [])
+        for matched_signal in matched_signals:
+            reasons.append(f"!{matched_signal}(signal)")
+
+
 def _apply_graph_conflict_penalty(recommendations: List[Dict[str, Any]]) -> None:
-    """Increase uncertainty when conflicting skills are both recommended."""
+    """Increase uncertainty when conflicting skills are both recommended.
+
+    T-SAP-04 (R46-002): defense-in-depth reciprocity check. The compiled graph
+    promises that `conflicts` pairs are mutually declared (T-SGC-03 compiler
+    gate), but the runtime re-verifies by reading per-skill
+    `graph-metadata.json` before penalizing. If a pair is unilateral, the
+    penalty is skipped — a unilateral metadata edit must not silently
+    create a bilateral runtime penalty.
+    """
     graph = _load_skill_graph()
     if not graph:
         return
@@ -327,11 +639,28 @@ def _apply_graph_conflict_penalty(recommendations: List[Dict[str, Any]]) -> None
     if not conflicts:
         return
 
+    declarations = _load_source_conflict_declarations()
+
+    def _is_mutually_declared(a: str, b: str) -> bool:
+        # Empty declarations map means per-skill metadata was unreadable;
+        # trust the compiled graph in that case (backwards compat) so we
+        # don't silently break existing routing when running outside the
+        # repo checkout.
+        if not declarations:
+            return True
+        return b in declarations.get(a, set()) and a in declarations.get(b, set())
+
     passing = {r["skill"] for r in recommendations if r.get("passes_threshold")}
     conflict_set: Set[str] = set()
     for pair in conflicts:
-        if len(pair) == 2 and pair[0] in passing and pair[1] in passing:
-            conflict_set.update(pair)
+        if len(pair) != 2:
+            continue
+        a, b = pair[0], pair[1]
+        if a not in passing or b not in passing:
+            continue
+        if not _is_mutually_declared(a, b):
+            continue
+        conflict_set.update(pair)
 
     for rec in recommendations:
         if rec["skill"] in conflict_set:
@@ -534,31 +863,7 @@ INTENT_BOOSTERS = {
     # SK-AUTORESEARCH: Autonomous deep research loop
     # ─────────────────────────────────────────────────────────────────
     "autoresearch": ("sk-deep-research", 2.0),
-    "deep research": ("sk-deep-research", 1.5),
-    "research loop": ("sk-deep-research", 1.5),
-    "iterative research": ("sk-deep-research", 1.2),
     "convergence": ("sk-deep-research", 0.8),
-    "autonomous research": ("sk-deep-research", 1.5),
-    "agent improvement": ("sk-improve-agent", 1.8),
-    "recursive agent": ("sk-improve-agent", 1.8),
-    "improvement loop": ("sk-improve-agent", 1.8),
-    "proposal-only": ("sk-improve-agent", 1.4),
-    "proposal only": ("sk-improve-agent", 1.4),
-    "evaluator-first": ("sk-improve-agent", 1.5),
-    "candidate scoring": ("sk-improve-agent", 1.6),
-    "promotion gate": ("sk-improve-agent", 1.4),
-    "5-dimension": ("sk-improve-agent", 1.8),
-    "5d scoring": ("sk-improve-agent", 1.8),
-    "integration scan": ("sk-improve-agent", 1.6),
-    "dynamic profile": ("sk-improve-agent", 1.6),
-    "evaluate agent": ("sk-improve-agent", 1.6),
-    "score agent": ("sk-improve-agent", 1.6),
-    "agent evaluation": ("sk-improve-agent", 1.6),
-    "deep review": ("sk-deep-review", 1.5),
-    "review mode": ("sk-deep-review", 1.2),
-    "iterative review": ("sk-deep-review", 1.2),
-    "code audit": ("sk-deep-review", 1.0),
-    "review loop": ("sk-deep-review", 1.2),
 
     # ─────────────────────────────────────────────────────────────────
     # WORKFLOWS-GIT: Version control operations
@@ -678,30 +983,22 @@ INTENT_BOOSTERS = {
     # CLI-CODEX: Cross-AI orchestration via OpenAI Codex CLI
     # ─────────────────────────────────────────────────────────────────────────────────
     "codex": ("cli-codex", 2.0),
-    "openai-cli": ("cli-codex", 1.5),
 
     # ─────────────────────────────────────────────────────────────────────────────────
     # CLI-CLAUDE-CODE: Cross-AI orchestration via Anthropic Claude Code CLI
     # ─────────────────────────────────────────────────────────────────────────────────
-    "claude-code": ("cli-claude-code", 2.0),
-    "claude-cli": ("cli-claude-code", 1.5),
-    "extended-thinking": ("cli-claude-code", 1.0),
 
     # ─────────────────────────────────────────────────────────────────────────────────
     # CLI-COPILOT: Cross-AI orchestration via GitHub Copilot CLI
     # ─────────────────────────────────────────────────────────────────────────────────
     "copilot": ("cli-copilot", 2.0),
-    "copilot-cli": ("cli-copilot", 1.5),
-    "cloud-delegation": ("cli-copilot", 1.0),
 
     # ─────────────────────────────────────────────────────────────────
     # MCP-CODE-MODE: External tool integration
     # ─────────────────────────────────────────────────────────────────
     "clickup": ("mcp-clickup", 2.5),
-    "clickup-cli": ("mcp-clickup", 1.5),
     "cu": ("mcp-clickup", 2.0),
     "sprint": ("mcp-clickup", 1.0),
-    "task-management": ("mcp-clickup", 1.0),
     "standup": ("mcp-clickup", 1.0),
     "cms": ("mcp-code-mode", 0.5),
     "component": ("mcp-code-mode", 0.4),
@@ -725,7 +1022,6 @@ INTENT_BOOSTERS = {
     "enhance": ("sk-improve-prompt", 1.2),
     "rcaf": ("sk-improve-prompt", 2.0),
     "costar": ("sk-improve-prompt", 2.0),
-    "tidd-ec": ("sk-improve-prompt", 2.0),
     "crispe": ("sk-improve-prompt", 2.0),
     "craft": ("sk-improve-prompt", 1.5),
     "depth": ("sk-improve-prompt", 1.5),
@@ -739,9 +1035,6 @@ INTENT_BOOSTERS = {
     "coco": ("mcp-coco-index", 1.5),
     "ccc": ("mcp-coco-index", 2.0),
     "semantic": ("mcp-coco-index", 1.5),
-    "vector search": ("mcp-coco-index", 2.0),
-    "similar code": ("mcp-coco-index", 1.8),
-    "concept search": ("mcp-coco-index", 2.0),
     "discover": ("mcp-coco-index", 0.6),
     "implementation": ("mcp-coco-index", 0.5),
 }
@@ -785,6 +1078,14 @@ MULTI_SKILL_BOOSTERS = {
 
 # Phrase-level intent boosters for high-signal multi-token requests
 # Format: phrase -> list of (skill_name, boost_amount)
+# NOTE: INTENT_BOOSTERS only matches single-word tokens after
+# `all_tokens = re.findall(r'\b\w+\b', prompt_lower)` tokenizes the raw prompt.
+# PHRASE_INTENT_BOOSTERS matches multi-word phrases against the raw prompt text
+# before tokenization via `if phrase in prompt_lower`.
+# NEVER add keys containing spaces or hyphens to INTENT_BOOSTERS - the tokenizer
+# splits them, making those keys unreachable at runtime.
+# When in doubt, if the key has any whitespace OR hyphen, use
+# PHRASE_INTENT_BOOSTERS.
 PHRASE_INTENT_BOOSTERS = {
     "create documentation": [("sk-doc", 1.0)],
     "write documentation": [("sk-doc", 1.5)],
@@ -794,6 +1095,7 @@ PHRASE_INTENT_BOOSTERS = {
     "save memory": [("system-spec-kit", 1.0)],
     "save this context": [("system-spec-kit", 1.0)],
     "save conversation": [("system-spec-kit", 1.0)],
+    "save conversation context": [("system-spec-kit", 1.0)],
     "save this conversation context": [("system-spec-kit", 1.0)],
     "code review": [("sk-code-review", 2.4)],
     "pr review": [("sk-code-review", 2.3), ("sk-git", 0.4)],
@@ -801,6 +1103,7 @@ PHRASE_INTENT_BOOSTERS = {
     "review this pr": [("sk-code-review", 2.4)],
     "review this diff": [("sk-code-review", 2.2)],
     "quality gate": [("sk-code-review", 2.0)],
+    "quality gate validation": [("sk-code-review", 1.8)],
     "request changes": [("sk-code-review", 2.0)],
     "race conditions": [("sk-code-review", 1.5)],
     "auth bugs": [("sk-code-review", 1.5)],
@@ -817,9 +1120,16 @@ PHRASE_INTENT_BOOSTERS = {
     "responsive css layout": [("sk-code-web", 1.4)],
     "responsive css layout fix": [("sk-code-web", 2.2)],
     "layout fix": [("sk-code-web", 1.0)],
+    "browser verification checklist": [("sk-code-web", 1.6)],
     "css animation": [("sk-code-web", 0.8)],
     "api network": [("sk-code-web", 0.7), ("mcp-chrome-devtools", 0.4)],
+    "webflow deployment guidance": [("sk-code-web", 1.8)],
+    "external tool integration via code mode": [("mcp-code-mode", 2.0)],
     "template level validation": [("system-spec-kit", 0.8)],
+    "spec folder workflow": [("system-spec-kit", 1.8)],
+    "resume prior session context": [("system-spec-kit", 1.8)],
+    "validate spec packet": [("system-spec-kit", 1.6)],
+    "constitutional memory": [("system-spec-kit", 1.7)],
     # --- Autoresearch deep research loop ---
     "deep research": [("sk-deep-research", 2.5)],
     "research loop": [("sk-deep-research", 2.5)],
@@ -837,6 +1147,7 @@ PHRASE_INTENT_BOOSTERS = {
     "agent improvement loop": [("sk-improve-agent", 3.2)],
     "proposal-only improvement": [("sk-improve-agent", 2.6)],
     "proposal only improvement": [("sk-improve-agent", 2.6)],
+    "proposal only": [("sk-improve-agent", 1.4)],
     "evaluator-first": [("sk-improve-agent", 2.4)],
     "bounded mutator": [("sk-improve-agent", 2.2)],
     "candidate scoring": [("sk-improve-agent", 2.3)],
@@ -846,10 +1157,15 @@ PHRASE_INTENT_BOOSTERS = {
     "/sk-improve-agent": [("sk-improve-agent", 3.2)],
     "sk-agent-improvement-loop": [("sk-improve-agent", 3.0)],
     "/sk-agent-improvement-loop": [("sk-improve-agent", 3.0)],
+    "5-dimension": [("sk-improve-agent", 1.8)],
+    "5-dimension agent scoring": [("sk-improve-agent", 2.8)],
     "5-dimension evaluation": [("sk-improve-agent", 2.8)],
     "5d agent scoring": [("sk-improve-agent", 2.8)],
+    "5d scoring": [("sk-improve-agent", 1.8)],
     "integration scanning": [("sk-improve-agent", 2.6)],
+    "integration scan": [("sk-improve-agent", 1.6)],
     "dynamic profiling": [("sk-improve-agent", 2.6)],
+    "dynamic profile": [("sk-improve-agent", 1.6)],
     "evaluate agent quality": [("sk-improve-agent", 2.8)],
     "score agent dimensions": [("sk-improve-agent", 2.8)],
     "agent integration surface": [("sk-improve-agent", 2.6)],
@@ -862,6 +1178,8 @@ PHRASE_INTENT_BOOSTERS = {
     # --- CocoIndex semantic code search ---
     "semantic search": [("mcp-coco-index", 2.5)],
     "code search": [("mcp-coco-index", 2.0)],
+    "vector search": [("mcp-coco-index", 2.0)],
+    "concept search": [("mcp-coco-index", 2.0)],
     "cocoindex search": [("mcp-coco-index", 2.8)],
     "coco index": [("mcp-coco-index", 2.5)],
     "find implementation": [("mcp-coco-index", 1.5)],
@@ -897,6 +1215,12 @@ PHRASE_INTENT_BOOSTERS = {
     ":review:auto": [("sk-deep-review", 3.0)],
     ":review:confirm": [("sk-deep-review", 3.0)],
     "figma css": [("mcp-figma", 0.8), ("sk-code-web", 0.4)],
+    "mcp server code": [("sk-code-opencode", 1.8)],
+    "system code style guidance": [("sk-code-opencode", 1.7)],
+    "python shell json standards": [("sk-code-opencode", 1.9)],
+    "full stack development workflow": [("sk-code-full-stack", 2.1)],
+    "implementation testing verification flow": [("sk-code-full-stack", 1.8)],
+    "detect project stack automatically": [("sk-code-full-stack", 1.6)],
     "full stack typescript": [("sk-code-opencode", 0.8)],
     "sk-code-review": [("sk-code-review", 2.8)],
     "/sk-code-review": [("sk-code-review", 2.8)],
@@ -962,15 +1286,75 @@ PHRASE_INTENT_BOOSTERS = {
     "sk-improve-prompt": [("sk-improve-prompt", 2.8)],
     "/sk-improve-prompt": [("sk-improve-prompt", 2.8)],
     ".opencode/skill/sk-improve-prompt": [("sk-improve-prompt", 3.0)],
+
+    # ─────────────────────────────────────────────────────────────────
+    # FOLLOW-UP: Hyphenated-token migrations from INTENT_BOOSTERS
+    # (tokenizer splits on hyphen via \b\w+\b — same bug as whitespace keys)
+    # ─────────────────────────────────────────────────────────────────
+    "proposal-only": [("sk-improve-agent", 1.4)],
+    "openai-cli": [("cli-codex", 1.5)],
+    "claude-code": [("cli-claude-code", 2.0)],
+    "claude-cli": [("cli-claude-code", 1.5)],
+    "extended-thinking": [("cli-claude-code", 1.0)],
+    "copilot-cli": [("cli-copilot", 1.5)],
+    "cloud-delegation": [("cli-copilot", 1.0)],
+    "clickup-cli": [("mcp-clickup", 1.5)],
+    "task-management": [("mcp-clickup", 1.0)],
+    "tidd-ec": [("sk-improve-prompt", 2.0)],
 }
 
 DEFAULT_CONFIDENCE_THRESHOLD = 0.8
 DEFAULT_UNCERTAINTY_THRESHOLD = 0.35
 
 COMMAND_BRIDGES = {
+    # ─────────────────────────────────────────────────────────────────
+    # T-SAP-03 (R46-001): per-subcommand bridges for /spec_kit family.
+    # Previously all /spec_kit:* subcommands collapsed to `command-spec-kit`
+    # at `kind_priority=2`, so `/spec_kit:deep-research` lost its owning-skill
+    # signal (should route to `sk-deep-research`, not `command-spec-kit`).
+    # Dict insertion order IS iteration order in Python 3.7+, so the specific
+    # subcommand markers MUST appear BEFORE the deprecated generic bridge —
+    # `detect_explicit_command_intent()` returns on the first marker match.
+    # Execution-mode suffixes (:auto, :confirm, :with-phases, :with-research)
+    # are substring-matched inside each bridge and do NOT need separate entries.
+    # ─────────────────────────────────────────────────────────────────
+    "command-spec-kit-plan": {
+        "description": "Run the SpecKit 8-step planning workflow using /spec_kit:plan.",
+        "slash_markers": ["/spec_kit:plan", "spec_kit:plan"],
+        "owning_skill": "system-spec-kit",
+    },
+    "command-spec-kit-complete": {
+        "description": "Run the full SpecKit 14+ step lifecycle using /spec_kit:complete.",
+        "slash_markers": ["/spec_kit:complete", "spec_kit:complete"],
+        "owning_skill": "system-spec-kit",
+    },
+    "command-spec-kit-implement": {
+        "description": "Run the SpecKit 9-step implementation workflow using /spec_kit:implement.",
+        "slash_markers": ["/spec_kit:implement", "spec_kit:implement"],
+        "owning_skill": "system-spec-kit",
+    },
+    "command-spec-kit-deep-research": {
+        "description": "Run the autonomous deep-research loop using /spec_kit:deep-research.",
+        "slash_markers": ["/spec_kit:deep-research", "spec_kit:deep-research"],
+        "owning_skill": "sk-deep-research",
+    },
+    "command-spec-kit-deep-review": {
+        "description": "Run the autonomous deep-review loop using /spec_kit:deep-review.",
+        "slash_markers": ["/spec_kit:deep-review", "spec_kit:deep-review"],
+        "owning_skill": "sk-deep-review",
+    },
+    "command-spec-kit-resume": {
+        "description": "Resume an existing spec folder using /spec_kit:resume.",
+        "slash_markers": ["/spec_kit:resume", "spec_kit:resume"],
+        "owning_skill": "system-spec-kit",
+    },
+    # Legacy bridge retained for 1-release compatibility; deprecated.
+    # MUST come AFTER the per-subcommand bridges so specific markers win.
     "command-spec-kit": {
-        "description": "Create specifications and plans using /spec_kit slash command for new features or complex changes.",
+        "description": "[DEPRECATED: use per-subcommand bridges] /spec_kit slash-command family; routes generic /spec_kit or spec_kit: prompts without a specific subcommand.",
         "slash_markers": ["/spec_kit", "spec_kit:"],
+        "deprecated": True,
+        "owning_skill": "system-spec-kit",
     },
     "command-memory-save": {
         "description": "Save conversation context to memory using /memory:save.",
@@ -1145,6 +1529,14 @@ def _build_variants(skill_name: str) -> Set[str]:
         lowered.replace('-', ' '),
         lowered.replace('-', '_'),
     }
+
+
+def _matches_phrase_boundary(text: str, phrase: str) -> bool:
+    """Return True when a keyword phrase appears on token boundaries."""
+    if not phrase:
+        return False
+    pattern = re.compile(rf"(?<!\w){re.escape(phrase)}(?!\w)")
+    return pattern.search(text) is not None
 
 
 def _build_inline_record(
@@ -1612,6 +2004,154 @@ def filter_recommendations(
     return filtered
 
 
+# Iteration-loop phrases that imply skill-owned workflow (deep-research / deep-review)
+# When these match AND command-spec-kit is a candidate alongside cli-*, promote the command.
+# See CLAUDE.md / AGENTS.md Gate 4: SKILL-OWNED WORKFLOW ENFORCEMENT.
+ITERATION_LOOP_PHRASES = (
+    "deep-research", "deep research", "deep-review", "deep review",
+    "autoresearch", "auto research", "research loop", "review loop",
+    "iterative research", "iterative review", "autonomous research", "autonomous review",
+    "iterations of", ":auto", "convergence detection",
+    "/spec_kit:deep-research", "/spec_kit:deep-review",
+    "spec_kit:deep-research", "spec_kit:deep-review",
+)
+
+# T-SAP-02 (R45-002): Deep-research disambiguation phrases. When the prompt
+# contains one of these and both `sk-deep-research` and `sk-code-review`
+# appear as candidates within a thin margin, enforce a ≥ 0.10 confidence gap
+# so `sk-deep-research` keeps the primary slot. Wording-sensitive audit/review
+# tokens must not steal a deep-research prompt back into the generic review
+# lane.
+DEEP_RESEARCH_DISAMBIGUATION_PHRASES = (
+    "deep research",
+    "deep-research",
+    "autoresearch",
+    "/autoresearch",
+    "research loop",
+    "iterative research",
+    "autonomous research",
+    "auto research",
+    "/spec_kit:deep-research",
+    "spec_kit:deep-research",
+)
+
+# Symmetric guard for deep-review vs code-review wording collisions.
+# NOTE: "auto review" is intentionally omitted because the shipped regression
+# corpus treats "auto review this PR" as an sk-code-review prompt. Strong
+# sk-deep-review phrases (e.g. "auto review release readiness") are already
+# covered by explicit multi-token PHRASE_INTENT_BOOSTERS entries that win
+# on raw score before this disambiguation tier executes.
+DEEP_REVIEW_DISAMBIGUATION_PHRASES = (
+    "deep review",
+    "deep-review",
+    "review loop",
+    "iterative review",
+    "autonomous review",
+    "/spec_kit:deep-review",
+    "spec_kit:deep-review",
+)
+
+DISAMBIGUATION_MARGIN = 0.10
+
+
+def _apply_deep_research_disambiguation(
+    recommendations: List[Dict[str, Any]],
+    prompt_lower: str,
+) -> None:
+    """Ensure sk-deep-research beats sk-code-review by ≥ 0.10 on deep-research prompts.
+
+    T-SAP-02 (R45-002): audit/review-token overlap between deep-research prompts
+    and code-review prompts produced sub-0.02 confidence ties. When the prompt
+    contains an unambiguous deep-research marker AND both `sk-deep-research`
+    and `sk-code-review` appear as candidates, widen the margin to at least
+    ``DISAMBIGUATION_MARGIN`` so the router returns a stable deep-research
+    recommendation instead of a wording-sensitive tie.
+
+    Symmetric handling is applied for `sk-deep-review` vs `sk-code-review` via
+    ``DEEP_REVIEW_DISAMBIGUATION_PHRASES``.
+    """
+    if not prompt_lower or not recommendations:
+        return
+
+    def _find(skill_name: str) -> Optional[Dict[str, Any]]:
+        for rec in recommendations:
+            if rec.get("skill") == skill_name:
+                return rec
+        return None
+
+    def _enforce_margin(
+        winner: Dict[str, Any],
+        loser: Dict[str, Any],
+        reason_label: str,
+    ) -> None:
+        winner_conf = float(winner.get("confidence", 0.0))
+        loser_conf = float(loser.get("confidence", 0.0))
+        gap = winner_conf - loser_conf
+        if gap >= DISAMBIGUATION_MARGIN:
+            return
+        adjusted = max(0.0, round(winner_conf - DISAMBIGUATION_MARGIN, 2))
+        if adjusted >= loser_conf:
+            return
+        loser["confidence"] = adjusted
+        existing_reason = str(loser.get("reason", ""))
+        note = f" [disambiguation: {reason_label} reserved for this prompt]"
+        if note not in existing_reason:
+            loser["reason"] = f"{existing_reason}{note}"
+
+    if any(phrase in prompt_lower for phrase in DEEP_RESEARCH_DISAMBIGUATION_PHRASES):
+        winner = _find("sk-deep-research")
+        loser = _find("sk-code-review")
+        if winner and loser:
+            _enforce_margin(winner, loser, "sk-deep-research")
+
+    if any(phrase in prompt_lower for phrase in DEEP_REVIEW_DISAMBIGUATION_PHRASES):
+        winner = _find("sk-deep-review")
+        loser = _find("sk-code-review")
+        if winner and loser:
+            _enforce_margin(winner, loser, "sk-deep-review")
+
+
+def _apply_iteration_loop_tiebreaker(
+    recommendations: List[Dict[str, Any]],
+    prompt_lower: str,
+) -> None:
+    """Promote command-spec-kit over cli-* when iteration-loop phrases are present.
+
+    Background: when a user asks to run iterations of deep-research or deep-review with
+    a specific CLI executor (e.g. "use cli-copilot for 50 iterations"), the skill advisor
+    previously returned command-spec-kit and cli-copilot with similar confidence. Picking
+    cli-copilot as the primary route bypasses the skill's state machine, convergence
+    detection, and deltas — see the post-mortem in Phase 016 FINAL synthesis.
+
+    Rule: if the prompt contains iteration-loop phrases AND both a command-spec-kit
+    recommendation and a cli-* skill recommendation are present, penalize the cli-*
+    confidence so the command wins the primary slot. The CLI executor is still a valid
+    tool INSIDE the command's YAML workflow — it just can't BE the workflow.
+    """
+    if not prompt_lower:
+        return
+
+    has_iteration_phrase = any(phrase in prompt_lower for phrase in ITERATION_LOOP_PHRASES)
+    if not has_iteration_phrase:
+        return
+
+    has_command = any(r.get("skill") == "command-spec-kit" for r in recommendations)
+    cli_recs = [r for r in recommendations if r.get("skill", "").startswith("cli-")]
+    if not has_command or not cli_recs:
+        return
+
+    # Penalize cli-* confidence by 0.20 (capped at 0.60 floor) so command-spec-kit
+    # ranks ahead. This preserves the cli-* as an available tool for the command's
+    # internal use but removes it as a competing primary route.
+    for rec in cli_recs:
+        current = rec.get("confidence", 0.0)
+        penalized = max(0.60, current - 0.20)
+        if penalized < current:
+            rec["confidence"] = round(penalized, 2)
+            reason = rec.get("reason", "")
+            rec["reason"] = f"{reason} [iteration-loop tiebreaker: -0.20; command-spec-kit owns loop, cli-* is tool inside it]"
+
+
 # ───────────────────────────────────────────────────────────────
 # 4. ANALYSIS
 # ───────────────────────────────────────────────────────────────
@@ -1679,6 +2219,8 @@ def analyze_request(
                     boost_reasons[skill] = []
                 boost_reasons[skill].append(f"!{phrase}(phrase)")
 
+    _apply_signal_boosts(prompt_lower, skill_boosts, boost_reasons)
+
     # Graph-derived boosts: transitive relationships and family affinity
     _apply_graph_boosts(skill_boosts, boost_reasons)
     _apply_family_affinity(skill_boosts, boost_reasons)
@@ -1697,6 +2239,23 @@ def analyze_request(
             boost_reasons[skill_name] = []
         for variant in matched_variants:
             boost_reasons[skill_name].append(f"!{variant}(explicit)")
+
+    for skill_name, config in skills.items():
+        keyword_variants = set(config.get("keyword_variants", set()))
+        matched_keywords = sorted({
+            variant
+            for variant in keyword_variants
+            if _matches_phrase_boundary(prompt_lower, variant)
+        })
+        if not matched_keywords:
+            continue
+
+        keyword_boost = 1.0 + 0.2 * (len(matched_keywords) - 1)
+        skill_boosts[skill_name] = skill_boosts.get(skill_name, 0) + keyword_boost
+        if skill_name not in boost_reasons:
+            boost_reasons[skill_name] = []
+        for keyword in matched_keywords:
+            boost_reasons[skill_name].append(f"!{keyword}(keyword)")
 
     # Stop words filtered for corpus matching only
     tokens = [t for t in all_tokens if t not in STOP_WORDS and len(t) > 2]
@@ -1779,6 +2338,18 @@ def analyze_request(
         if total_matches > 0 and graph_boost_count / total_matches > 0.5:
             recommendation["confidence"] = round(recommendation["confidence"] * 0.90, 2)
 
+    # T-SAP-02 (R45-002): disambiguate deep-research vs code-review and
+    # deep-review vs code-review before the iteration-loop tiebreaker so the
+    # primary-slot selection is stable on audit/review-token prompts.
+    _apply_deep_research_disambiguation(recommendations, prompt_lower)
+
+    # Iteration-loop tiebreaker: when the query mentions iterative investigation/review
+    # phrases AND command-spec-kit matches alongside a cli-* executor skill, promote
+    # command-spec-kit. The CLI executor is a tool INSIDE the command's workflow, not
+    # a replacement for it. Prevents custom bash dispatchers bypassing skill-owned state.
+    # See CLAUDE.md / AGENTS.md Gate 4: SKILL-OWNED WORKFLOW ENFORCEMENT.
+    _apply_iteration_loop_tiebreaker(recommendations, prompt_lower)
+
     for recommendation in recommendations:
         recommendation["passes_threshold"] = passes_dual_threshold(
             recommendation["confidence"],
@@ -1828,6 +2399,46 @@ def load_all_skills() -> List[Dict[str, Any]]:
     return loaded
 
 
+def _collect_graph_skill_ids(graph: Optional[Dict[str, Any]]) -> Set[str]:
+    """Extract the union of skill IDs mentioned anywhere in a compiled graph."""
+    graph_ids: Set[str] = set()
+    if not isinstance(graph, dict):
+        return graph_ids
+    for family_members in (graph.get("families") or {}).values():
+        if isinstance(family_members, list):
+            graph_ids.update(
+                str(member) for member in family_members if isinstance(member, str)
+            )
+    for source_id, edge_groups in (graph.get("adjacency") or {}).items():
+        if isinstance(source_id, str):
+            graph_ids.add(str(source_id))
+        if isinstance(edge_groups, dict):
+            for targets in edge_groups.values():
+                if isinstance(targets, dict):
+                    graph_ids.update(
+                        str(target) for target in targets.keys() if isinstance(target, str)
+                    )
+    for signal_id in (graph.get("signals") or {}).keys():
+        if isinstance(signal_id, str):
+            graph_ids.add(str(signal_id))
+    return graph_ids
+
+
+def _compare_inventories(
+    skill_names: List[str],
+    graph: Optional[Dict[str, Any]],
+) -> Dict[str, Any]:
+    """Thin wrapper around ``skill_advisor_runtime.compare_inventories``.
+
+    T-SAR-01 (R42-002): the primitive set-comparison lives in
+    ``skill_advisor_runtime.py`` so it can be reused from other harnesses;
+    this wrapper extracts the compiled-graph skill IDs and forwards to the
+    runtime helper.
+    """
+    graph_ids = _collect_graph_skill_ids(graph)
+    return _runtime_module.compare_inventories(skill_names, graph_ids)
+
+
 def health_check() -> Dict[str, Any]:
     """Return skill count and status for diagnostics."""
     skills = load_all_skills()
@@ -1836,10 +2447,31 @@ def health_check() -> Dict[str, Any]:
     graph = _load_skill_graph()
     graph_loaded = graph is not None
 
-    # Determine status: error if no skills, degraded if graph unavailable
+    # T-SGC-02 (R45-003): surface persisted topology-warning payload (if any).
+    topology_warnings: Dict[str, List[str]] = {}
+    if isinstance(graph, dict):
+        raw = graph.get("topology_warnings")
+        if isinstance(raw, dict):
+            for category, messages in raw.items():
+                if isinstance(category, str) and isinstance(messages, list):
+                    cleaned = [str(m) for m in messages if isinstance(m, str) and m.strip()]
+                    if cleaned:
+                        topology_warnings[category] = cleaned
+    has_topology_warnings = any(topology_warnings.values())
+
+    # T-SAR-01 (R42-002): inventory parity check between SKILL.md discovery
+    # (authoritative for analyze_request's skill records) and the compiled
+    # graph (authoritative for adjacency/signal-based boosts). Any mismatch
+    # downgrades health to `degraded` even when both sources loaded cleanly.
+    skill_discovery_names = [s.get("name", "") for s in real_skills if s.get("name")]
+    inventory_parity = _compare_inventories(skill_discovery_names, graph)
+    inventory_synced = bool(inventory_parity["in_sync"])
+
+    # Determine status. Error if no skills. Otherwise degraded when any of
+    # {graph missing, topology warnings present, inventory mismatch} applies.
     if not real_skills:
         status = "error"
-    elif not graph_loaded:
+    elif not graph_loaded or has_topology_warnings or not inventory_synced:
         status = "degraded"
     else:
         status = "ok"
@@ -1865,6 +2497,8 @@ def health_check() -> Dict[str, Any]:
         ),
         "skill_graph_sqlite_path": SKILL_GRAPH_SQLITE_PATH,
         "skill_graph_json_path": SKILL_GRAPH_PATH,
+        "topology_warnings": topology_warnings,
+        "inventory_parity": inventory_parity,
     }
 
     if not graph_loaded:
@@ -1949,6 +2583,7 @@ Examples:
   python skill_advisor.py --batch-file prompts.txt
   cat prompts.txt | python skill_advisor.py --batch-stdin
   python skill_advisor.py --health
+  python skill_advisor.py --validate-only
 
   # CocoIndex semantic search (built-in, requires ccc daemon):
   python skill_advisor.py "deploy to production" --semantic
@@ -1963,6 +2598,8 @@ Examples:
                         help='User request to analyze')
     parser.add_argument('--health', action='store_true',
                         help='Run health check diagnostics')
+    parser.add_argument('--validate-only', action='store_true',
+                        help='Run strict skill-graph validation and fail on topology issues.')
     parser.add_argument('--threshold', type=float, default=DEFAULT_CONFIDENCE_THRESHOLD,
                         help='Confidence threshold for recommendations (default: 0.8).')
     parser.add_argument('--uncertainty', type=float, default=DEFAULT_UNCERTAINTY_THRESHOLD,
@@ -1995,6 +2632,9 @@ Examples:
         print(json.dumps(health, indent=2))
         return 0
 
+    if args.validate_only:
+        return run_skill_graph_validation(strict_topology=True)
+
     if args.batch_file and args.batch_stdin:
         print(json.dumps({"error": "Use either --batch-file or --batch-stdin, not both."}, indent=2))
         return 2
@@ -2006,9 +2646,10 @@ Examples:
             pre_computed_hits = json.loads(args.semantic_hits)
             if not isinstance(pre_computed_hits, list):
                 print(json.dumps({"error": "--semantic-hits/--cocoindex-hits must be a JSON array"}), file=sys.stderr)
-                pre_computed_hits = None
+                return 2
         except json.JSONDecodeError as exc:
             print(json.dumps({"error": f"Invalid --semantic-hits/--cocoindex-hits JSON: {exc}"}), file=sys.stderr)
+            return 2
 
     if args.batch_file:
         try:

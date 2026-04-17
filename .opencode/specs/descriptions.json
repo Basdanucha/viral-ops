@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "generated": "2026-04-16T21:16:07.068Z",
+  "generated": "2026-04-17T09:02:20.164Z",
   "folders": [
     {
       "specFolder": "viral-ops/001-base-app-research",
@@ -12,7 +12,7 @@
         "research",
         "viral-ops"
       ],
-      "lastUpdated": "2026-04-16T21:16:07.068Z"
+      "lastUpdated": "2026-04-17T09:02:20.164Z"
     },
     {
       "specFolder": "viral-ops/002-pixelle-video-audit",
@@ -23,7 +23,7 @@
         "feature",
         "audit"
       ],
-      "lastUpdated": "2026-04-16T21:16:07.068Z"
+      "lastUpdated": "2026-04-17T09:02:20.164Z"
     },
     {
       "specFolder": "viral-ops/003-thai-voice-pipeline",
@@ -36,7 +36,7 @@
         "script",
         "pipeline"
       ],
-      "lastUpdated": "2026-04-16T21:16:07.068Z"
+      "lastUpdated": "2026-04-17T09:02:20.164Z"
     },
     {
       "specFolder": "viral-ops/004-platform-upload-deepdive",
@@ -48,7 +48,7 @@
         "deep",
         "dive"
       ],
-      "lastUpdated": "2026-04-16T21:16:07.068Z"
+      "lastUpdated": "2026-04-17T09:02:20.164Z"
     },
     {
       "specFolder": "viral-ops/005-trend-viral-brain",
@@ -60,7 +60,7 @@
         "viral",
         "brain"
       ],
-      "lastUpdated": "2026-04-16T21:16:07.068Z"
+      "lastUpdated": "2026-04-17T09:02:20.164Z"
     },
     {
       "specFolder": "viral-ops/006-content-lab",
@@ -70,7 +70,7 @@
         "content",
         "lab"
       ],
-      "lastUpdated": "2026-04-16T21:16:07.068Z"
+      "lastUpdated": "2026-04-17T09:02:20.164Z"
     },
     {
       "specFolder": "viral-ops/007-l7-feedback-loop",
@@ -81,7 +81,43 @@
         "specification",
         "seed"
       ],
-      "lastUpdated": "2026-04-16T21:16:07.068Z"
+      "lastUpdated": "2026-04-17T09:02:20.164Z"
+    },
+    {
+      "specFolder": "viral-ops/008-cost-profit-tracking",
+      "description": "Deep research into viral-ops cost & profit tracking: LLM/TTS token costs, API quota consumption, per-content cost attribution, revenue from affiliates",
+      "keywords": [
+        "deep",
+        "research",
+        "viral-ops",
+        "cost",
+        "profit",
+        "tracking",
+        "llm",
+        "tts",
+        "token",
+        "costs",
+        "api",
+        "quota",
+        "consumption",
+        "per-content",
+        "attribution",
+        "revenue",
+        "affiliates",
+        "platform",
+        "monetization",
+        "roi",
+        "calculation",
+        "per",
+        "video",
+        "niche",
+        "daily",
+        "monthly",
+        "dashboards",
+        "budget",
+        "alerts"
+      ],
+      "lastUpdated": "2026-04-16T22:40:09.085Z"
     }
   ]
 }
